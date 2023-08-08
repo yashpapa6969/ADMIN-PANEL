@@ -6,14 +6,20 @@ import {
   MdPerson,
   MdHome,
   MdLock,
-  MdOutlineShoppingCart,
+ 
+  MdRestaurant,
+  
 } from "react-icons/md";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { FaFileInvoice } from "react-icons/fa";
 
 // Admin Imports
 import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
+import customer from "views/admin/customer";
+import bill from "views/admin/Bill";
 import RTL from "views/admin/rtl";
 
 // Auth Imports
@@ -24,50 +30,63 @@ const routes = [
     name: "Main Dashboard",
     layout: "/admin",
     path: "/default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: MainDashboard,
   },
   {
-    name: "NFT Marketplace",
+    name: "Menu",
     layout: "/admin",
-    path: "/nft-marketplace",
+    path: "/menu",
     icon: (
-      <Icon
-        as={MdOutlineShoppingCart}
-        width='20px'
-        height='20px'
-        color='inherit'
-      />
+      <Icon as={GiHamburgerMenu} width="20px" height="20px" color="inherit" />
     ),
     component: NFTMarketplace,
     secondary: true,
   },
   {
-    name: "Data Tables",
+    name: "Create Dish / Drink",
     layout: "/admin",
-    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
-    path: "/data-tables",
+    icon: <Icon as={MdRestaurant} width="20px" height="20px" color="inherit" />,
+    path: "/Create-Dish/Drink",
     component: DataTables,
+    secondary: true,
   },
   {
-    name: "Profile",
+    name: "Staff",
     layout: "/admin",
-    path: "/profile",
-    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+    path: "/staff",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: Profile,
   },
+  {
+    name: "Customer",
+    layout: "/admin",
+    path: "/customer",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: customer,
+  },
+  {
+    name: "Bill",
+    layout: "/admin",
+    path: "/Bill",
+    icon: (
+      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+    ),
+    component: bill,
+  },
+
   {
     name: "Sign In",
     layout: "/auth",
     path: "/sign-in",
-    icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
     component: SignInCentered,
   },
   {
     name: "RTL Admin",
     layout: "/rtl",
     path: "/rtl-default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
     component: RTL,
   },
 ];

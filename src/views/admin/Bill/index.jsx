@@ -19,9 +19,7 @@ import {
   MdBarChart,
   MdFileCopy,
 } from "react-icons/md";
-import FetchTableData from "../../../api/GetAllTables";
-import FetchDishesCategory from "../../../api/GetDishCategory";
-import FetchDrinksCategory from "../../../api/GetDrinkCategory";
+import  BillData from "../../../api/Bill";
 
 import {
   columnsDataCheck,
@@ -35,9 +33,7 @@ export default function UserReports() {
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <Flex justifyContent="space-between" align="start" p="4" gap="20px">
-        <FetchTableData />
-        <FetchDishesCategory />
-        <FetchDrinksCategory />
+        <BillData />
       </Flex>
     </Box>
   );

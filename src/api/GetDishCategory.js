@@ -27,7 +27,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-function FetchTableData() {
+function FetchDishesCategory() {
   const [tableData, setTableData] = useState([]);
   const [tableToDelete, setTableToDelete] = useState("");
   const {
@@ -42,10 +42,8 @@ function FetchTableData() {
   } = useDisclosure();
   const [tableToCreate, setTableToCreate] = useState({
     tableNo: "",
-    active: "yes",
-    maxPeople: "",
   });
-  const { tableNo, active, maxPeople } = tableToCreate;
+  const { tableNo } = tableToCreate;
   const [rerender, setRerender] = useState(false); // State to trigger rerendering
 
   useEffect(() => {
@@ -55,7 +53,7 @@ function FetchTableData() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllTables"
+        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishesCategories"
       );
 
       if (!response.ok) {
@@ -63,7 +61,7 @@ function FetchTableData() {
       }
 
       const data = await response.json();
-      setTableData(data.tables);
+      setTableData(data.category_d);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -72,16 +70,14 @@ function FetchTableData() {
   const handleCreate = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/setTable",
+        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/set_food_category",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            tableNo,
-            active,
-            maxPeople,
+            food_Category: tableNo,
           }),
         }
       );
@@ -93,7 +89,7 @@ function FetchTableData() {
       // Update the table data after successful creation
       const createdTableData = await response.json();
       setTableData([...tableData, createdTableData]);
-      setTableToCreate({ tableNo: "", active: "yes", maxPeople: "" }); // Reset the create form input fields
+      setTableToCreate({ tableNo: "" }); // Reset the create form input fields
       onCloseCreate(); // Close the create form after successful creation
       setRerender(!rerender); // Toggle the "rerender" state to trigger a rerender after creating the table
     } catch (error) {
@@ -104,19 +100,19 @@ function FetchTableData() {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/tables/${tableToDelete}`,
+        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/dishCategory/${tableToDelete}`,
         {
           method: "DELETE",
         }
       );
-
+      console.log(response);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       // Update the table data after successful deletion
       const updatedTableData = tableData.filter(
-        (table) => table.tableNo !== tableToDelete
+        (table) => table.food_Category_id !== tableToDelete
       );
       setTableData(updatedTableData);
       onCloseDelete(); // Close the delete confirmation modal after successful deletion
@@ -128,19 +124,17 @@ function FetchTableData() {
   const cardBg = useColorModeValue("white", "gray.800");
 
   return (
-    <Box p="3" shadow="md" borderRadius="md" bg={cardBg} mx="auto">
+    <Box p="4" shadow="md" borderRadius="md" bg={cardBg} mx="auto">
       <VStack align="stretch" spacing="4">
         <Text fontSize="xl" fontWeight="bold">
-          Table Order Information
+          Food Category List
         </Text>
         <TableContainer>
           <Table variant="striped" colorScheme="teal">
             {/* Your table headers go here */}
             <Thead>
               <Tr>
-                <Th>Table No.</Th>
-                <Th>Active</Th>
-                <Th>Max people</Th>
+                <Th>Food Category</Th>
                 <Th></Th>
               </Tr>
             </Thead>
@@ -148,28 +142,14 @@ function FetchTableData() {
               {tableData.map((table) => (
                 <Tr key={table._id}>
                   {/* Your table data rows go here */}
-                  <Td>{table.tableNo}</Td>
+                  <Td>{table.food_Category}</Td>
 
-                  <Td>
-                    {table.active === "yes" ? (
-                      <Box display="flex" alignItems="center">
-                        <Text mr="2">Yes</Text>
-                        <Circle size="4" bg="green.500" />
-                      </Box>
-                    ) : (
-                      <Box display="flex" alignItems="center">
-                        <Text mr="2">No</Text>
-                        <Circle size="4" bg="red.500" />
-                      </Box>
-                    )}
-                  </Td>
-                  <Td>{table.maxPeople}</Td>
                   <Td>
                     <Button
                       size="sm"
                       colorScheme="red"
                       onClick={() => {
-                        setTableToDelete(table.tableNo);
+                        setTableToDelete(table.food_Category_id);
                         onOpenDelete();
                       }}
                     >
@@ -186,11 +166,11 @@ function FetchTableData() {
         <Button
           colorScheme="green"
           onClick={() => {
-            setTableToCreate({ tableNo: "", active: "yes", maxPeople: "" });
+            setTableToCreate({ tableNo: "" });
             onOpenCreate();
           }}
         >
-          Create Table
+          Create Category
         </Button>
 
         {/* Create Table Form */}
@@ -201,7 +181,7 @@ function FetchTableData() {
             <ModalCloseButton />
             <ModalBody>
               <FormControl>
-                <FormLabel>Table Number:</FormLabel>
+                <FormLabel>Category Name :</FormLabel>
                 <Input
                   type="text"
                   value={tableNo}
@@ -212,34 +192,6 @@ function FetchTableData() {
                     })
                   }
                 />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Max People:</FormLabel>
-                <Input
-                  type="text"
-                  value={maxPeople}
-                  onChange={(e) =>
-                    setTableToCreate({
-                      ...tableToCreate,
-                      maxPeople: e.target.value,
-                    })
-                  }
-                />
-              </FormControl>
-              <FormControl mt="4">
-                <FormLabel>Active:</FormLabel>
-                <Select
-                  value={active}
-                  onChange={(e) =>
-                    setTableToCreate({
-                      ...tableToCreate,
-                      active: e.target.value,
-                    })
-                  }
-                >
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </Select>
               </FormControl>
             </ModalBody>
             <ModalFooter>
@@ -257,11 +209,11 @@ function FetchTableData() {
         <Modal isOpen={isOpenDelete} onClose={onCloseDelete}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Delete Table</ModalHeader>
+            <ModalHeader>Delete Category</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <FormControl>
-                <FormLabel>Enter Table Number to Delete:</FormLabel>
+                <FormLabel>Deleting Category with ID :</FormLabel>
                 <Input
                   type="text"
                   value={tableToDelete}
@@ -284,4 +236,4 @@ function FetchTableData() {
   );
 }
 
-export default FetchTableData;
+export default FetchDishesCategory;

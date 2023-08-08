@@ -25,7 +25,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-function StaffTableData() {
+function CustomerTableData() {
   // State for managing staff data
   const [tableData, setTableData] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
@@ -34,7 +34,6 @@ function StaffTableData() {
     phoneNo: "",
     emailAddress: "",
     password: "",
-    tableNoAssigned: "",
   });
 
   // Custom hooks for modal display
@@ -52,7 +51,7 @@ function StaffTableData() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/waiter/getAllStaff"
+        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllCustomers"
       );
 
       if (!response.ok) {
@@ -60,7 +59,7 @@ function StaffTableData() {
       }
 
       const data = await response.json();
-      setTableData(data.staff);
+      setTableData(data.customer);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -140,15 +139,15 @@ function StaffTableData() {
     <Box p="3" shadow="md" borderRadius="md" mx="auto">
       <VStack align="stretch" spacing="4">
         <Text fontSize="xl" fontWeight="bold">
-          Staff Information
+          Customer Information
         </Text>
         <TableContainer>
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
-                <Th>Staff Name</Th>
+                <Th>Customer Name</Th>
                 <Th>Table No. Assigned</Th>
-                <Th>Phone No.</Th>
+                <Th>Status</Th>
                 <Th></Th>
               </Tr>
             </Thead>
@@ -156,8 +155,8 @@ function StaffTableData() {
               {tableData.map((table) => (
                 <Tr key={table._id}>
                   <Td>{table.name}</Td>
-                  <Td>{table.tableNoAssigned}</Td>
-                  <Td>{table.phoneNo}</Td>
+                  <Td>{table.tableNo}</Td>
+                  <Td>{table.userStatus}</Td>
                   <Td>
                     <Button
                       size="sm"
@@ -182,18 +181,18 @@ function StaffTableData() {
 
         {/* Create Table Button */}
         <Button colorScheme="green" onClick={onOpenCreate}>
-          Create Staff
+          Create Customer
         </Button>
 
         {/* Create Table Form */}
         <Modal isOpen={isOpenCreate} onClose={onCloseCreate}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Create Staff</ModalHeader>
+            <ModalHeader>Create User</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <FormControl>
-                <FormLabel>Staff Name</FormLabel>
+                <FormLabel>User Name</FormLabel>
                 <Input
                   type="text"
                   value={newStaffData.name}
@@ -207,7 +206,7 @@ function StaffTableData() {
               </FormControl>
 
               <FormControl>
-                <FormLabel>Staff Phone Number</FormLabel>
+                <FormLabel>User Phone Number</FormLabel>
                 <Input
                   type="number"
                   value={newStaffData.phoneNo}
@@ -215,19 +214,6 @@ function StaffTableData() {
                     setNewStaffData({
                       ...newStaffData,
                       phoneNo: e.target.value,
-                    })
-                  }
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Staff emailAddress</FormLabel>
-                <Input
-                  type="text"
-                  value={newStaffData.emailAddress}
-                  onChange={(e) =>
-                    setNewStaffData({
-                      ...newStaffData,
-                      emailAddress: e.target.value,
                     })
                   }
                 />
@@ -246,22 +232,9 @@ function StaffTableData() {
                   }
                 />
               </FormControl>
-              <FormControl>
-                <FormLabel>Table NO. Assigned </FormLabel>
-                <Input
-                  type="text"
-                  value={newStaffData.tableNoAssigned}
-                  onChange={(e) =>
-                    setNewStaffData({
-                      ...newStaffData,
-                      tableNoAssigned: e.target.value,
-                    })
-                  }
-                />
-              </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="green" mr={3} onClick={createNewStaff}>
+              <Button colorScheme="green" mr={3}>
                 Create
               </Button>
               <Button variant="ghost" onClick={onCloseCreate}>
@@ -284,13 +257,12 @@ function StaffTableData() {
               <ModalBody>
                 <div>Name: {selectedStaff.name}</div>
                 <div>Phone Number: {selectedStaff.phoneNo}</div>
-                <div>
-                  Table Number Assigned: {selectedStaff.tableNoAssigned}
-                </div>
-                <div>Order ID : {selectedStaff.order_id}</div>
-                <div>Email ID : {selectedStaff.emailAddress}</div>
-                <div>Password : {selectedStaff.password}</div>
-                <div>Staff ID : {selectedStaff.staff_id}</div>
+                <div>Table Number Assigned: {selectedStaff.tableNo}</div>
+                <div>User Status : {selectedStaff.userStatus}</div>
+                <div>Order id: {selectedStaff.Orders_id}</div>
+                <div>Status: {selectedStaff.status}</div>
+                <div>Membership ID : {selectedStaff.membership_id}</div>
+                <div>User ID : {selectedStaff.user_id}</div>
                 {/* Display more staff information as needed */}
               </ModalBody>
               <ModalFooter>
@@ -320,9 +292,7 @@ function StaffTableData() {
             <ModalFooter>
               <Button
                 colorScheme="red"
-                onClick={() => {
-                  handleDeleteStaff(selectedStaff?.staff_id);
-                }}
+                onClick={() => handleDeleteStaff(selectedStaff?.staff_id)}
               >
                 Delete
               </Button>
@@ -337,4 +307,4 @@ function StaffTableData() {
   );
 }
 
-export default StaffTableData;
+export default CustomerTableData;

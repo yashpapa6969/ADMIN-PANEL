@@ -1,7 +1,7 @@
 
 
 // Chakra imports
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Grid,Flex } from "@chakra-ui/react";
 
 // Custom components
 
@@ -14,7 +14,9 @@ import StaffTableData from "api/Staff";
 export default function Overview() {
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <StaffTableData />
+      <Flex justifyContent="space-between" align="start" p="4" gap="20px">
+        <StaffTableData/>
+      </Flex>
     </Box>
   );
 }

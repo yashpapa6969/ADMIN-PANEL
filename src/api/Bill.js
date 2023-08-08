@@ -25,16 +25,15 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-function StaffTableData() {
+function BillData() {
   // State for managing staff data
   const [tableData, setTableData] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
   const [newStaffData, setNewStaffData] = useState({
-    name: "",
-    phoneNo: "",
-    emailAddress: "",
-    password: "",
-    tableNoAssigned: "",
+    amount: "",
+    tableNo: "",
+    otp: "",
+    paid: "",
   });
 
   // Custom hooks for modal display
@@ -52,7 +51,7 @@ function StaffTableData() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/waiter/getAllStaff"
+        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/superAdmin/getAllBills"
       );
 
       if (!response.ok) {
@@ -60,7 +59,7 @@ function StaffTableData() {
       }
 
       const data = await response.json();
-      setTableData(data.staff);
+      setTableData(data.bills);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -70,7 +69,7 @@ function StaffTableData() {
   const createNewStaff = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/waiter/createStaff",
+        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/superAdmin/setNewBills",
         {
           method: "POST",
           headers: {
@@ -88,7 +87,7 @@ function StaffTableData() {
       fetchData();
       onCloseCreate(); // Close the create modal
     } catch (error) {
-      console.error("Error creating staff:", error);
+      console.error("Error creating bill:", error);
     }
   };
 
@@ -97,7 +96,7 @@ function StaffTableData() {
     fetchData();
   }, [selectedStaff]);
 
-  // Function to handle displaying more info for a staff member
+  // Function to handle displaying more info for a bill member
   const handleMoreInfoClick = (staff) => {
     setSelectedStaff(staff);
   };
@@ -112,7 +111,7 @@ function StaffTableData() {
     setIsDeleteConfirmationOpen(false);
   };
 
-  // Function to handle staff deletion
+  // Function to handle bill deletion
   const handleDeleteStaff = async (staffId) => {
     // Close the delete confirmation modal
     closeDeleteConfirmation();
@@ -132,7 +131,7 @@ function StaffTableData() {
       // Fetch updated data after deletion
       fetchData();
     } catch (error) {
-      console.error("Error deleting staff:", error);
+      console.error("Error deleting bill:", error);
     }
   };
 
@@ -140,24 +139,25 @@ function StaffTableData() {
     <Box p="3" shadow="md" borderRadius="md" mx="auto">
       <VStack align="stretch" spacing="4">
         <Text fontSize="xl" fontWeight="bold">
-          Staff Information
+          Billing Information
         </Text>
         <TableContainer>
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
-                <Th>Staff Name</Th>
-                <Th>Table No. Assigned</Th>
-                <Th>Phone No.</Th>
-                <Th></Th>
+                <Th>Table Number</Th>
+                <Th>Amount</Th>
+                <Th>OTP</Th>
+                <Th>Paid</Th>
               </Tr>
             </Thead>
             <Tbody>
               {tableData.map((table) => (
                 <Tr key={table._id}>
-                  <Td>{table.name}</Td>
-                  <Td>{table.tableNoAssigned}</Td>
-                  <Td>{table.phoneNo}</Td>
+                  <Td>{table.tableNo}</Td>
+                  <Td>{table.amount}</Td>
+                  <Td>{table.otp}</Td>
+                  <Td>{table.paid}</Td>
                   <Td>
                     <Button
                       size="sm"
@@ -180,81 +180,68 @@ function StaffTableData() {
           </Table>
         </TableContainer>
 
-        {/* Create Table Button */}
+        {/* Create Bill Button */}
         <Button colorScheme="green" onClick={onOpenCreate}>
-          Create Staff
+          Create Bill
         </Button>
 
-        {/* Create Table Form */}
+        {/* Create Bill Form */}
         <Modal isOpen={isOpenCreate} onClose={onCloseCreate}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Create Staff</ModalHeader>
+            <ModalHeader>create New Bill</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <FormControl>
-                <FormLabel>Staff Name</FormLabel>
-                <Input
-                  type="text"
-                  value={newStaffData.name}
-                  onChange={(e) =>
-                    setNewStaffData({
-                      ...newStaffData,
-                      name: e.target.value,
-                    })
-                  }
-                />
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Staff Phone Number</FormLabel>
+                <FormLabel>Bill amount</FormLabel>
                 <Input
                   type="number"
-                  value={newStaffData.phoneNo}
+                  value={newStaffData.amount}
                   onChange={(e) =>
                     setNewStaffData({
                       ...newStaffData,
-                      phoneNo: e.target.value,
-                    })
-                  }
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Staff emailAddress</FormLabel>
-                <Input
-                  type="text"
-                  value={newStaffData.emailAddress}
-                  onChange={(e) =>
-                    setNewStaffData({
-                      ...newStaffData,
-                      emailAddress: e.target.value,
+                      amount: e.target.value,
                     })
                   }
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel>Staff Password</FormLabel>
+                <FormLabel>Bill Table Number</FormLabel>
                 <Input
                   type="text"
-                  value={newStaffData.password}
+                  value={newStaffData.tableNo}
                   onChange={(e) =>
                     setNewStaffData({
                       ...newStaffData,
-                      password: e.target.value,
+                      tableNo: e.target.value,
                     })
                   }
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>Table NO. Assigned </FormLabel>
+                <FormLabel>OTP</FormLabel>
                 <Input
-                  type="text"
-                  value={newStaffData.tableNoAssigned}
+                  type="number"
+                  value={newStaffData.otp}
                   onChange={(e) =>
                     setNewStaffData({
                       ...newStaffData,
-                      tableNoAssigned: e.target.value,
+                      otp: e.target.value,
+                    })
+                  }
+                />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>Paid</FormLabel>
+                <Input
+                  type="number"
+                  value={newStaffData.paid}
+                  onChange={(e) =>
+                    setNewStaffData({
+                      ...newStaffData,
+                      paid: e.target.value,
                     })
                   }
                 />
@@ -271,7 +258,7 @@ function StaffTableData() {
           </ModalContent>
         </Modal>
 
-        {/* Detailed Staff Info Modal */}
+        {/* Detailed bill Info Modal */}
         {selectedStaff && (
           <Modal
             isOpen={Boolean(selectedStaff)}
@@ -282,16 +269,12 @@ function StaffTableData() {
               <ModalHeader>Staff Information</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <div>Name: {selectedStaff.name}</div>
-                <div>Phone Number: {selectedStaff.phoneNo}</div>
-                <div>
-                  Table Number Assigned: {selectedStaff.tableNoAssigned}
-                </div>
-                <div>Order ID : {selectedStaff.order_id}</div>
-                <div>Email ID : {selectedStaff.emailAddress}</div>
-                <div>Password : {selectedStaff.password}</div>
-                <div>Staff ID : {selectedStaff.staff_id}</div>
-                {/* Display more staff information as needed */}
+                <div>Amount : {selectedStaff.amount}</div>
+                <div>table Number : {selectedStaff.tableNo}</div>
+                <div>OTP : {selectedStaff.otp}</div>
+                <div>Paid Amount : {selectedStaff.paid}</div>
+                <div>Bill ID : {selectedStaff.bill_id}</div>
+                {/* Display more bill information as needed */}
               </ModalBody>
               <ModalFooter>
                 <Button
@@ -314,15 +297,11 @@ function StaffTableData() {
           <ModalContent>
             <ModalHeader>Confirm Deletion</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
-              Are you sure you want to delete this staff member?
-            </ModalBody>
+            <ModalBody>Are you sure you want to delete this mem?</ModalBody>
             <ModalFooter>
               <Button
                 colorScheme="red"
-                onClick={() => {
-                  handleDeleteStaff(selectedStaff?.staff_id);
-                }}
+                onClick={() => handleDeleteStaff(selectedStaff?.staff_id)}
               >
                 Delete
               </Button>
@@ -337,4 +316,4 @@ function StaffTableData() {
   );
 }
 
-export default StaffTableData;
+export default BillData;

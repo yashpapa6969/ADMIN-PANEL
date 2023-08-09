@@ -22,7 +22,7 @@ import {
   Input,
   useDisclosure,
 } from "@chakra-ui/react";
- 
+
 function StaffTableData() {
   const baseUrl = "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com"; // Replace with your actual base URL
 
@@ -34,7 +34,7 @@ function StaffTableData() {
     email: "",
     password: "",
   });
-   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const fetchStaffData = async () => {
     try {
       const response = await fetch(`${baseUrl}/api/waiter/getAllStaff`);

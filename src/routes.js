@@ -20,6 +20,7 @@ import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
 import customer from "views/admin/customer";
 import bill from "views/admin/Bill";
+import Order from "views/admin/Order";
 import RTL from "views/admin/rtl";
 
 // Auth Imports
@@ -74,6 +75,15 @@ const routes = [
     ),
     component: bill,
   },
+  {
+    name: "Order",
+    layout: "/admin",
+    path: "/Order",
+    icon: (
+      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+    ),
+    component: Order,
+  },
 
   {
     name: "Sign In",
@@ -82,13 +92,7 @@ const routes = [
     icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
     component: SignInCentered,
   },
-  {
-    name: "RTL Admin",
-    layout: "/rtl",
-    path: "/rtl-default",
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-    component: RTL,
-  },
+ 
 ];
 
 export default routes;

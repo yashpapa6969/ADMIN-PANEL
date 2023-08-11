@@ -1,23 +1,16 @@
 import React, { useState } from "react";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 
 function AddToMenuFormDrink() {
   const [formData, setFormData] = useState({
-    image: "",
     drinkName: "",
     drinkNamePrice: "",
     drinkCategories: "",
-    drink_category_id: "",
+    drinks_category_id: "",
     description: "",
   });
 
-  const toast = useToast();
+  const [imageFile, setImageFile] = useState(null);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -34,21 +27,32 @@ function AddToMenuFormDrink() {
     if (!isNaN(value)) {
       setFormData((prevData) => ({
         ...prevData,
-        drinkPrice: value,
+        drinkNamePrice: value,
       }));
     }
   };
 
+  const handleImageDrop = (event) => {
+    event.preventDefault();
+    const file = event.dataTransfer.files[0];
+    setImageFile(file);
+  };
+
   const handleAddToMenu = async () => {
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("image", imageFile);
+      formDataToSend.append("drinkName", formData.drinkName);
+      formDataToSend.append("drinkNamePrice", formData.drinkNamePrice);
+      formDataToSend.append("drinkCategories", formData.drinkCategories);
+      formDataToSend.append("drinks_category_id", formData.drinks_category_id);
+      formDataToSend.append("description", formData.description);
+
       const response = await fetch(
         "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/createDrink",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formDataToSend,
         }
       );
 
@@ -56,44 +60,45 @@ function AddToMenuFormDrink() {
         throw new Error("Network response was not ok");
       }
 
-      toast({
-        title: "Drink Added to Menu",
-        description: "The drink has been added to the menu successfully.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
+      alert("Drink Added to Menu");
 
       setFormData({
-        image: "",
         drinkName: "",
         drinkNamePrice: "",
         drinkCategories: "",
         drinks_category_id: "",
         description: "",
       });
+      setImageFile(null);
     } catch (error) {
       console.error("Error adding drink to menu:", error);
-      toast({
-        title: "Error",
-        description: "An error occurred while adding the dish to the menu.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      alert("An error occurred while adding the drink to the menu.");
     }
   };
 
   return (
     <div>
-      <FormControl>
-        <FormLabel>Image URL</FormLabel>
-        <Input
-          name="image"
-          value={formData.image}
-          onChange={handleInputChange}
-        />
-      </FormControl>
+      <br></br>
+      <FormLabel>Drag and drop an image below:</FormLabel>
+      <div
+        onDrop={handleImageDrop}
+        onDragOver={(e) => e.preventDefault()}
+        style={{
+          border: "2px dashed #ccc",
+          padding: "20px",
+          textAlign: "center",
+        }}
+      >
+        {imageFile ? (
+          <img
+            src={URL.createObjectURL(imageFile)}
+            alt="Selected"
+            style={{ maxWidth: "100%", maxHeight: "200px" }}
+          />
+        ) : (
+          <p>Image</p>
+        )}
+      </div>
       <FormControl>
         <FormLabel>Drink Name</FormLabel>
         <Input
@@ -107,17 +112,18 @@ function AddToMenuFormDrink() {
         <Input
           name="drinkNamePrice"
           value={formData.drinkNamePrice}
-          onChange={handleInputChange}
+          onChange={handleFoodPriceChange}
         />
       </FormControl>
       <FormControl>
-        <FormLabel>Drink Categories</FormLabel>
+        <FormLabel>Drink Category </FormLabel>
         <Input
           name="drinkCategories"
           value={formData.drinkCategories}
           onChange={handleInputChange}
         />
       </FormControl>
+   
       <FormControl>
         <FormLabel>Drink Category ID</FormLabel>
         <Input

@@ -29,9 +29,9 @@ function CustomerTableData() {
   const [staffData, setStaffData] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
   const [newStaffData, setNewStaffData] = useState({
-   name:"",
-   phoneNo:"",
-   tableNo:"",
+    name: "",
+    phoneNo: "",
+    tableNo: "",
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const fetchStaffData = async () => {
@@ -56,7 +56,7 @@ function CustomerTableData() {
   };
 
   const handleCreateStaff = () => {
-   console.log(0);
+    console.log(0);
   };
 
   return (
@@ -91,9 +91,7 @@ function CustomerTableData() {
                 >
                   More Info
                 </Button>{" "}
-                <Button size="sm" colorScheme="red">
-                  Delete
-                </Button>
+               
               </Td>
             </Tr>
           ))}
@@ -129,8 +127,7 @@ function CustomerTableData() {
                 {selectedStaff.membership_id || "Not a member "}
               </Box>
               <Box>
-                <strong> Status : </strong>{" "}
-                {selectedStaff.status || "NaN "}
+                <strong> Status : </strong> {selectedStaff.status || "NaN "}
               </Box>
               {/* Add more fields as needed */}
             </ModalBody>

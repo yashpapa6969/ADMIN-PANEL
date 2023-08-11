@@ -73,7 +73,7 @@ function BillData() {
   };
 
   const handleCreateStaff = () => {
-    fetch(`${baseUrl}/api/waiter/createStaff`, {
+    fetch(`${baseUrl}/api/superAdmin/setNewBills`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -220,11 +220,11 @@ function BillData() {
               <FormLabel>OTP</FormLabel>
               <Input
                 type="number"
-                value={newStaffData.number}
+                value={newStaffData.otp}
                 onChange={(e) =>
                   setNewStaffData({
                     ...newStaffData,
-                    number: e.target.value,
+                    otp: e.target.value,
                   })
                 }
               />
@@ -232,7 +232,7 @@ function BillData() {
             <FormControl>
               <FormLabel>Paid</FormLabel>
               <Input
-                type="number"
+                type="text"
                 value={newStaffData.paid}
                 onChange={(e) =>
                   setNewStaffData({
@@ -245,7 +245,7 @@ function BillData() {
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="green" onClick={handleCreateStaff}>
-              Create Staff
+              Create Bill
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -11,7 +11,6 @@ import {
   Text,
   VStack,
   useColorModeValue,
-  Circle,
   Button,
   Modal,
   ModalOverlay,
@@ -23,7 +22,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
   useDisclosure,
 } from "@chakra-ui/react";
 
@@ -211,14 +209,14 @@ function FetchDrinksCategory() {
             <ModalHeader>Delete Category</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormControl>
-                <FormLabel>Deleting Category with ID :</FormLabel>
-                <Input
-                  type="text"
-                  value={tableToDelete}
-                  onChange={(e) => setTableToDelete(e.target.value)}
-                />
-              </FormControl>
+              <Text>Are you sure you want to delete the category:</Text>
+              <Text fontWeight="bold" mt="2">
+                {
+                  tableData.find(
+                    (table) => table.drinks_Category_id === tableToDelete
+                  )?.drinksCategory
+                }
+              </Text>
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="red" mr={3} onClick={handleDelete}>

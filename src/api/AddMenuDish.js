@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+} from "@chakra-ui/react";
 
 function AddToMenuForm() {
   const [formData, setFormData] = useState({
@@ -12,6 +18,24 @@ function AddToMenuForm() {
   });
 
   const [imageFile, setImageFile] = useState(null);
+  const [foodCategories, setFoodCategories] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishes"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const categories = data.dishes.map((dish) => ({
+          value: dish.food_category_id,
+          label: dish.foodCategories,
+        }));
+        setFoodCategories(categories);
+      })
+      .catch((error) => {
+        console.error("Error fetching food categories:", error);
+      });
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -31,6 +55,19 @@ function AddToMenuForm() {
         foodPrice: value,
       }));
     }
+  };
+
+  const handleCategoryChange = (event) => {
+    const selectedCategoryId = event.target.value;
+    const selectedCategory = foodCategories.find(
+      (cat) => cat.value === selectedCategoryId
+    );
+
+    setFormData((prevData) => ({
+      ...prevData,
+      food_category_id: selectedCategoryId,
+      foodCategories: selectedCategory ? selectedCategory.label : "",
+    }));
   };
 
   const handleImageDrop = (event) => {
@@ -81,7 +118,7 @@ function AddToMenuForm() {
 
   return (
     <div>
-      <br></br>
+      <br />
       <FormLabel>Drag and drop an image below:</FormLabel>
       <div
         onDrop={handleImageDrop}
@@ -120,23 +157,21 @@ function AddToMenuForm() {
       </FormControl>
       <FormControl>
         <FormLabel>Food Categories</FormLabel>
-        <Input
+        <Select
           name="foodCategories"
-          value={formData.foodCategories}
-          onChange={handleInputChange}
-        />
+          value={formData.food_category_id}
+          onChange={handleCategoryChange}
+        >
+          {foodCategories.map((category) => (
+            <option key={category.value} value={category.value}>
+              {category.label}
+            </option>
+          ))}
+        </Select>
       </FormControl>
       <FormControl>
         <FormLabel>Type</FormLabel>
         <Input name="type" value={formData.type} onChange={handleInputChange} />
-      </FormControl>
-      <FormControl>
-        <FormLabel>Food Category ID</FormLabel>
-        <Input
-          name="food_category_id"
-          value={formData.food_category_id}
-          onChange={handleInputChange}
-        />
       </FormControl>
       <FormControl>
         <FormLabel>Food Description</FormLabel>

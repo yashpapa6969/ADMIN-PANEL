@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+} from "@chakra-ui/react";
 
 function AddToMenuFormDrink() {
   const [formData, setFormData] = useState({
@@ -11,6 +17,24 @@ function AddToMenuFormDrink() {
   });
 
   const [imageFile, setImageFile] = useState(null);
+  const [drinkCategories, setDrinkCategories] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinks"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const categories = data.drinks.map((drink) => ({
+          value: drink.drinks_category_id,
+          label: drink.drinkCategories,
+        }));
+        setDrinkCategories(categories);
+      })
+      .catch((error) => {
+        console.error("Error fetching drink categories:", error);
+      });
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -20,7 +44,7 @@ function AddToMenuFormDrink() {
     }));
   };
 
-  const handleFoodPriceChange = (event) => {
+  const handleDrinkPriceChange = (event) => {
     const { value } = event.target;
 
     // Ensure only numbers are entered for drinkPrice
@@ -30,6 +54,19 @@ function AddToMenuFormDrink() {
         drinkNamePrice: value,
       }));
     }
+  };
+
+  const handleCategoryChange = (event) => {
+    const selectedCategoryId = event.target.value;
+    const selectedCategory = drinkCategories.find(
+      (cat) => cat.value === selectedCategoryId
+    );
+
+    setFormData((prevData) => ({
+      ...prevData,
+      drinks_category_id: selectedCategoryId,
+      drinkCategories: selectedCategory ? selectedCategory.label : "",
+    }));
   };
 
   const handleImageDrop = (event) => {
@@ -78,7 +115,7 @@ function AddToMenuFormDrink() {
 
   return (
     <div>
-      <br></br>
+      <br />
       <FormLabel>Drag and drop an image below:</FormLabel>
       <div
         onDrop={handleImageDrop}
@@ -112,25 +149,22 @@ function AddToMenuFormDrink() {
         <Input
           name="drinkNamePrice"
           value={formData.drinkNamePrice}
-          onChange={handleFoodPriceChange}
+          onChange={handleDrinkPriceChange}
         />
       </FormControl>
       <FormControl>
-        <FormLabel>Drink Category </FormLabel>
-        <Input
+        <FormLabel>Drink Categories</FormLabel>
+        <Select
           name="drinkCategories"
-          value={formData.drinkCategories}
-          onChange={handleInputChange}
-        />
-      </FormControl>
-   
-      <FormControl>
-        <FormLabel>Drink Category ID</FormLabel>
-        <Input
-          name="drinks_category_id"
           value={formData.drinks_category_id}
-          onChange={handleInputChange}
-        />
+          onChange={handleCategoryChange}
+        >
+          {drinkCategories.map((category) => (
+            <option key={category.value} value={category.value}>
+              {category.label}
+            </option>
+          ))}
+        </Select>
       </FormControl>
       <FormControl>
         <FormLabel>Drink Description</FormLabel>

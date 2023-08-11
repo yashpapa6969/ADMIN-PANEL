@@ -81,7 +81,8 @@ function AddToMenuForm() {
 
   return (
     <div>
-      <p>Drag and drop an image below:</p>
+      <br></br>
+      <FormLabel>Drag and drop an image below:</FormLabel>
       <div
         onDrop={handleImageDrop}
         onDragOver={(e) => e.preventDefault()}

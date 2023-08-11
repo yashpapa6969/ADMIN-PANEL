@@ -96,7 +96,7 @@ function AddToMenuFormDrink() {
             style={{ maxWidth: "100%", maxHeight: "200px" }}
           />
         ) : (
-          <p>Image</p>
+          <p>Drink Image</p>
         )}
       </div>
       <FormControl>

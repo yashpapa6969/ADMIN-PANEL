@@ -99,7 +99,7 @@ function AddToMenuForm() {
             style={{ maxWidth: "100%", maxHeight: "200px" }}
           />
         ) : (
-          <p>Image</p>
+          <p>Dish Image</p>
         )}
       </div>
       <FormControl>

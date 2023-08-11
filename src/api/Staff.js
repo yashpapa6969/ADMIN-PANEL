@@ -34,7 +34,9 @@ function StaffTableData() {
     email: "",
     password: "",
   });
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const fetchStaffData = async () => {
     try {
       const response = await fetch(`${baseUrl}/api/waiter/getAllStaff`);
@@ -89,6 +91,7 @@ function StaffTableData() {
           email: "",
           password: "",
         });
+        onClose(); // Close the Create Staff modal
       })
       .catch((error) => {
         console.error("Error creating staff:", error);
@@ -113,7 +116,14 @@ function StaffTableData() {
           {staffData.map((staff) => (
             <Tr key={staff.staff_id}>
               <Td>{staff.name}</Td>
-              <Td>{staff.tableNoAssigned || "Not Assigned"}</Td>
+              <Td>
+                <Text
+                  fontWeight="bold"
+                  color={staff.tableNoAssigned ? "green" : "red"}
+                >
+                  {staff.tableNoAssigned || "Not Assigned"}
+                </Text>
+              </Td>
               <Td>{staff.phoneNo}</Td>
               <Td>
                 <Button
@@ -173,7 +183,6 @@ function StaffTableData() {
         Create Staff
       </Button>
 
-      {/* Create Staff Modal */}
       {/* Create Staff Modal */}
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />

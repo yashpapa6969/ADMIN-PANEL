@@ -2,10 +2,8 @@ import React from "react";
 
 import { Icon } from "@chakra-ui/react";
 import {
-  MdBarChart,
   MdPerson,
   MdHome,
-  MdLock,
  
   MdRestaurant,
   
@@ -21,10 +19,8 @@ import DataTables from "views/admin/dataTables";
 import customer from "views/admin/customer";
 import bill from "views/admin/Bill";
 import Order from "views/admin/Order";
-import RTL from "views/admin/rtl";
+import Taxes from "views/admin/Taxes";
 
-// Auth Imports
-import SignInCentered from "views/auth/signIn";
 
 const routes = [
   {
@@ -84,14 +80,17 @@ const routes = [
     ),
     component: Order,
   },
-
   {
-    name: "Sign In",
-    layout: "/auth",
-    path: "/sign-in",
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    component: SignInCentered,
+    name: "Taxes",
+    layout: "/admin",
+    path: "/Taxes",
+    icon: (
+      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+    ),
+    component: Taxes,
   },
+
+  
  
 ];
 

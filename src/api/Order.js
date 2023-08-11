@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   VStack,
   Button,
@@ -35,6 +35,25 @@ function Order() {
 
   const handleViewClick = (order) => {
     setSelectedOrder(order);
+  };
+
+  const handleDeleteClick = (orderId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this order?"
+    );
+    if (confirmDelete) {
+      fetch(`${baseUrl}/api/client/DeleteOrdersById/${orderId}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Update the orders list by filtering out the deleted order
+          setOrders((prevOrders) =>
+            prevOrders.filter((order) => order._id !== orderId)
+          );
+        })
+        .catch((error) => console.error("Error deleting order:", error));
+    }
   };
 
   const handleCloseModal = () => {
@@ -75,6 +94,15 @@ function Order() {
                   onClick={() => handleViewClick(order)}
                 >
                   <Text fontWeight="bold">View Details</Text>
+                </Button>
+              </Td>
+              <Td>
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  onClick={() => handleDeleteClick(order._id)}
+                >
+                  <Text fontWeight="bold">Delete</Text>
                 </Button>
               </Td>
             </Tr>

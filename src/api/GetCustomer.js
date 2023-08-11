@@ -91,9 +91,7 @@ function CustomerTableData() {
                 >
                   More Info
                 </Button>{" "}
-                <Button size="sm" colorScheme="red">
-                  Delete
-                </Button>
+               
               </Td>
             </Tr>
           ))}

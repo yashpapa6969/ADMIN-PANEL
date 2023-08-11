@@ -11,7 +11,6 @@ import {
   Text,
   VStack,
   useColorModeValue,
-  Circle,
   Button,
   Modal,
   ModalOverlay,
@@ -151,17 +150,12 @@ function FetchTableData() {
                   <Td>{table.tableNo}</Td>
 
                   <Td>
-                    {table.active === "yes" ? (
-                      <Box display="flex" alignItems="center">
-                        <Text mr="2">Yes</Text>
-                        <Circle size="4" bg="green.500" />
-                      </Box>
-                    ) : (
-                      <Box display="flex" alignItems="center">
-                        <Text mr="2">No</Text>
-                        <Circle size="4" bg="red.500" />
-                      </Box>
-                    )}
+                    <Text
+                      fontWeight={table.active === "yes" ? "bold" : "bold"}
+                      color={table.active === "yes" ? "green.500" : "red.500"}
+                    >
+                      {table.active === "yes" ? "Yes" : "No"}
+                    </Text>
                   </Td>
                   <Td>{table.maxPeople}</Td>
                   <Td>
@@ -260,14 +254,12 @@ function FetchTableData() {
             <ModalHeader>Delete Table</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormControl>
-                <FormLabel>Enter Table Number to Delete:</FormLabel>
-                <Input
-                  type="text"
-                  value={tableToDelete}
-                  onChange={(e) => setTableToDelete(e.target.value)}
-                />
-              </FormControl>
+              <Text>
+                Are you sure you want to delete the table with Table Number:
+              </Text>
+              <Text fontWeight="bold" color="black" mt="2">
+                {tableToDelete}
+              </Text>
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="red" mr={3} onClick={handleDelete}>

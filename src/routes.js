@@ -23,9 +23,6 @@ import Order from "views/admin/Order";
 import Taxes from "views/admin/Taxes";
 import FoodManagerTable from "views/admin/FoodManager";
 import DrinkManagerTable from "views/admin/DrinkManager";
-
-
-
 const routes = [
   {
     name: "Main Dashboard",
@@ -76,7 +73,7 @@ const routes = [
     component: bill,
   },
   {
-    name: "Bill by Table Number.",
+    name: "Bill by Table Number ",
     layout: "/admin",
     path: "/Bill-by-table-no.",
     icon: (
@@ -115,6 +112,12 @@ const routes = [
     path: "/drink-managers",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: DrinkManagerTable,
+  },
+  {
+    name: "Logged In",
+    layout: "/auth",
+    path: "/login",
+    hiddenInSidebar: false, // Hide this route from the sidebar
   },
 ];
 

@@ -1,13 +1,7 @@
 import React from "react";
 
 import { Icon } from "@chakra-ui/react";
-import {
-  MdPerson,
-  MdHome,
- 
-  MdRestaurant,
-  
-} from "react-icons/md";
+import { MdPerson, MdHome, MdRestaurant } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaFileInvoice } from "react-icons/fa";
 
@@ -23,8 +17,6 @@ import Order from "views/admin/Order";
 import Taxes from "views/admin/Taxes";
 import FoodManagerTable from "views/admin/FoodManager";
 import DrinkManagerTable from "views/admin/DrinkManager";
-
-
 
 const routes = [
   {
@@ -42,7 +34,6 @@ const routes = [
       <Icon as={GiHamburgerMenu} width="20px" height="20px" color="inherit" />
     ),
     component: NFTMarketplace,
-    secondary: true,
   },
   {
     name: "Create Dish / Drink",
@@ -50,7 +41,6 @@ const routes = [
     icon: <Icon as={MdRestaurant} width="20px" height="20px" color="inherit" />,
     path: "/Create-Dish/Drink",
     component: DataTables,
-    secondary: true,
   },
   {
     name: "Staff",

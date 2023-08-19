@@ -1,76 +1,44 @@
 import React, { useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import routes from "routes.js";
+import ReactDOM from "react-dom";
+import "assets/css/App.css";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import AdminLayout from "layouts/admin";
+import RtlLayout from "layouts/rtl";
+import { ChakraProvider } from "@chakra-ui/react";
+import theme from "theme/theme";
+import { ThemeEditorProvider } from "@hypertheme-editor/chakra-ui";
+import Login from "views/auth/signIn/Login"; // Make sure the path is correct
 
-// Chakra imports
-import { Box, useColorModeValue } from "@chakra-ui/react";
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-// Layout components
-import { SidebarContext } from "contexts/SidebarContext";
-
-// Custom Chakra theme
-export default function Auth() {
-  // states and functions
-  const [toggleSidebar, setToggleSidebar] = useState(false);
-  // functions for changing the states from components
-  const getRoute = () => {
-    return window.location.pathname !== "/auth/full-screen-maps";
+  // Simulate a successful login for testing purposes
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/auth") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      }
-      if (prop.collapse) {
-        return getRoutes(prop.items);
-      }
-      if (prop.category) {
-        return getRoutes(prop.items);
-      } else {
-        return null;
-      }
-    });
-  };
-  const authBg = useColorModeValue("white", "navy.900");
-  document.documentElement.dir = "ltr";
+
   return (
-    <Box>
-      <SidebarContext.Provider
-        value={{
-          toggleSidebar,
-          setToggleSidebar,
-        }}>
-        <Box
-          bg={authBg}
-          float='right'
-          minHeight='100vh'
-          height='100%'
-          position='relative'
-          w='100%'
-          transition='all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)'
-          transitionDuration='.2s, .2s, .35s'
-          transitionProperty='top, bottom, width'
-          transitionTimingFunction='linear, linear, ease'>
-          {getRoute() ? (
-            <Box mx='auto' minH='100vh'>
-              <Switch>
-                {getRoutes(routes)}
-                <Redirect
-                  from='/auth'
-                  to='/auth/sign-in/default
-                  '
-                />
-              </Switch>
-            </Box>
-          ) : null}
-        </Box>
-      </SidebarContext.Provider>
-    </Box>
+    <ChakraProvider theme={theme}>
+      <React.StrictMode>
+        <ThemeEditorProvider>
+          <HashRouter>
+            <Switch>
+              <Route path="/auth/sign-in/login">
+                <Login onLogin={handleLogin} />
+              </Route>
+              {isLoggedIn ? (
+                <Route path="/admin" component={AdminLayout} />
+              ) : (
+                <Redirect to="/auth/sign-in/login" />
+              )}
+              <Route path="/rtl" component={RtlLayout} />
+              <Redirect from="/" to="/admin/default" />
+            </Switch>
+          </HashRouter>
+        </ThemeEditorProvider>
+      </React.StrictMode>
+    </ChakraProvider>
   );
 }
+
+ReactDOM.render(<App />, document.getElementById("root"));

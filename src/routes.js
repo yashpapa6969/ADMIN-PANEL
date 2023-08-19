@@ -20,6 +20,9 @@ import customer from "views/admin/customer";
 import bill from "views/admin/Bill";
 import Order from "views/admin/Order";
 import Taxes from "views/admin/Taxes";
+import FoodManagerTable from "api/FoodManager";
+import DrinkManagerTable from "api/DrinkManager";
+
 
 
 const routes = [
@@ -63,7 +66,7 @@ const routes = [
     component: customer,
   },
   {
-    name: "Bill",
+    name: "Billing",
     layout: "/admin",
     path: "/Bill",
     icon: (
@@ -72,7 +75,7 @@ const routes = [
     component: bill,
   },
   {
-    name: "Order",
+    name: "Current Orders",
     layout: "/admin",
     path: "/Order",
     icon: (
@@ -89,9 +92,20 @@ const routes = [
     ),
     component: Taxes,
   },
-
-  
- 
+  {
+    name: "Food Manager",
+    layout: "/admin",
+    path: "/food-managers",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: FoodManagerTable,
+  },
+  {
+    name: "Drink Manager",
+    layout: "/admin",
+    path: "/drink-managers",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: DrinkManagerTable,
+  },
 ];
 
 export default routes;

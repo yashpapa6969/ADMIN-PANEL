@@ -178,78 +178,9 @@ function BillData() {
       )}
 
       {/* Create Staff Button */}
-      <Button colorScheme="green" onClick={onOpen}>
-        Create Bill
-      </Button>
+      
 
-      {/* Create Staff Modal */}
-      {/* Create Staff Modal */}
-      <Modal onClose={onClose} isOpen={isOpen}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Bill</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel>Amount</FormLabel>
-              <Input
-                type="number"
-                value={newStaffData.amount}
-                onChange={(e) =>
-                  setNewStaffData({
-                    ...newStaffData,
-                    amount: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Table Number</FormLabel>
-              <Input
-                type="text"
-                value={newStaffData.tableNo}
-                onChange={(e) =>
-                  setNewStaffData({
-                    ...newStaffData,
-                    tableNo: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>OTP</FormLabel>
-              <Input
-                type="number"
-                value={newStaffData.otp}
-                onChange={(e) =>
-                  setNewStaffData({
-                    ...newStaffData,
-                    otp: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Paid</FormLabel>
-              <Input
-                type="text"
-                value={newStaffData.paid}
-                onChange={(e) =>
-                  setNewStaffData({
-                    ...newStaffData,
-                    paid: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="green" onClick={handleCreateStaff}>
-              Create Bill
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+    
     </VStack>
   );
 }

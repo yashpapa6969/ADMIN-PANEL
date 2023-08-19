@@ -175,7 +175,12 @@ function AddToMenuForm() {
       </FormControl>
       <FormControl>
         <FormLabel>Type</FormLabel>
-        <Input name="type" value={formData.type} onChange={handleInputChange} />
+        <Select name="type" value={formData.type} onChange={handleInputChange}>
+          <option value="">Select type here</option>
+          <option value="0">Non-Veg</option>
+          <option value="1">Veg</option>
+          <option value="2">Egg</option>
+        </Select>
       </FormControl>
       <FormControl>
         <FormLabel>Food Description</FormLabel>

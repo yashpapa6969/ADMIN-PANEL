@@ -19,22 +19,23 @@ function AddToMenuFormDrink() {
   const [imageFile, setImageFile] = useState(null);
   const [drinkCategories, setDrinkCategories] = useState([]);
 
-  useEffect(() => {
-    fetch(
-      "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinks"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const categories = data.drinks.map((drink) => ({
-          value: drink.drinks_category_id,
-          label: drink.drinkCategories,
-        }));
-        setDrinkCategories(categories);
-      })
-      .catch((error) => {
-        console.error("Error fetching drink categories:", error);
-      });
-  }, []);
+ useEffect(() => {
+   fetch(
+     "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinksCategories"
+   )
+     .then((response) => response.json())
+     .then((data) => {
+       const categories = data.category_d.map((drinkCategory) => ({
+         value: drinkCategory.drinks_Category_id,
+         label: drinkCategory.drinksCategory,
+       }));
+       setDrinkCategories(categories);
+     })
+     .catch((error) => {
+       console.error("Error fetching drink categories:", error);
+     });
+ }, []);
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -153,12 +154,15 @@ function AddToMenuFormDrink() {
         />
       </FormControl>
       <FormControl>
-        <FormLabel>Drink Categories (Select from Drop down)</FormLabel>
+        <FormLabel>Drink Categories</FormLabel>
         <Select
           name="drinkCategories"
           value={formData.drinks_category_id}
           onChange={handleCategoryChange}
         >
+          <option value="" disabled>
+            Select a drink category
+          </option>
           {drinkCategories.map((category) => (
             <option key={category.value} value={category.value}>
               {category.label}

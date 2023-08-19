@@ -21,7 +21,9 @@ import {
   FormLabel,
   Input,
   useDisclosure,
+  Badge
 } from "@chakra-ui/react";
+
 
 function CustomerTableData() {
   const baseUrl = "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com"; // Replace with your actual base URL
@@ -77,11 +79,23 @@ function CustomerTableData() {
         <Tbody>
           {staffData.map((staff) => (
             <Tr key={staff.user_id}>
-              <Td>{staff.name}</Td>
-              <Td>{staff.tableNo || "Not Assigned "}</Td>
-              <Td>{staff.phoneNo}</Td>
+              <Td>
+                <strong>{staff.name}</strong>
+              </Td>
+              <Td>
+                <strong>{staff.tableNo || "Not Assigned "}</strong>
+              </Td>
+              <Td>
+                <strong>{staff.phoneNo}</strong>
+              </Td>
 
-              <Td>{staff.status}</Td>
+              <Td>
+                {staff.userStatus === 0 ? (
+                  <Badge colorScheme="green">Active</Badge>
+                ) : (
+                  <Badge colorScheme="red">Not Active</Badge>
+                )}
+              </Td>
 
               <Td>
                 <Button
@@ -91,7 +105,6 @@ function CustomerTableData() {
                 >
                   More Info
                 </Button>{" "}
-               
               </Td>
             </Tr>
           ))}
@@ -127,7 +140,7 @@ function CustomerTableData() {
                 {selectedStaff.membership_id || "Not a member "}
               </Box>
               <Box>
-                <strong> Status : </strong> {selectedStaff.status || "NaN "}
+                <strong> Status : </strong> {selectedStaff.userStatus || "NaN "}
               </Box>
               {/* Add more fields as needed */}
             </ModalBody>

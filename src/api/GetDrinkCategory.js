@@ -139,7 +139,9 @@ function FetchDrinksCategory() {
               {tableData.map((table) => (
                 <Tr key={table._id}>
                   {/* Your table data rows go here */}
-                  <Td>{table.drinksCategory}</Td>
+                  <Td>
+                    <strong>{table.drinksCategory}</strong>
+                  </Td>
 
                   <Td>
                     <Button

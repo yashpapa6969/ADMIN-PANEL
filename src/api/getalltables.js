@@ -147,7 +147,9 @@ function FetchTableData() {
               {tableData.map((table) => (
                 <Tr key={table._id}>
                   {/* Your table data rows go here */}
-                  <Td>{table.tableNo}</Td>
+                  <Td>
+                    <strong>{table.tableNo}</strong>
+                  </Td>
 
                   <Td>
                     <Text
@@ -157,7 +159,9 @@ function FetchTableData() {
                       {table.active === "true" ? "Yes" : "No"}
                     </Text>
                   </Td>
-                  <Td>{table.maxPeople}</Td>
+                  <Td>
+                    <strong>{table.maxPeople}</strong>
+                  </Td>
                   <Td>
                     <Button
                       size="sm"

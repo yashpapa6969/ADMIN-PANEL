@@ -18,10 +18,11 @@ import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
 import customer from "views/admin/customer";
 import bill from "views/admin/Bill";
+import BillByTableNo from "views/admin/BillByTableNo";
 import Order from "views/admin/Order";
 import Taxes from "views/admin/Taxes";
-import FoodManagerTable from "api/FoodManager";
-import DrinkManagerTable from "api/DrinkManager";
+import FoodManagerTable from "views/admin/FoodManager";
+import DrinkManagerTable from "views/admin/DrinkManager";
 
 
 
@@ -73,6 +74,15 @@ const routes = [
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),
     component: bill,
+  },
+  {
+    name: "Bill by Table Number.",
+    layout: "/admin",
+    path: "/Bill-by-table-no.",
+    icon: (
+      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+    ),
+    component: BillByTableNo,
   },
   {
     name: "Current Orders",

@@ -115,7 +115,9 @@ function StaffTableData() {
         <Tbody>
           {staffData.map((staff) => (
             <Tr key={staff.staff_id}>
-              <Td>{staff.name}</Td>
+              <Td>
+                <strong>{staff.name}</strong>
+              </Td>
               <Td>
                 <Text
                   fontWeight="bold"
@@ -124,7 +126,9 @@ function StaffTableData() {
                   {staff.tableNoAssigned || "Not Assigned"}
                 </Text>
               </Td>
-              <Td>{staff.phoneNo}</Td>
+              <Td>
+                <strong>{staff.phoneNo}</strong>
+              </Td>
               <Td>
                 <Button
                   size="sm"

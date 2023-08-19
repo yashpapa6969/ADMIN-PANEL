@@ -17,10 +17,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  FormControl,
-  FormLabel,
-  Input,
-  useDisclosure,
+
 } from "@chakra-ui/react";
 
 function BillData() {
@@ -28,13 +25,8 @@ function BillData() {
 
   const [staffData, setStaffData] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
-  const [newStaffData, setNewStaffData] = useState({
-    name: "",
-    phoneNo: "",
-    email: "",
-    password: "",
-  });
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
+ 
   const fetchStaffData = async () => {
     try {
       const response = await fetch(`${baseUrl}/api/superAdmin/getAllBills`);
@@ -72,28 +64,7 @@ function BillData() {
     }
   };
 
-  const handleCreateStaff = () => {
-    fetch(`${baseUrl}/api/superAdmin/setNewBills`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newStaffData),
-    })
-      .then((response) => response.json())
-      .then(() => {
-        fetchStaffData();
-        setNewStaffData({
-          amount: "",
-          tableNo: "",
-          otp: "",
-          paid: "",
-        });
-      })
-      .catch((error) => {
-        console.error("Error creating staff:", error);
-      });
-  };
+  
 
   return (
     <VStack p="3" align="stretch" spacing="4">

@@ -156,7 +156,7 @@ function AddToMenuForm() {
         />
       </FormControl>
       <FormControl>
-        <FormLabel>Food Categories</FormLabel>
+        <FormLabel>Food Categories (Select from Drop down)</FormLabel>
         <Select
           name="foodCategories"
           value={formData.food_category_id}

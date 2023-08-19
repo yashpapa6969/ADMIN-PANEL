@@ -13,19 +13,8 @@ import {
 // Custom components
 
 import React from "react";
-import {
-  MdAddTask,
-  MdAttachMoney,
-  MdBarChart,
-  MdFileCopy,
-} from "react-icons/md";
+import FoodManagerTable from "api/FoodManager";
 
-import Tax from "../../../api/Taxes";
-
-import {
-  columnsDataCheck,
-  columnsDataComplex,
-} from "views/admin/default/variables/columnsData";
 
 export default function UserReports() {
   // Chakra Color Mode
@@ -34,7 +23,11 @@ export default function UserReports() {
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <Flex justifyContent="space-between" align="start" p="4" gap="20px">
-        <Tax />
+        <Box flex="1">
+          {" "}
+          {/* Adjust the width to control the space allocated for the table */}
+          <FoodManagerTable />
+        </Box>
       </Flex>
     </Box>
   );

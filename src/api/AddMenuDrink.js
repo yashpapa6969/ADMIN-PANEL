@@ -153,7 +153,7 @@ function AddToMenuFormDrink() {
         />
       </FormControl>
       <FormControl>
-        <FormLabel>Drink Categories</FormLabel>
+        <FormLabel>Drink Categories (Select from Drop down)</FormLabel>
         <Select
           name="drinkCategories"
           value={formData.drinks_category_id}

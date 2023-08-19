@@ -151,10 +151,10 @@ function FetchTableData() {
 
                   <Td>
                     <Text
-                      fontWeight={table.active === "yes" ? "bold" : "bold"}
-                      color={table.active === "yes" ? "green.500" : "red.500"}
+                      fontWeight={table.active === "true" ? "bold" : "bold"}
+                      color={table.active === "true" ? "green.500" : "red.500"}
                     >
-                      {table.active === "yes" ? "Yes" : "No"}
+                      {table.active === "true" ? "Yes" : "No"}
                     </Text>
                   </Td>
                   <Td>{table.maxPeople}</Td>

@@ -145,7 +145,7 @@ function DrinkManagerTable() {
   };
 
   return (
-    <Box pt="4">
+    <Box pt="0">
       <VStack align="stretch" spacing="4">
         <Text fontSize="xl" fontWeight="bold">
           Drink Managers

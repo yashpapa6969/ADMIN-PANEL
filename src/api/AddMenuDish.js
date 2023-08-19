@@ -22,13 +22,13 @@ function AddToMenuForm() {
 
   useEffect(() => {
     fetch(
-      "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishes"
+      "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishesCategories"
     )
       .then((response) => response.json())
       .then((data) => {
-        const categories = data.dishes.map((dish) => ({
-          value: dish.food_category_id,
-          label: dish.foodCategories,
+        const categories = data.category_d.map((dish) => ({
+          value: dish.food_Category_id,
+          label: dish.food_Category,
         }));
         setFoodCategories(categories);
       })
@@ -36,6 +36,7 @@ function AddToMenuForm() {
         console.error("Error fetching food categories:", error);
       });
   }, []);
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -156,12 +157,15 @@ function AddToMenuForm() {
         />
       </FormControl>
       <FormControl>
-        <FormLabel>Food Categories (Select from Drop down)</FormLabel>
+        <FormLabel>Food Categories </FormLabel>
         <Select
           name="foodCategories"
           value={formData.food_category_id}
           onChange={handleCategoryChange}
         >
+          <option value="" disabled>
+            Select a food category
+          </option>
           {foodCategories.map((category) => (
             <option key={category.value} value={category.value}>
               {category.label}

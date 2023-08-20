@@ -45,7 +45,7 @@ function Login({ setIsLoggedIn }) {
       <FormControl>
         <FormLabel>Username</FormLabel>
         <Input
-          placeholder="Enter your username"
+          placeholder="Enter admin username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -54,7 +54,7 @@ function Login({ setIsLoggedIn }) {
         <FormLabel>Password</FormLabel>
         <Input
           type="password"
-          placeholder="Enter your password"
+          placeholder="Enter admin password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           onKeyPress={(e) => {

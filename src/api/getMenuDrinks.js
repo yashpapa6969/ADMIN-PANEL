@@ -75,7 +75,7 @@ function FetchDrinksData() {
 
   return (
     <>
-      <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing="4">
+      <SimpleGrid columns={{ sm: 1, md: 1, lg: 1 }} spacing="4">
         {dishesData.map((dish) => (
           <Box
             key={dish._id}

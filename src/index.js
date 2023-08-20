@@ -9,9 +9,8 @@ import theme from "theme/theme";
 import { ThemeEditorProvider } from "@hypertheme-editor/chakra-ui";
 import Login from "views/auth/signIn/Login"; // Make sure the path is correct
 
-
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <ChakraProvider theme={theme}>

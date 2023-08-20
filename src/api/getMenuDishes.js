@@ -98,9 +98,31 @@ function FetchDishesData() {
                 <Text fontSize="xl" fontWeight="bold">
                   {dish.foodName}
                 </Text>
-                <Text>Price: Rs {dish.foodPrice}</Text>
-                <Text>Category: {dish.foodCategories}</Text>
-                <Text>Description: {dish.description}</Text>
+                <Text
+                  color={
+                    dish.type === "0"
+                      ? "red"
+                      : dish.type === "1"
+                      ? "green"
+                      : "yellow"
+                  }
+                >
+                  {dish.type === "0"
+                    ? " Non-Veg"
+                    : dish.type === "1"
+                    ? " Veg"
+                    : " Egg"}
+                </Text>
+                <Text>
+                  {" "}
+                  <strong>Price:</strong> ₹ {dish.foodPrice}
+                </Text>
+                <Text>
+                  <strong>Category:</strong> {dish.foodCategories}
+                </Text>
+                <Text>
+                  <strong>Description:</strong> {dish.description}
+                </Text>
                 <Button
                   colorScheme="red"
                   mt="2"

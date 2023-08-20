@@ -30,25 +30,18 @@ export default function Marketplace() {
   };
 
   return (
-    <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
-      <Container maxW="container.lg" py="4">
-        <Flex justifyContent="center" mb="4">
-          <Button colorScheme="purple" onClick={handleShowDishes} size="lg">
-            Dishes Menu
-          </Button>
-          <Button
-            colorScheme="yellow"
-            onClick={handleShowDrinks}
-            size="lg"
-            ml="2"
-          >
-            Drinks Menu
-          </Button>
-        </Flex>
-        <Box pt="20px">
-          {showDishes ? <FetchDishesData /> : <FetchDrinksData />}
-        </Box>
-      </Container>
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+      <Flex gap={3}>
+        <Button colorScheme="purple" onClick={handleShowDishes}>
+          Dishes Menu
+        </Button>
+        <Button colorScheme="yellow" onClick={handleShowDrinks}>
+          Drinks Menu
+        </Button>
+      </Flex>
+      <Box pt="20px">
+        {showDishes ? <FetchDishesData /> : <FetchDrinksData />}
+      </Box>
     </Box>
   );
 }

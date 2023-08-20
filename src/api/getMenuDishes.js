@@ -74,8 +74,8 @@ function FetchDishesData() {
   };
 
   return (
-    <>
-      <SimpleGrid columns={{ sm: 1, md: 1, lg: 1 }} spacing="4">
+    <div>
+      <SimpleGrid columns={{ sm: 1, md: 1, lg: 2 }} spacing="10px">
         {dishesData.map((dish) => (
           <Box
             key={dish._id}
@@ -83,7 +83,7 @@ function FetchDishesData() {
             bg={cardBg}
             borderRadius="md"
             boxShadow="md"
-            maxW="400px" // Adjust the maximum width here
+            maxW="500px"
           >
             <Flex>
               <Image
@@ -152,7 +152,7 @@ function FetchDishesData() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </div>
   );
 }
 

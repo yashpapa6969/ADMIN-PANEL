@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Button } from "@chakra-ui/react";
+import { Box, SimpleGrid, Button, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
 import AddToMenuForm from "api/AddMenuDish";
 import AddToMenuFormDrink from "api/AddMenuDrink";
@@ -20,13 +20,14 @@ export default function Settings() {
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <Button colorScheme="purple" onClick={handleShowDishForm}>
-        Create Dish
-      </Button>
-      <Button colorScheme="yellow" ml="2" onClick={handleShowDrinkForm}>
-        Create Drink
-      </Button>
-
+      <Flex gap={3}>
+        <Button colorScheme="purple" onClick={handleShowDishForm}>
+          Create Dish
+        </Button>
+        <Button colorScheme="yellow" onClick={handleShowDrinkForm}>
+          Create Drink
+        </Button>
+      </Flex>
       {showDishForm && <AddToMenuForm />}
       {showDrinkForm && <AddToMenuFormDrink />}
     </Box>

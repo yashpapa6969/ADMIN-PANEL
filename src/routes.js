@@ -27,7 +27,7 @@ const routes = [
     component: MainDashboard,
   },
   {
-    name: "Menu",
+    name: "Menu Items",
     layout: "/admin",
     path: "/menu",
     icon: (
@@ -39,7 +39,7 @@ const routes = [
     name: "Create Dish / Drink",
     layout: "/admin",
     icon: <Icon as={MdRestaurant} width="20px" height="20px" color="inherit" />,
-    path: "/Create-Dish/Drink",
+    path: "/create-menu",
     component: DataTables,
   },
   {
@@ -50,16 +50,16 @@ const routes = [
     component: Profile,
   },
   {
-    name: "Customer",
+    name: "Customers",
     layout: "/admin",
-    path: "/customer",
+    path: "/customers",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: customer,
   },
   {
     name: "Billing",
     layout: "/admin",
-    path: "/Bill",
+    path: "/billing",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),
@@ -68,7 +68,7 @@ const routes = [
   {
     name: "Bill by Table Number.",
     layout: "/admin",
-    path: "/Bill-by-table-no.",
+    path: "/bill-by-table-no",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),
@@ -77,7 +77,7 @@ const routes = [
   {
     name: "Current Orders",
     layout: "/admin",
-    path: "/Order",
+    path: "/current-orders",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),
@@ -86,7 +86,7 @@ const routes = [
   {
     name: "Taxes",
     layout: "/admin",
-    path: "/Taxes",
+    path: "/taxes",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),

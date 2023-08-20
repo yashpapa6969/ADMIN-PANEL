@@ -98,9 +98,15 @@ function FetchDrinksData() {
                 <Text fontSize="xl" fontWeight="bold">
                   {dish.drinkName}
                 </Text>
-                <Text>Price: Rs {dish.drinkNamePrice}</Text>
-                <Text>Category: {dish.drinkCategories}</Text>
-                <Text>Description: {dish.description}</Text>
+                <Text>
+                  <strong>Price: </strong> ₹ {dish.drinkNamePrice}
+                </Text>
+                <Text>
+                  <strong>Category:</strong> {dish.drinkCategories}
+                </Text>
+                <Text>
+                  <strong>Description:</strong> {dish.description}
+                </Text>
                 <Button
                   colorScheme="red"
                   mt="2"

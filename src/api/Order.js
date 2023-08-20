@@ -17,6 +17,14 @@ import {
   ModalFooter,
   Box,
   Text,
+  useDisclosure,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogCloseButton,
+  AlertDialogBody,
+  AlertDialogFooter,
 } from "@chakra-ui/react";
 
 const baseUrl = "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com"; // Replace with your API base URL
@@ -24,6 +32,8 @@ const baseUrl = "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com"; // Rep
 function Order() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [orderIdToDelete, setOrderIdToDelete] = useState(null);
 
   useEffect(() => {
     // Fetch orders from the API
@@ -38,19 +48,23 @@ function Order() {
   };
 
   const handleDeleteClick = (orderId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this order?"
-    );
-    if (confirmDelete) {
-      fetch(`${baseUrl}/api/client/DeleteOrdersById/${orderId}`, {
+    setOrderIdToDelete(orderId);
+    onOpen();
+  };
+
+  const handleDeleteConfirm = () => {
+    onClose();
+    if (orderIdToDelete) {
+      fetch(`${baseUrl}/api/client/DeleteOrdersById/${orderIdToDelete}`, {
         method: "DELETE",
       })
         .then((response) => response.json())
         .then((data) => {
           // Update the orders list by filtering out the deleted order
           setOrders((prevOrders) =>
-            prevOrders.filter((order) => order._id !== orderId)
+            prevOrders.filter((order) => order._id !== orderIdToDelete)
           );
+          setOrderIdToDelete(null);
         })
         .catch((error) => console.error("Error deleting order:", error));
     }
@@ -155,6 +169,35 @@ function Order() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={undefined}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay />
+        <AlertDialogContent>
+          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+            Confirm Delete
+          </AlertDialogHeader>
+          <AlertDialogCloseButton />
+          <AlertDialogBody>
+            Are you sure you want to delete this order?
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button
+              onClick={handleDeleteConfirm}
+              colorScheme="red"
+              ml={3}
+              
+            >
+              Delete
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </VStack>
   );
 }

@@ -77,8 +77,8 @@ function BillData() {
               {bills.map((bill) => (
                 <Tr key={bill._id}>
                   <Td fontWeight="bold">{bill.name}</Td>
-                  <Td>{bill.tableNo}</Td>
-                  <Td>{bill.grandTotal}</Td>
+                  <Td fontWeight="bold">{bill.tableNo}</Td>
+                  <Td fontWeight="bold">{bill.grandTotal}</Td>
                   <Td>
                     <Tag
                       size="lg" // Increase the size for a bigger circle

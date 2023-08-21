@@ -8,22 +8,39 @@ import {
 
 // Custom components
 
-import React from "react";
-
+import React from "react"; 
 import FetchTableData from "../../../api/GetAllTables";
 import FetchDishesCategory from "../../../api/GetDishCategory";
 import FetchDrinksCategory from "../../../api/GetDrinkCategory";
+import { getUsername,isUserAdmin, isUserDrink, isUserFood } from "../../auth/signIn/UserAuth";
 
 
 
 export default function UserReports() {
-  
+  const username = getUsername();
+  console.log(username);
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <Flex justifyContent="space-between" align="start" p="4" gap="20px">
-        <FetchTableData />
-        <FetchDishesCategory />
-        <FetchDrinksCategory />
+        {isUserAdmin() && (
+          <>
+            <FetchTableData />
+            <FetchDishesCategory />
+            <FetchDrinksCategory />
+          </>
+        )}
+        {isUserDrink() && (
+          <>
+            <FetchTableData />
+            <FetchDrinksCategory />
+          </>
+        )}
+        {isUserFood() && (
+          <>
+            <FetchTableData />
+            <FetchDishesCategory />
+          </>
+        )}
       </Flex>
     </Box>
   );

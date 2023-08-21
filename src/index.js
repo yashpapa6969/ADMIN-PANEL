@@ -12,6 +12,7 @@ import Login from "views/auth/signIn/Login"; // Make sure the path is correct
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
 
   return (
     <ChakraProvider theme={theme}>

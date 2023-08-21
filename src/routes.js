@@ -38,7 +38,7 @@ const routes = [
     component: NFTMarketplace,
   },
   {
-    name: "Create Dish / Drink",
+    name: "Create Menu",
     layout: "/admin",
     icon: <Icon as={MdRestaurant} width="20px" height="20px" color="inherit" />,
     path: "/create-dish/drink",
@@ -68,9 +68,9 @@ const routes = [
     component: bill,
   },
   {
-    name: "Bill by Table Number.",
+    name: "Bill by Table Number",
     layout: "/admin",
-    path: "/bill-by-table-no.",
+    path: "/bill-by-table-no",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),

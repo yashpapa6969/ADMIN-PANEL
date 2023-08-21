@@ -75,7 +75,7 @@ function FetchDrinksData() {
 
   return (
     <>
-      <SimpleGrid columns={{ sm: 1, md: 2, lg: 4 }} spacing="4">
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 2 }} spacing="4">
         {dishesData.map((dish) => (
           <Box
             key={dish._id}
@@ -83,7 +83,7 @@ function FetchDrinksData() {
             bg={cardBg}
             borderRadius="md"
             boxShadow="md"
-            maxW="400px" // Adjust the maximum width here
+            maxW="500px" // Adjust the maximum width here
           >
             <Flex>
               <Image
@@ -110,6 +110,7 @@ function FetchDrinksData() {
                 <Button
                   colorScheme="red"
                   mt="2"
+                  borderRadius="lg"
                   onClick={() => handleDelete(dish.drink_id)}
                 >
                   Delete
@@ -127,7 +128,11 @@ function FetchDrinksData() {
           <ModalCloseButton />
           <ModalBody>Are you sure you want to delete this drink?</ModalBody>
           <ModalFooter>
-            <Button colorScheme="red" onClick={handleConfirmDelete}>
+            <Button
+              colorScheme="red"
+              onClick={handleConfirmDelete}
+              borderRadius="lg"
+            >
               Delete
             </Button>
             <Button variant="ghost" onClick={onClose}>

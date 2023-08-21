@@ -140,6 +140,7 @@ function StaffTableData() {
                 <Button
                   size="sm"
                   colorScheme="red"
+                  borderRadius="lg"
                   onClick={() => handleDeleteClick(staff)}
                 >
                   Delete
@@ -183,7 +184,7 @@ function StaffTableData() {
       )}
 
       {/* Create Staff Button */}
-      <Button colorScheme="green" onClick={onOpen}>
+      <Button colorScheme="green" onClick={onOpen} borderRadius="lg">
         Create Staff
       </Button>
 
@@ -248,7 +249,11 @@ function StaffTableData() {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="green" onClick={handleCreateStaff}>
+            <Button
+              colorScheme="green"
+              onClick={handleCreateStaff}
+              borderRadius="lg"
+            >
               Create Staff
             </Button>
           </ModalFooter>

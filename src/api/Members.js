@@ -166,7 +166,11 @@ function Members() {
       </Modal>
 
       <VStack>
-        <Button colorScheme="red" onClick={() => setIsDeleteModalOpen(true)}>
+        <Button
+          colorScheme="red"
+          onClick={() => setIsDeleteModalOpen(true)}
+          borderRadius="lg"
+        >
           Delete Member by Member ID
         </Button>
         <Modal
@@ -191,6 +195,7 @@ function Members() {
               <Button
                 colorScheme="red"
                 onClick={handleDelete}
+                borderRadius="lg"
                 disabled={!memberIdToDelete}
               >
                 Delete

@@ -165,6 +165,7 @@ function FetchTableData() {
                   <Td>
                     <Button
                       size="sm"
+                      borderRadius="lg"
                       colorScheme="red"
                       onClick={() => {
                         setTableToDelete(table.tableNo);
@@ -183,6 +184,7 @@ function FetchTableData() {
         {/* Create Table Button */}
         <Button
           colorScheme="green"
+          borderRadius="lg"
           onClick={() => {
             setTableToCreate({ tableNo: "", active: "yes", maxPeople: "" });
             onOpenCreate();
@@ -266,7 +268,12 @@ function FetchTableData() {
               </Text>
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="red" mr={3} onClick={handleDelete}>
+              <Button
+                colorScheme="red"
+                mr={3}
+                onClick={handleDelete}
+                borderRadius="lg"
+              >
                 Confirm Delete
               </Button>
               <Button variant="ghost" onClick={onCloseDelete}>

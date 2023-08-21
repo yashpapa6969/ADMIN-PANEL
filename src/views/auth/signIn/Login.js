@@ -1,20 +1,28 @@
 // Login.js
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import {
-  FormControl,
-  FormLabel,
+  Flex,
+  Heading,
   Input,
   Button,
+  InputGroup,
+  Stack,
+  InputLeftElement,
+  chakra,
   Box,
-  Text,
-  Alert,
-  AlertIcon,
+  FormControl,
+  InputRightElement,
 } from "@chakra-ui/react";
+import { FaUserAlt, FaLock } from "react-icons/fa";
 import { authenticateUser } from "./UserAuth"; // Import the authentication function
+import { useHistory } from "react-router-dom";
+
+const CFaUserAlt = chakra(FaUserAlt);
+const CFaLock = chakra(FaLock);
 
 function Login({ setIsLoggedIn }) {
   const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -31,43 +39,80 @@ function Login({ setIsLoggedIn }) {
     }
   };
 
+  const handleShowClick = () => setShowPassword(!showPassword);
+
   return (
-    <Box p={4}>
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
-        Admin-Portal Login
-      </Text>
-      {error && (
-        <Alert status="error" mb={4}>
-          <AlertIcon />
-          {error}
-        </Alert>
-      )}
-      <FormControl>
-        <FormLabel>Username</FormLabel>
-        <Input
-          placeholder="Enter admin username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </FormControl>
-      <FormControl mt={4}>
-        <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          placeholder="Enter admin password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              handleLogin();
-            }
-          }}
-        />
-      </FormControl>
-      <Button colorScheme="blue" mt={4} onClick={handleLogin}>
-        Login
-      </Button>
-    </Box>
+    <Flex
+      flexDirection="column"
+      width="100wh"
+      height="100vh"
+      backgroundColor="gray.200"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Stack
+        flexDir="column"
+        mb="2"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Heading color="blue.400">Admin-Portal Login</Heading>
+        <Box minW={{ base: "90%", md: "468px" }}>
+          <Stack
+            spacing={4}
+            p="1rem"
+            backgroundColor="whiteAlpha.900"
+            boxShadow="md"
+            rounded="md"
+          >
+            <FormControl>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<CFaUserAlt color="gray.300" />}
+                />
+                <Input
+                  type="text"
+                  placeholder="Enter username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </InputGroup>
+            </FormControl>
+            <FormControl>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  color="gray.300"
+                  children={<CFaLock color="gray.300" />}
+                />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={handleShowClick}>
+                    {showPassword ? "Hide" : "Show"}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+            <Button
+              borderRadius="md"
+              type="submit"
+              variant="solid"
+              colorScheme="blue"
+              width="full"
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+          </Stack>
+        </Box>
+      </Stack>
+    </Flex>
   );
 }
 

@@ -21,9 +21,8 @@ import {
   FormLabel,
   Input,
   useDisclosure,
-  Badge
+  Badge,
 } from "@chakra-ui/react";
-
 
 function CustomerTableData() {
   const baseUrl = "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com"; // Replace with your actual base URL
@@ -158,7 +157,6 @@ function CustomerTableData() {
         Create Customer
       </Button>
 
-      {/* Create Staff Modal */}
       {/* Create Staff Modal */}
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />

@@ -37,7 +37,6 @@ function AddToMenuForm() {
       });
   }, []);
 
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -190,7 +189,12 @@ function AddToMenuForm() {
           onChange={handleInputChange}
         />
       </FormControl>
-      <Button colorScheme="green" mt="4" onClick={handleAddToMenu}>
+      <Button
+        colorScheme="green"
+        mt="4"
+        onClick={handleAddToMenu}
+        borderRadius="lg"
+      >
         Add to Menu
       </Button>
     </div>

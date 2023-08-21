@@ -168,12 +168,14 @@ function DrinkManagerTable() {
                     <Button
                       size="sm"
                       colorScheme="blue"
+                      borderRadius="lg"
                       onClick={() => handleMoreInfoClick(foodManager)}
                     >
                       More Info
                     </Button>
                     <Button
                       size="sm"
+                      borderRadius="lg"
                       colorScheme="red"
                       ml="2"
                       onClick={() => handleDeleteClick(foodManager.manager_id)}
@@ -187,7 +189,11 @@ function DrinkManagerTable() {
           </Table>
         </TableContainer>
 
-        <Button colorScheme="green" onClick={onOpenAddFoodManager}>
+        <Button
+          colorScheme="green"
+          onClick={onOpenAddFoodManager}
+          borderRadius="lg"
+        >
           Add Drink Manager
         </Button>
 
@@ -218,6 +224,7 @@ function DrinkManagerTable() {
               <ModalFooter>
                 <Button
                   colorScheme="blue"
+                  borderRadius="lg"
                   onClick={() => {
                     setSelectedFoodManager(null);
                     onCloseMoreInfo();
@@ -313,13 +320,14 @@ function DrinkManagerTable() {
                   Delete Drink Manager
                 </AlertDialogHeader>
                 <AlertDialogBody>
-                  Are you sure you want to delete this Drink manager? This action
-                  cannot be undone.
+                  Are you sure you want to delete this Drink manager? This
+                  action cannot be undone.
                 </AlertDialogBody>
                 <AlertDialogFooter>
                   <Button onClick={onCloseDeleteAlert}>Cancel</Button>
                   <Button
                     colorScheme="red"
+                    borderRadius="lg"
                     onClick={handleConfirmDelete}
                     ml={3}
                   >

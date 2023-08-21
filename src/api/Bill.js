@@ -94,6 +94,7 @@ function BillData() {
                     <Button
                       size="sm"
                       colorScheme="blue"
+                      borderRadius="lg"
                       onClick={() => handleMoreInfoClick(bill)}
                     >
                       More Info

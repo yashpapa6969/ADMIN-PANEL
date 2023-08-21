@@ -126,6 +126,7 @@ function FetchDishesData() {
                 <Button
                   colorScheme="red"
                   mt="2"
+                  borderRadius="lg"
                   onClick={() => handleDelete(dish.food_id)}
                 >
                   Delete
@@ -143,7 +144,11 @@ function FetchDishesData() {
           <ModalCloseButton />
           <ModalBody>Are you sure you want to delete this dish?</ModalBody>
           <ModalFooter>
-            <Button colorScheme="red" onClick={handleConfirmDelete}>
+            <Button
+              colorScheme="red"
+              onClick={handleConfirmDelete}
+              borderRadius="lg"
+            >
               Delete
             </Button>
             <Button variant="ghost" onClick={onClose}>

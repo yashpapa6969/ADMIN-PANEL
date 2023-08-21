@@ -83,7 +83,11 @@ function BillByTableNo() {
           </Select>
         </FormControl>
 
-        <Button colorScheme="green" onClick={fetchBillByTableNo}>
+        <Button
+          colorScheme="green"
+          onClick={fetchBillByTableNo}
+          borderRadius="lg"
+        >
           Show Bill
         </Button>
 
@@ -165,7 +169,10 @@ function BillByTableNo() {
                 </ModalBody>
               ) : (
                 <ModalBody>
-                  <Text fontWeight="bold"> No bill generated for Table No: {selectedTable}</Text>
+                  <Text fontWeight="bold">
+                    {" "}
+                    No bill generated for Table No: {selectedTable}
+                  </Text>
                 </ModalBody>
               )}
             </ModalContent>

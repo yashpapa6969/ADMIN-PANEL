@@ -19,23 +19,22 @@ function AddToMenuFormDrink() {
   const [imageFile, setImageFile] = useState(null);
   const [drinkCategories, setDrinkCategories] = useState([]);
 
- useEffect(() => {
-   fetch(
-     "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinksCategories"
-   )
-     .then((response) => response.json())
-     .then((data) => {
-       const categories = data.category_d.map((drinkCategory) => ({
-         value: drinkCategory.drinks_Category_id,
-         label: drinkCategory.drinksCategory,
-       }));
-       setDrinkCategories(categories);
-     })
-     .catch((error) => {
-       console.error("Error fetching drink categories:", error);
-     });
- }, []);
-
+  useEffect(() => {
+    fetch(
+      "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinksCategories"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const categories = data.category_d.map((drinkCategory) => ({
+          value: drinkCategory.drinks_Category_id,
+          label: drinkCategory.drinksCategory,
+        }));
+        setDrinkCategories(categories);
+      })
+      .catch((error) => {
+        console.error("Error fetching drink categories:", error);
+      });
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -178,7 +177,12 @@ function AddToMenuFormDrink() {
           onChange={handleInputChange}
         />
       </FormControl>
-      <Button colorScheme="green" mt="4" onClick={handleAddToMenu}>
+      <Button
+        colorScheme="green"
+        mt="4"
+        onClick={handleAddToMenu}
+        borderRadius="lg"
+      >
         Add to Menu
       </Button>
     </div>

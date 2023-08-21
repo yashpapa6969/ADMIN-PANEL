@@ -176,6 +176,7 @@ function FoodManagerTable() {
                       size="sm"
                       colorScheme="red"
                       ml="2"
+                      borderRadius="lg"
                       onClick={() => handleDeleteClick(foodManager.manager_id)}
                     >
                       Delete
@@ -320,6 +321,7 @@ function FoodManagerTable() {
                   <Button onClick={onCloseDeleteAlert}>Cancel</Button>
                   <Button
                     colorScheme="red"
+                    borderRadius="lg"
                     onClick={handleConfirmDelete}
                     ml={3}
                   >

@@ -147,6 +147,7 @@ function FetchDrinksCategory() {
                     <Button
                       size="sm"
                       colorScheme="red"
+                      borderRadius="lg"
                       onClick={() => {
                         setTableToDelete(table.drinks_Category_id);
                         onOpenDelete();
@@ -164,6 +165,7 @@ function FetchDrinksCategory() {
         {/* Create Table Button */}
         <Button
           colorScheme="green"
+          borderRadius="lg"
           onClick={() => {
             setTableToCreate({ tableNo: "" });
             onOpenCreate();
@@ -221,7 +223,12 @@ function FetchDrinksCategory() {
               </Text>
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="red" mr={3} onClick={handleDelete}>
+              <Button
+                colorScheme="red"
+                mr={3}
+                onClick={handleDelete}
+                borderRadius="lg"
+              >
                 Confirm Delete
               </Button>
               <Button variant="ghost" onClick={onCloseDelete}>

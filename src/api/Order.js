@@ -190,7 +190,7 @@ function Order() {
               onClick={handleDeleteConfirm}
               colorScheme="red"
               ml={3}
-              
+              borderRadius="lg"
             >
               Delete
             </Button>

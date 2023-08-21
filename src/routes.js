@@ -17,6 +17,8 @@ import Order from "views/admin/Order";
 import Taxes from "views/admin/Taxes";
 import FoodManagerTable from "views/admin/FoodManager";
 import DrinkManagerTable from "views/admin/DrinkManager";
+import Members from "views/admin/Members";
+import MemberByPhoneNumber from "views/admin/MemberByPhoneNumber";
 
 const routes = [
   {
@@ -36,7 +38,7 @@ const routes = [
     component: NFTMarketplace,
   },
   {
-    name: "Create Dish / Drink",
+    name: "Create Menu",
     layout: "/admin",
     icon: <Icon as={MdRestaurant} width="20px" height="20px" color="inherit" />,
     path: "/create-menu",
@@ -66,8 +68,9 @@ const routes = [
     component: bill,
   },
   {
-    name: "Bill by Table Number.",
+    name: "Bill by Table Number",
     layout: "/admin",
+    path: "/bill-by-table-no",
     path: "/bill-by-table-no",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
@@ -87,6 +90,7 @@ const routes = [
     name: "Taxes",
     layout: "/admin",
     path: "/taxes",
+    path: "/taxes",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),
@@ -105,6 +109,20 @@ const routes = [
     path: "/drink-managers",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: DrinkManagerTable,
+  },
+  {
+    name: "All Members",
+    layout: "/admin",
+    path: "/members",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: Members,
+  },
+  {
+    name: "Member By PhoneNo.",
+    layout: "/admin",
+    path: "/memberbyphonenumber",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: MemberByPhoneNumber,
   },
 ];
 

@@ -69,7 +69,8 @@ function BillData() {
                 <Th>Name</Th>
                 <Th>Table No.</Th>
                 <Th>Amount (₹)</Th>
-                <Th>Paid</Th>
+                <Th>Food Paid</Th>
+                <Th>Drink Paid</Th>
                 <Th>More Info</Th>
               </Tr>
             </Thead>
@@ -83,11 +84,30 @@ function BillData() {
                     <Tag
                       size="lg" // Increase the size for a bigger circle
                       borderRadius="0%" // Make it a circle
-                      bg={bill.paid === "notPaid" ? "red.500" : "green.500"} // Set background color based on 'paid' value
+                      bg={
+                        bill.foodBillpaid === "notPaid"
+                          ? "red.500"
+                          : "green.500"
+                      } // Set background color based on 'paid' value
                       color="white" // Text color
                       padding="0.5rem 1rem" // Adjust padding as needed
                     >
-                      {bill.paid}
+                      {bill.foodBillpaid}
+                    </Tag>
+                  </Td>
+                  <Td>
+                    <Tag
+                      size="lg" // Increase the size for a bigger circle
+                      borderRadius="0%" // Make it a circle
+                      bg={
+                        bill.drinkBillpaid === "notPaid"
+                          ? "red.500"
+                          : "green.500"
+                      } // Set background color based on 'paid' value
+                      color="white" // Text color
+                      padding="0.5rem 1rem" // Adjust padding as needed
+                    >
+                      {bill.drinkBillpaid}
                     </Tag>
                   </Td>
                   <Td>
@@ -134,14 +154,25 @@ function BillData() {
                     <strong>OTP:</strong> {selectedBill.otp}
                   </Text>
                   <Text>
-                    <strong>Paid:</strong>{" "}
+                    <strong>Food Bill Paid:</strong>{" "}
                     <Tag
                       size="sm"
                       colorScheme={
-                        selectedBill.paid === "notPaid" ? "red" : "green"
+                        selectedBill.foodBillpaid === "notPaid" ? "red" : "green"
                       }
                     >
-                      {selectedBill.paid}
+                      {selectedBill.foodBillpaid}
+                    </Tag>
+                  </Text>
+                  <Text>
+                    <strong>Drink Bill Paid:</strong>{" "}
+                    <Tag
+                      size="sm"
+                      colorScheme={
+                        selectedBill.drinkBillpaid === "notPaid" ? "red" : "green"
+                      }
+                    >
+                      {selectedBill.drinkBillpaid}
                     </Tag>
                   </Text>
                   <Text>
@@ -172,6 +203,21 @@ function BillData() {
                   </Text>
                   <Text>
                     <strong>Drink Total:</strong> ₹{selectedBill.drinkTotal}
+                  </Text>
+                  <Text>
+                    <strong>Donation Amount:</strong> ₹{selectedBill.donationAmount}
+                  </Text>
+                  <Text>
+                    <strong>clear:</strong> {selectedBill.clear}
+                  </Text>
+                  <Text>
+                    <strong>CGST:</strong> {selectedBill.cgst}
+                  </Text>
+                  <Text>
+                    <strong>SGST:</strong> {selectedBill.sgst}
+                  </Text>
+                  <Text>
+                    <strong>Service Tax:</strong> {selectedBill.service_tax}
                   </Text>
                   <Text>
                     <strong>Date:</strong> {selectedBill.date1}

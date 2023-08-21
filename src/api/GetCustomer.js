@@ -122,22 +122,27 @@ function CustomerTableData() {
             <ModalCloseButton />
             <ModalBody>
               <Box>
-                <strong>Customer ID : </strong> {selectedStaff.user_id}
-              </Box>
-              <Box>
                 <strong>Name : </strong> {selectedStaff.name}
-              </Box>
-              <Box>
-                <strong>Table No. : </strong>{" "}
-                {selectedStaff.tableNo || " Not Assigned "}
               </Box>
               <Box>
                 <strong>Phone Number : </strong> {selectedStaff.phoneNo}
               </Box>
               <Box>
+                <strong>Member Name : </strong> {selectedStaff.member_name}
+              </Box>
+              <Box>
+                <strong>Member Phone Number : </strong>{" "}
+                {selectedStaff.member_phoneNo}
+              </Box>
+              <Box>
                 <strong>Membership ID : </strong>{" "}
                 {selectedStaff.membership_id || "Not a member "}
               </Box>
+              <Box>
+                <strong>Table No. : </strong>{" "}
+                {selectedStaff.tableNo || " Not Assigned "}
+              </Box>
+
               <Box>
                 <strong> Status : </strong> {selectedStaff.userStatus || "NaN "}
               </Box>
@@ -151,66 +156,6 @@ function CustomerTableData() {
           </ModalContent>
         </Modal>
       )}
-
-      {/* Create Staff Button */}
-      <Button colorScheme="green" onClick={onOpen}>
-        Create Customer
-      </Button>
-
-      {/* Create Staff Modal */}
-      <Modal onClose={onClose} isOpen={isOpen}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Customer</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel>Name</FormLabel>
-              <Input
-                type="text"
-                value={newStaffData.name}
-                onChange={(e) =>
-                  setNewStaffData({
-                    ...newStaffData,
-                    name: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Phone Number</FormLabel>
-              <Input
-                type="text"
-                value={newStaffData.phoneNo}
-                onChange={(e) =>
-                  setNewStaffData({
-                    ...newStaffData,
-                    phoneNo: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Table Number</FormLabel>
-              <Input
-                type="number"
-                value={newStaffData.tableNo}
-                onChange={(e) =>
-                  setNewStaffData({
-                    ...newStaffData,
-                    tableNo: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="green" onClick={handleCreateStaff}>
-              Create Customer
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </VStack>
   );
 }

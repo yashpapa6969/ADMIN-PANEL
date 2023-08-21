@@ -20,7 +20,7 @@ import {
 function BillByTableNo() {
   const [tables, setTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState("");
-  const [selectedBill, setSelectedBill] = useState(null);
+  const [selectedBills, setSelectedBills] = useState([]);
   const {
     isOpen: isOpenBillModal,
     onOpen: onOpenBillModal,
@@ -55,10 +55,10 @@ function BillByTableNo() {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      const matchedBill = data.bills.find(
+      const matchedBills = data.bills.filter(
         (bill) => bill.tableNo === selectedTable
       );
-      setSelectedBill(matchedBill);
+      setSelectedBills(matchedBills);
       onOpenBillModal();
     } catch (error) {
       console.error("Error fetching bill data:", error);
@@ -69,7 +69,7 @@ function BillByTableNo() {
     <Box pt="4">
       <VStack align="stretch" spacing="4">
         <FormControl>
-          <FormLabel fontWeight="bold">Select Table Number : </FormLabel>
+          <FormLabel fontWeight="bold">Select Table Number :</FormLabel>
           <Select
             placeholder="Select table"
             value={selectedTable}
@@ -95,7 +95,7 @@ function BillByTableNo() {
           <Modal
             isOpen={isOpenBillModal}
             onClose={() => {
-              setSelectedBill(null);
+              setSelectedBills([]);
               onCloseBillModal();
             }}
           >
@@ -103,75 +103,107 @@ function BillByTableNo() {
             <ModalContent>
               <ModalHeader>Bill Details</ModalHeader>
               <ModalCloseButton />
-              {selectedBill ? (
+              {selectedBills.length > 0 ? (
                 <ModalBody>
-                  {/* Display bill details */}
-                  <Box>
-                    <Text>
-                      <strong>Name:</strong> {selectedBill.name}
-                    </Text>
-                    <Text>
-                      <strong>Table No.:</strong> {selectedBill.tableNo}
-                    </Text>
-                    <Text>
-                      <strong>Phone No. :</strong> {selectedBill.phoneNo}
-                    </Text>
-                    <Text>
-                      <strong>OTP:</strong> {selectedBill.otp}
-                    </Text>
-                    <Text>
-                      <strong>Paid:</strong>{" "}
-                      <Tag
-                        size="sm"
-                        colorScheme={
-                          selectedBill.paid === "notPaid" ? "red" : "green"
-                        }
-                      >
-                        {selectedBill.paid}
-                      </Tag>
-                    </Text>
-                    <Text>
-                      <strong>Dish Items:</strong>
-                    </Text>
-                    <ul>
-                      {selectedBill.DishItems.map((dish) => (
-                        <li key={dish._id}>
-                          {dish.name} - ₹{dish.amount}
-                        </li>
-                      ))}
-                    </ul>
-                    <Text>
-                      <strong>Drink Items:</strong>
-                    </Text>
-                    <ul>
-                      {selectedBill.DrinkItems.map((drink) => (
-                        <li key={drink._id}>
-                          {drink.name} - ₹{drink.amount}
-                        </li>
-                      ))}
-                    </ul>
-                    <Text>
-                      <strong>Grand Total:</strong> ₹{selectedBill.grandTotal}
-                    </Text>
-                    <Text>
-                      <strong>Dish Total:</strong> ₹{selectedBill.dishTotal}
-                    </Text>
-                    <Text>
-                      <strong>Drink Total:</strong> ₹{selectedBill.drinkTotal}
-                    </Text>
-                    <Text>
-                      <strong>Date:</strong> {selectedBill.date1}
-                    </Text>
-                    <Text>
-                      <strong>Time:</strong> {selectedBill.time1}
-                    </Text>
-                  </Box>
+                  {selectedBills.map((selectedBill) => (
+                    <Box key={selectedBill._id}>
+                      <Text>
+                        <strong>Name:</strong>{" "}
+                        <strong>{selectedBill.name}</strong>
+                      </Text>
+                      <Text>
+                        <strong>Table No.:</strong> {selectedBill.tableNo}
+                      </Text>
+                      <Text>
+                        <strong>Phone No. :</strong> {selectedBill.phoneNo}
+                      </Text>
+                      <Text>
+                        <strong>OTP:</strong> {selectedBill.otp}
+                      </Text>
+                      <Text>
+                        <strong>Food Bill Paid:</strong>{" "}
+                        <Tag
+                          size="sm"
+                          colorScheme={
+                            selectedBill.foodBillpaid === "notPaid"
+                              ? "red"
+                              : "green"
+                          }
+                        >
+                          {selectedBill.foodBillpaid}
+                        </Tag>
+                      </Text>
+                      <Text>
+                        <strong>Drink Bill Paid:</strong>{" "}
+                        <Tag
+                          size="sm"
+                          colorScheme={
+                            selectedBill.drinkBillpaid === "notPaid"
+                              ? "red"
+                              : "green"
+                          }
+                        >
+                          {selectedBill.drinkBillpaid}
+                        </Tag>
+                      </Text>
+                      <Text>
+                        <strong>Dish Items:</strong>
+                      </Text>
+                      <ul>
+                        {selectedBill.DishItems.map((dish) => (
+                          <li key={dish._id}>
+                            {dish.name} - ₹{dish.amount}
+                          </li>
+                        ))}
+                      </ul>
+                      <Text>
+                        <strong>Drink Items:</strong>
+                      </Text>
+                      <ul>
+                        {selectedBill.DrinkItems.map((drink) => (
+                          <li key={drink._id}>
+                            {drink.name} - ₹{drink.amount}
+                          </li>
+                        ))}
+                      </ul>
+                      <Text>
+                        <strong>Grand Total:</strong> ₹{selectedBill.grandTotal}
+                      </Text>
+                      <Text>
+                        <strong>Dish Total:</strong> ₹{selectedBill.dishTotal}
+                      </Text>
+                      <Text>
+                        <strong>Drink Total:</strong> ₹{selectedBill.drinkTotal}
+                      </Text>
+                      <Text>
+                        <strong>Donation Amount:</strong> ₹
+                        {selectedBill.donationAmount}
+                      </Text>
+                      <Text>
+                        <strong>clear:</strong> {selectedBill.clear}
+                      </Text>
+                      <Text>
+                        <strong>CGST:</strong> {selectedBill.cgst}
+                      </Text>
+                      <Text>
+                        <strong>SGST:</strong> {selectedBill.sgst}
+                      </Text>
+                      <Text>
+                        <strong>Service Tax:</strong> {selectedBill.service_tax}
+                      </Text>
+                      <Text>
+                        <strong>Date:</strong> {selectedBill.date1}
+                      </Text>
+                      <Text>
+                        <strong>Time:</strong> {selectedBill.time1}
+                      </Text>
+                    </Box>
+                  ))}
                 </ModalBody>
               ) : (
                 <ModalBody>
                   <Text fontWeight="bold">
-                    {" "}
-                    No bill generated for Table No: {selectedTable}
+                    No bills generated for Table No: {selectedTable}
                   </Text>
                 </ModalBody>
               )}

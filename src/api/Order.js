@@ -139,9 +139,28 @@ function Order() {
                   <Text fontWeight="bold">Table Number:</Text>{" "}
                   {selectedOrder.tableNo}
                 </Text>
+                <Text fontWeight="bold">Food Order Status:</Text>{" "}
+                {selectedOrder.foodOrderStatus === "0"
+                  ? "Pending"
+                  : selectedOrder.foodOrderStatus === "1"
+                  ? "Cooking"
+                  : selectedOrder.foodOrderStatus === "1.5"
+                  ? "Ready for Pickup"
+                  : selectedOrder.foodOrderStatus === "2"
+                  ? "Served"
+                  : "Unknown"}
+                <Text fontWeight="bold">Drink Order Status:</Text>{" "}
+                {selectedOrder.drinkOrderStatus === "0"
+                  ? "Pending"
+                  : selectedOrder.drinkOrderStatus === "1"
+                  ? "Cooking"
+                  : selectedOrder.drinkOrderStatus === "1.5"
+                  ? "Ready for Pickup"
+                  : selectedOrder.drinkOrderStatus === "2"
+                  ? "Served"
+                  : "Unknown"}
                 <Text>
-                  <Text fontWeight="bold">Order Status:</Text>{" "}
-                  {selectedOrder.orderStatus}
+                  <Text fontWeight="bold">OTP:</Text> {selectedOrder.otp}
                 </Text>
                 <Text fontWeight="bold">Dishes:</Text>
                 {selectedOrder.dishes.map((dish) => (
@@ -149,6 +168,9 @@ function Order() {
                     <Text fontWeight="bold">{dish.foodName || "Nan"}</Text>
                     Quantity :{" "}
                     <Text fontWeight="bold">{dish.quantity || "Nan"}</Text>
+                    {dish.dish_item_active === '1' && (
+                      <Text>Dish Activity: Rejected</Text>
+                    )}
                   </Text>
                 ))}
                 <Text fontWeight="bold">Drinks:</Text>
@@ -157,6 +179,9 @@ function Order() {
                     <Text fontWeight="bold">{drink.drinkName || "Nan"}</Text>
                     Quantity :{" "}
                     <Text fontWeight="bold">{drink.quantity || "Nan"}</Text>
+                    {drink.drink_item_active === '1' && (
+                      <Text>Drink Activity: Rejected</Text>
+                    )}
                   </Text>
                 ))}
               </Box>

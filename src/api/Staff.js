@@ -33,6 +33,7 @@ function StaffTableData() {
     phoneNo: "",
     email: "",
     password: "",
+    whichWaiter:"",
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -90,6 +91,7 @@ function StaffTableData() {
           phoneNo: "",
           email: "",
           password: "",
+          whichWaiter:"",
         });
         onClose(); // Close the Create Staff modal
       })
@@ -172,6 +174,18 @@ function StaffTableData() {
               <Box>
                 <strong>Phone Number:</strong> {selectedStaff.phoneNo}
               </Box>
+              <Box>
+                <strong>Email:</strong> {selectedStaff.email}
+              </Box>
+              <Box>
+                <strong>password:</strong> {selectedStaff.password}
+              </Box>
+              <Box>
+                <strong>Waiter for :</strong> {selectedStaff.whichWaiter}
+              </Box>
+              <Box>
+                <strong>Staff ID :</strong> {selectedStaff.staff_id}
+              </Box>
               {/* Add more fields as needed */}
             </ModalBody>
             <ModalFooter>
@@ -243,6 +257,19 @@ function StaffTableData() {
                   setNewStaffData({
                     ...newStaffData,
                     password: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Waiter for </FormLabel>
+              <Input
+                type="text"
+                value={newStaffData.whichWaiter}
+                onChange={(e) =>
+                  setNewStaffData({
+                    ...newStaffData,
+                    whichWaiter: e.target.value,
                   })
                 }
               />

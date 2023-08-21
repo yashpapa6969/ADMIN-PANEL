@@ -23,26 +23,28 @@ export default function Settings() {
   };
 
   // Check if the user is an admin or has food/drink access
-  const canCreateDish = isUserAdmin() || isUserFood();
-  const canCreateDrink = isUserAdmin() || isUserDrink();
+  const canCreateDish = isUserFood();
+  const canCreateDrink = isUserDrink();
+  const canCreateBoth = isUserAdmin();
 
-  // Show dish form by default if the user can create food items
   useEffect(() => {
     if (canCreateDish) {
       setShowDishForm(true);
+      setShowDrinkForm(false);
     }
   }, [canCreateDish]);
 
   useEffect(() => {
     if (canCreateDrink) {
       setShowDrinkForm(true);
+      setShowDishForm(false);
     }
   }, [canCreateDrink]);
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <Flex gap={4}>
-        {canCreateDish && (
+        {canCreateBoth && (
           <Button
             colorScheme="purple"
             onClick={handleShowDishForm}
@@ -51,7 +53,7 @@ export default function Settings() {
             Create Dish
           </Button>
         )}
-        {canCreateDrink && (
+        {canCreateBoth && (
           <Button
             colorScheme="yellow"
             onClick={handleShowDrinkForm}
@@ -61,10 +63,10 @@ export default function Settings() {
           </Button>
         )}
       </Flex>
-      {/* Show dish form only if the user can create a dish */}
-      {showDishForm && canCreateDish && <AddToMenuForm />}
-      {/* Show drink form only if the user can create a drink */}
-      {showDrinkForm && canCreateDrink && <AddToMenuFormDrink />}
+      {canCreateDish && <AddToMenuForm />}
+      {canCreateDrink && <AddToMenuFormDrink />}
+      {showDishForm && canCreateBoth && <AddToMenuForm />}
+      {showDrinkForm && canCreateBoth && <AddToMenuFormDrink />}
     </Box>
   );
 }

@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Flex,
-  Button,
-  Box,
-} from "@chakra-ui/react";
+import { Container, Flex, Button, Box } from "@chakra-ui/react";
 import FetchDishesData from "../../../api/getMenuDishes";
 import FetchDrinksData from "../../../api/getMenuDrinks";
-import { isUserDrink, isUserFood } from "../../auth/signIn/UserAuth";
+import {
+  isUserAdmin,
+  isUserDrink,
+  isUserFood,
+} from "../../auth/signIn/UserAuth";
 
 export default function Marketplace() {
-  
-
   const [showDishes, setShowDishes] = useState(true);
 
   const handleShowDishes = () => {
@@ -26,12 +23,12 @@ export default function Marketplace() {
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       <Container maxW="container.lg" py="4">
         <Flex justifyContent="center" mb="4">
-          {isUserFood() && (
+          {(isUserAdmin() || isUserFood()) && (
             <Button colorScheme="purple" onClick={handleShowDishes} size="lg">
               Dishes Menu
             </Button>
           )}
-          {isUserDrink() && (
+          {(isUserAdmin() || isUserDrink()) && (
             <Button
               colorScheme="yellow"
               onClick={handleShowDrinks}
@@ -44,8 +41,8 @@ export default function Marketplace() {
         </Flex>
         <Box pt="20px">
           {showDishes
-            ? isUserFood() && <FetchDishesData />
-            : isUserDrink() && <FetchDrinksData />}
+            ? (isUserAdmin() || isUserFood()) && <FetchDishesData />
+            : (isUserAdmin() || isUserDrink()) && <FetchDrinksData />}
         </Box>
       </Container>
     </Box>

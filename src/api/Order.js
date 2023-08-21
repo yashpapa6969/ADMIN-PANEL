@@ -165,10 +165,10 @@ function Order() {
                 <Text fontWeight="bold">Dishes:</Text>
                 {selectedOrder.dishes.map((dish) => (
                   <Text key={dish._id}>
-                    <Text fontWeight="bold">{dish.foodName || "Nan"}</Text>
-                    Quantity :{" "}
-                    <Text fontWeight="bold">{dish.quantity || "Nan"}</Text>
-                    {dish.dish_item_active === '1' && (
+                    <Text fontWeight="bold">
+                      {dish.foodName || "Nan"}({dish.quantity || "Nan"})
+                    </Text>
+                    {dish.dish_item_active === "1" && (
                       <Text>Dish Activity: Rejected</Text>
                     )}
                   </Text>
@@ -176,14 +176,27 @@ function Order() {
                 <Text fontWeight="bold">Drinks:</Text>
                 {selectedOrder.drinks.map((drink) => (
                   <Text key={drink._id}>
-                    <Text fontWeight="bold">{drink.drinkName || "Nan"}</Text>
-                    Quantity :{" "}
-                    <Text fontWeight="bold">{drink.quantity || "Nan"}</Text>
-                    {drink.drink_item_active === '1' && (
+                    <Text fontWeight="bold">
+                      {drink.drinkName || "Nan"}({drink.quantity || "Nan"})
+                    </Text>
+
+                    {drink.drink_item_active === "1" && (
                       <Text>Drink Activity: Rejected</Text>
                     )}
                   </Text>
                 ))}
+                <Text>
+                  <Text fontWeight="bold">Date:</Text>{" "}
+                  {selectedOrder.date1}
+                </Text>
+                <Text>
+                  <Text fontWeight="bold">Time:</Text>{" "}
+                  {selectedOrder.time1}
+                </Text>
+                <Text>
+                  <Text fontWeight="bold">Order ID:</Text>{" "}
+                  {selectedOrder.Orders_id}
+                </Text>
               </Box>
             )}
           </ModalBody>

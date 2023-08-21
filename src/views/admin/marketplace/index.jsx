@@ -4,27 +4,20 @@ import {
   Flex,
   Button,
   Box,
-  useColorModeValue,
 } from "@chakra-ui/react";
-
-// Import your FetchDishesData and FetchDrinksData components
 import FetchDishesData from "../../../api/getMenuDishes";
 import FetchDrinksData from "../../../api/getMenuDrinks";
+import { isUserDrink, isUserFood } from "../../auth/signIn/UserAuth";
 
 export default function Marketplace() {
-  // Chakra Color Mode
-  const textColor = useColorModeValue("secondaryGray.900", "white");
-  const textColorBrand = useColorModeValue("brand.500", "white");
+  
 
-  // State to control showing dishes or drinks
   const [showDishes, setShowDishes] = useState(true);
 
-  // Handle showing dishes
   const handleShowDishes = () => {
     setShowDishes(true);
   };
 
-  // Handle showing drinks
   const handleShowDrinks = () => {
     setShowDishes(false);
   };
@@ -33,20 +26,26 @@ export default function Marketplace() {
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       <Container maxW="container.lg" py="4">
         <Flex justifyContent="center" mb="4">
-          <Button colorScheme="purple" onClick={handleShowDishes} size="lg">
-            Dishes Menu
-          </Button>
-          <Button
-            colorScheme="yellow"
-            onClick={handleShowDrinks}
-            size="lg"
-            ml="2"
-          >
-            Drinks Menu
-          </Button>
+          {isUserFood() && (
+            <Button colorScheme="purple" onClick={handleShowDishes} size="lg">
+              Dishes Menu
+            </Button>
+          )}
+          {isUserDrink() && (
+            <Button
+              colorScheme="yellow"
+              onClick={handleShowDrinks}
+              size="lg"
+              ml="2"
+            >
+              Drinks Menu
+            </Button>
+          )}
         </Flex>
         <Box pt="20px">
-          {showDishes ? <FetchDishesData /> : <FetchDrinksData />}
+          {showDishes
+            ? isUserFood() && <FetchDishesData />
+            : isUserDrink() && <FetchDrinksData />}
         </Box>
       </Container>
     </Box>

@@ -11,6 +11,7 @@ import {
   Alert,
   AlertIcon,
 } from "@chakra-ui/react";
+import { authenticateUser } from "./UserAuth"; // Import the authentication function
 
 function Login({ setIsLoggedIn }) {
   const history = useHistory();
@@ -19,14 +20,13 @@ function Login({ setIsLoggedIn }) {
   const [error, setError] = useState(null);
 
   const handleLogin = () => {
-    // Implement your authentication logic here
-    // For example, check if the provided username and password are correct
-    if (username === "admin" && password === "admin123") {
-      // If authentication is successful, set isLoggedIn to true and navigate to the admin page
+    const authenticatedUsername = authenticateUser(username, password);
+
+    if (authenticatedUsername) {
       setIsLoggedIn(true);
+      setUsername(authenticatedUsername);
       history.push("/admin/default");
     } else {
-      // If authentication fails, display an error message
       setError("Invalid username or password");
     }
   };

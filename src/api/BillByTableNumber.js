@@ -152,7 +152,7 @@ function BillByTableNo() {
                       <ul>
                         {selectedBill.DishItems.map((dish) => (
                           <li key={dish._id}>
-                            {dish.name} - ₹{dish.amount}
+                            {dish.name} ({dish.quantity})- ₹{dish.amount}
                           </li>
                         ))}
                       </ul>
@@ -162,7 +162,7 @@ function BillByTableNo() {
                       <ul>
                         {selectedBill.DrinkItems.map((drink) => (
                           <li key={drink._id}>
-                            {drink.name} - ₹{drink.amount}
+                            {drink.name} ({drink.quantity})- ₹{drink.amount}
                           </li>
                         ))}
                       </ul>
@@ -180,7 +180,12 @@ function BillByTableNo() {
                         {selectedBill.donationAmount}
                       </Text>
                       <Text>
-                        <strong>clear:</strong> {selectedBill.clear}
+                        <strong>Cleared Bill:</strong>{" "}
+                        {selectedBill.clear === "0"
+                          ? "Not Cleared"
+                          : selectedBill.clear === "1"
+                          ? "Cleared"
+                          : "Unknown"}
                       </Text>
                       <Text>
                         <strong>CGST:</strong> {selectedBill.cgst}

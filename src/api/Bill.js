@@ -158,7 +158,9 @@ function BillData() {
                     <Tag
                       size="sm"
                       colorScheme={
-                        selectedBill.foodBillpaid === "notPaid" ? "red" : "green"
+                        selectedBill.foodBillpaid === "notPaid"
+                          ? "red"
+                          : "green"
                       }
                     >
                       {selectedBill.foodBillpaid}
@@ -169,7 +171,9 @@ function BillData() {
                     <Tag
                       size="sm"
                       colorScheme={
-                        selectedBill.drinkBillpaid === "notPaid" ? "red" : "green"
+                        selectedBill.drinkBillpaid === "notPaid"
+                          ? "red"
+                          : "green"
                       }
                     >
                       {selectedBill.drinkBillpaid}
@@ -181,7 +185,7 @@ function BillData() {
                   <ul>
                     {selectedBill.DishItems.map((dish) => (
                       <li key={dish._id}>
-                        {dish.name} - ₹{dish.amount}
+                        {dish.name} ({dish.quantity})- ₹{dish.amount}
                       </li>
                     ))}
                   </ul>
@@ -191,7 +195,7 @@ function BillData() {
                   <ul>
                     {selectedBill.DrinkItems.map((drink) => (
                       <li key={drink._id}>
-                        {drink.name} - ₹{drink.amount}
+                        {drink.name} ({drink.quantity})- ₹{drink.amount}
                       </li>
                     ))}
                   </ul>
@@ -205,10 +209,16 @@ function BillData() {
                     <strong>Drink Total:</strong> ₹{selectedBill.drinkTotal}
                   </Text>
                   <Text>
-                    <strong>Donation Amount:</strong> ₹{selectedBill.donationAmount}
+                    <strong>Donation Amount:</strong> ₹
+                    {selectedBill.donationAmount}
                   </Text>
                   <Text>
-                    <strong>clear:</strong> {selectedBill.clear}
+                    <strong>Cleared Bill:</strong>{" "}
+                    {selectedBill.clear === "0"
+                      ? "Not Cleared"
+                      : selectedBill.clear === "1"
+                      ? "Cleared"
+                      : "Unknown"}
                   </Text>
                   <Text>
                     <strong>CGST:</strong> {selectedBill.cgst}

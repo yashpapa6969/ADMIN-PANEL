@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 
-// Custom Chakra theme
 export default function Dashboard(props) {
   const { ...rest } = props;
   // states and functions

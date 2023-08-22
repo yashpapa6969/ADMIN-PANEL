@@ -79,7 +79,6 @@ export function SidebarResponsive(props) {
   const { routes } = props;
   // let isWindows = navigator.platform.startsWith("Win");
   //  BRAND
-
   return (
     <Flex display={{ sm: "flex", xl: "none" }} alignItems="center">
       <Flex ref={btnRef} w="max-content" h="max-content" onClick={onOpen}>
@@ -87,9 +86,8 @@ export function SidebarResponsive(props) {
           as={IoMenuOutline}
           color={menuColor}
           my="auto"
-          w="20px"
-          h="20px"
-          me="10px"
+          w="30px"
+          h="30px"
           _hover={{ cursor: "pointer" }}
         />
       </Flex>
@@ -123,7 +121,6 @@ export function SidebarResponsive(props) {
   );
 }
 // PROPS
-
 Sidebar.propTypes = {
   logoText: PropTypes.string,
   routes: PropTypes.arrayOf(PropTypes.object),

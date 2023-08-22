@@ -33,7 +33,7 @@ function StaffTableData() {
     phoneNo: "",
     email: "",
     password: "",
-    whichWaiter:"",
+    whichWaiter: "",
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -91,7 +91,7 @@ function StaffTableData() {
           phoneNo: "",
           email: "",
           password: "",
-          whichWaiter:"",
+          whichWaiter: "",
         });
         onClose(); // Close the Create Staff modal
       })
@@ -262,7 +262,7 @@ function StaffTableData() {
               />
             </FormControl>
             <FormControl>
-              <FormLabel>Waiter for </FormLabel>
+              <FormLabel>Waiter for (food or drink) </FormLabel>
               <Input
                 type="text"
                 value={newStaffData.whichWaiter}

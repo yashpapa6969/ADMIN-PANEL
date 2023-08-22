@@ -82,9 +82,7 @@ function Order() {
             <Th>
               <Text fontWeight="bold">Table Number</Text>
             </Th>
-            <Th>
-              <Text fontWeight="bold">Order Status</Text>
-            </Th>
+           
             <Th>
               <Text fontWeight="bold">Actions</Text>
             </Th>
@@ -96,11 +94,7 @@ function Order() {
               <Td>
                 <Text fontWeight="bold">{order.tableNo}</Text>
               </Td>
-              <Td color={order.orderStatus === "0" ? "red" : "green"}>
-                <Text fontWeight="bold">
-                  {order.orderStatus === "0" ? "Inactive" : "Active"}
-                </Text>
-              </Td>
+             
               <Td>
                 <Button
                   size="sm"

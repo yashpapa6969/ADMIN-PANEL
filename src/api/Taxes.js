@@ -83,7 +83,7 @@ function Tax() {
               <Text fontWeight="bold">SGST (%)</Text>
             </Th>
             <Th>
-              <Text fontWeight="bold">Service Tax (%)</Text>
+              <Text fontWeight="bold">Tax (%)</Text>
             </Th>
             <Th>
               <Text fontWeight="bold">Actions</Text>

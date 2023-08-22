@@ -47,7 +47,7 @@ const routes = [
     component: DataTables,
   },
   {
-    name: "Staff",
+    name: "Staff (Waiter)",
     layout: "/admin",
     path: "/staff",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
@@ -99,15 +99,20 @@ const routes = [
     component: Order,
   },
   {
-    name: "Taxes",
+    name: "OrderByDate",
     layout: "/admin",
-    path: "/taxes",
-    path: "/taxes",
-    icon: (
-      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
-    ),
-    component: Taxes,
+    path: "/orderByDate",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: OrderByDate,
   },
+  {
+    name: "BillByDate",
+    layout: "/admin",
+    path: "/billByDate",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: billByDate,
+  },
+
   {
     name: "Food Manager",
     layout: "/admin",
@@ -137,19 +142,14 @@ const routes = [
     component: MemberByPhoneNumber,
   },
   {
-    name: "OrderByDate",
+    name: "Taxes",
     layout: "/admin",
-    path: "/orderByDate",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    component: OrderByDate,
-    
-  },
-  {
-    name: "BillByDate",
-    layout: "/admin",
-    path: "/billByDate",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    component: billByDate,
+    path: "/taxes",
+    path: "/taxes",
+    icon: (
+      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+    ),
+    component: Taxes,
   },
 ];
 

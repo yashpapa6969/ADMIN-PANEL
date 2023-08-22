@@ -130,7 +130,7 @@ function FetchTableData() {
     <Box p="3" shadow="md" borderRadius="md" bg={cardBg} mx="auto">
       <VStack align="stretch" spacing="4">
         <Text fontSize="xl" fontWeight="bold">
-          Table Order Information
+          Table Information
         </Text>
         <TableContainer>
           <Table variant="striped" colorScheme="teal">

@@ -104,7 +104,7 @@ function FetchDishesData() {
                       ? "red"
                       : dish.type === "1"
                       ? "green"
-                      : "yellow"
+                      : "purple"
                   }
                 >
                   {dish.type === "0"

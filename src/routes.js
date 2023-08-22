@@ -19,6 +19,8 @@ import FoodManagerTable from "views/admin/FoodManager";
 import DrinkManagerTable from "views/admin/DrinkManager";
 import Members from "views/admin/Members";
 import MemberByPhoneNumber from "views/admin/MemberByPhoneNumber";
+import OrderByDate from "views/admin/OrderByDate";
+import billByDate from "views/admin/billByDate/index";
 
 const routes = [
   {
@@ -124,6 +126,22 @@ const routes = [
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: MemberByPhoneNumber,
   },
+  {
+    name: "OrderByDate",
+    layout: "/admin",
+    path: "/orderByDate",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: OrderByDate,
+    
+  },
+  {
+    name: "BillByDate",
+    layout: "/admin",
+    path: "/billByDate",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: billByDate,
+  },
 ];
+
 
 export default routes;

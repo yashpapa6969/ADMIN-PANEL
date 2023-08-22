@@ -16,6 +16,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Switch,
 } from "@chakra-ui/react";
 
 function FetchDishesData() {
@@ -73,6 +74,33 @@ function FetchDishesData() {
     }
   };
 
+  const handleToggleStatus = async (food_id, currentStatus) => {
+    try {
+      const newStatus = currentStatus === "1" ? "0" : "1";
+      await fetch(
+        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/updateFoodStatus/${food_id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            foodStatus: newStatus,
+          }),
+        }
+      );
+
+      // Update the status in the state
+      setDishesData((prevData) =>
+        prevData.map((dish) =>
+          dish.food_id === food_id ? { ...dish, foodStatus: newStatus } : dish
+        )
+      );
+    } catch (error) {
+      console.error("Error updating dish status:", error);
+    }
+  };
+
   return (
     <div>
       <SimpleGrid columns={{ sm: 1, md: 1, lg: 2 }} spacing="10px">
@@ -94,6 +122,7 @@ function FetchDishesData() {
                 mr="4"
               />
               <VStack align="flex-start" spacing="2">
+                {/* ... (dish details) */}
                 <Box borderTop="0px" borderColor="teal.500" mb="0"></Box>
                 <Text fontSize="xl" fontWeight="bold">
                   {dish.foodName}
@@ -122,6 +151,16 @@ function FetchDishesData() {
                 </Text>
                 <Text>
                   <strong>Description:</strong> {dish.description}
+                </Text>
+                <Text>
+                  <strong>Status: </strong>
+                  <Switch
+                    colorScheme="teal"
+                    isChecked={dish.foodStatus === "1"}
+                    onChange={() =>
+                      handleToggleStatus(dish.food_id, dish.foodStatus)
+                    }
+                  />
                 </Text>
                 <Button
                   colorScheme="red"

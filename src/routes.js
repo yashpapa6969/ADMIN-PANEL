@@ -19,9 +19,9 @@ import FoodManagerTable from "views/admin/FoodManager";
 import DrinkManagerTable from "views/admin/DrinkManager";
 import Members from "views/admin/Members";
 import MemberByPhoneNumber from "views/admin/MemberByPhoneNumber";
+import BillByMemberID from "views/admin/BillByMemberID";
 import OrderByDate from "views/admin/OrderByDate";
 import billByDate from "views/admin/billByDate/index";
-
 const routes = [
   {
     name: "Main Dashboard",
@@ -78,6 +78,16 @@ const routes = [
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),
     component: BillByTableNo,
+  },
+  {
+    name: "Bill by Member ID",
+    layout: "/admin",
+    path: "/bill-by-member-id",
+    path: "/bill-by-member-id",
+    icon: (
+      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+    ),
+    component: BillByMemberID,
   },
   {
     name: "Current Orders",

@@ -16,6 +16,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Switch,
 } from "@chakra-ui/react";
 
 function FetchDrinksData() {
@@ -51,25 +52,54 @@ function FetchDrinksData() {
     onOpen();
   };
 
-  const handleConfirmDelete = async () => {
+ const handleConfirmDelete = async () => {
+   try {
+     await fetch(
+       `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/drinks/${selectedDishId}`,
+       {
+         method: "DELETE",
+         headers: {
+           "Content-Type": "application/json",
+         },
+       }
+     );
+
+     // Remove the deleted dish from the state
+     setDishesData((prevData) =>
+       prevData.filter((dish) => dish.drink_id !== selectedDishId)
+     );
+     onClose();
+   } catch (error) {
+     console.error("Error deleting dish:", error);
+   }
+ };
+
+  const handleToggleStatus = async (drink_id, currentStatus) => {
     try {
+      const newStatus = currentStatus === "1" ? "0" : "1";
       await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/drinks/${selectedDishId}`,
+        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/updateDrinkStatus/${drink_id}`,
         {
-          method: "DELETE",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            drinkStatus: newStatus,
+          }),
         }
       );
 
-      // Remove the deleted dish from the state
+      // Update the status in the state
       setDishesData((prevData) =>
-        prevData.filter((dish) => dish.drink_id !== selectedDishId)
+        prevData.map((dish) =>
+          dish.drink_id === drink_id
+            ? { ...dish, drinkStatus: newStatus }
+            : dish
+        )
       );
-      onClose();
     } catch (error) {
-      console.error("Error deleting dish:", error);
+      console.error("Error updating drink status:", error);
     }
   };
 
@@ -94,7 +124,6 @@ function FetchDrinksData() {
                 mr="4"
               />
               <VStack align="flex-start" spacing="2">
-                <Box borderTop="0px" borderColor="teal.500" mb="0"></Box>
                 <Text fontSize="xl" fontWeight="bold">
                   {dish.drinkName}
                 </Text>
@@ -106,6 +135,16 @@ function FetchDrinksData() {
                 </Text>
                 <Text>
                   <strong>Description:</strong> {dish.description}
+                </Text>
+                <Text>
+                  <strong>Status: </strong>
+                  <Switch
+                    colorScheme="teal"
+                    isChecked={dish.drinkStatus === "1"}
+                    onChange={() =>
+                      handleToggleStatus(dish.drink_id, dish.drinkStatus)
+                    }
+                  />
                 </Text>
                 <Button
                   colorScheme="red"

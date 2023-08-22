@@ -138,8 +138,7 @@ function FetchTableData() {
             <Thead>
               <Tr>
                 <Th>Table No.</Th>
-                <Th>Active</Th>
-                <Th>Max people</Th>
+                <Th>PAX</Th>
                 <Th></Th>
               </Tr>
             </Thead>
@@ -151,14 +150,7 @@ function FetchTableData() {
                     <strong>{table.tableNo}</strong>
                   </Td>
 
-                  <Td>
-                    <Text
-                      fontWeight={table.active === "true" ? "bold" : "bold"}
-                      color={table.active === "true" ? "green.500" : "red.500"}
-                    >
-                      {table.active === "true" ? "Yes" : "No"}
-                    </Text>
-                  </Td>
+                  
                   <Td>
                     <strong>{table.maxPeople}</strong>
                   </Td>
@@ -226,21 +218,7 @@ function FetchTableData() {
                   }
                 />
               </FormControl>
-              <FormControl mt="4">
-                <FormLabel>Active:</FormLabel>
-                <Select
-                  value={active}
-                  onChange={(e) =>
-                    setTableToCreate({
-                      ...tableToCreate,
-                      active: e.target.value,
-                    })
-                  }
-                >
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </Select>
-              </FormControl>
+             
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="green" mr={3} onClick={handleCreate}>

@@ -1,102 +1,98 @@
 const bulkData = [
   {
-    foodName: "Chicken Burrito",
-    foodPrice: "249",
-    type: "1",
-    description: "Flavorful burrito with tender grilled chicken and rice.",
+    foodName: "Minestrone Soup",
+    foodPrice: "129",
+    type: "0",
+    description: "A hearty Italian vegetable soup with pasta and beans.",
   },
   {
-    foodName: "Bean and Cheese Burrito",
-    foodPrice: "179",
+    foodName: "Tomato Bisque",
+    foodPrice: "119",
+    type: "0",
+    description: "Creamy tomato soup, perfect for dipping bread or crackers.",
+  },
+  {
+    foodName: "Chicken Noodle Soup",
+    foodPrice: "139",
+    type: "1",
+    description:
+      "Classic soup with tender chicken, vegetables, and egg noodles.",
+  },
+  {
+    foodName: "Lentil Soup",
+    foodPrice: "109",
+    type: "0",
+    description: "Healthy and flavorful soup made from lentils and spices.",
+  },
+  {
+    foodName: "Grilled Veggie Sandwich",
+    foodPrice: "159",
     type: "0",
     description:
-      "Classic burrito filled with seasoned beans and melted cheese.",
+      "Delicious sandwich with grilled vegetables and melted cheese.",
   },
   {
-    foodName: "Steak Burrito",
-    foodPrice: "279",
+    foodName: "Turkey Club Sandwich",
+    foodPrice: "179",
     type: "1",
-    description: "Savory burrito featuring juicy steak strips and salsa.",
+    description:
+      "Classic triple-decker sandwich with turkey, bacon, lettuce, and tomato.",
   },
   {
-    foodName: "Greek Salad",
+    foodName: "Caprese Sandwich",
+    foodPrice: "149",
+    type: "0",
+    description:
+      "Fresh sandwich featuring mozzarella, tomatoes, basil, and balsamic glaze.",
+  },
+  {
+    foodName: "Egg Salad Sandwich",
+    foodPrice: "139",
+    type: "2",
+    description: "Creamy egg salad served between slices of bread.",
+  },
+  {
+    foodName: "Penne Alfredo",
+    foodPrice: "189",
+    type: "0",
+    description: "Pasta with creamy Alfredo sauce, a comfort food favorite.",
+  },
+  {
+    foodName: "Spaghetti Bolognese",
     foodPrice: "199",
-    type: "0",
-    description:
-      "Healthy salad with fresh vegetables, olives, and feta cheese.",
+    type: "1",
+    description: "Classic pasta dish with meaty Bolognese sauce.",
   },
   {
-    foodName: "Caesar Salad",
+    foodName: "Vegetable Primavera",
     foodPrice: "179",
     type: "0",
-    description:
-      "Classic salad with crisp romaine lettuce, croutons, and Caesar dressing.",
+    description: "Colorful pasta dish featuring a medley of fresh vegetables.",
   },
   {
-    foodName: "Cobb Salad",
-    foodPrice: "219",
+    foodName: "Chocolate Lava Cake",
+    foodPrice: "129",
+    type: "0",
+    description: "Decadent dessert with a gooey chocolate center.",
+  },
+  {
+    foodName: "Tiramisu",
+    foodPrice: "149",
     type: "0",
     description:
-      "Hearty salad with chicken, bacon, avocado, eggs, and blue cheese.",
+      "Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone.",
   },
   {
-    foodName: "Mediterranean Salad",
-    foodPrice: "209",
+    foodName: "Cheesecake",
+    foodPrice: "139",
     type: "0",
-    description:
-      "Vibrant salad with Mediterranean flavors, including hummus and grilled veggies.",
+    description: "Rich and creamy dessert with a graham cracker crust.",
   },
   {
-    foodName: "Margherita Pizza",
-    foodPrice: "249",
+    foodName: "Fruit Parfait",
+    foodPrice: "119",
     type: "0",
-    description:
-      "Classic pizza topped with tomato sauce, fresh mozzarella, and basil.",
-  },
-  {
-    foodName: "Pepperoni Pizza",
-    foodPrice: "269",
-    type: "1",
-    description: "Popular pizza with zesty pepperoni slices and melted cheese.",
-  },
-  {
-    foodName: "Vegetarian Supreme Pizza",
-    foodPrice: "279",
-    type: "0",
-    description: "Loaded pizza with a variety of fresh vegetables and cheese.",
-  },
-  {
-    foodName: "BBQ Chicken Pizza",
-    foodPrice: "289",
-    type: "1",
-    description:
-      "Delicious pizza topped with BBQ sauce, grilled chicken, and red onions.",
-  },
-  {
-    foodName: "Garlic Naan",
-    foodPrice: "89",
-    type: "0",
-    description: "Soft, buttery Indian bread infused with garlic flavor.",
-  },
-  {
-    foodName: "Pita Bread",
-    foodPrice: "79",
-    type: "0",
-    description:
-      "Round pocket bread, perfect for stuffing with falafel and veggies.",
-  },
-  {
-    foodName: "Focaccia",
-    foodPrice: "99",
-    type: "0",
-    description:
-      "Italian flatbread topped with olive oil and herbs, great for dipping.",
-  },
-  {
-    foodName: "Whole Wheat Roti",
-    foodPrice: "69",
-    type: "0",
-    description: "Nutritious Indian bread made from whole wheat flour.",
+    description: "Layered dessert with yogurt, granola, and fresh fruit.",
   },
 ];
 

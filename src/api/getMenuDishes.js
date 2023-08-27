@@ -100,6 +100,11 @@ function FetchDishesData() {
       console.error("Error updating dish status:", error);
     }
   };
+  const typeConfig = {
+    0: { label: "Veg", color: "green" },
+    1: { label: "Non-veg", color: "red" },
+    2: { label: "Egg", color: "yellow" },
+  };
 
   return (
     <div>
@@ -126,8 +131,8 @@ function FetchDishesData() {
                 <Text fontSize="xl" fontWeight="semibold">
                   {dish.foodName}
                 </Text>
-                <Badge colorScheme={dish.type === "1" ? "red" : "green"}>
-                  {dish.type === "1" ? "Non-Veg" : "Veg"}
+                <Badge colorScheme={typeConfig[dish.type].color}>
+                  {typeConfig[dish.type].label}
                 </Badge>
                 <Text>
                   <strong>Price:</strong> ₹ {dish.foodPrice}
@@ -145,9 +150,9 @@ function FetchDishesData() {
                   <Switch
                     colorScheme="green"
                     isChecked={dish.foodStatus === "0"}
-                    // onChange={() =>
-                    //   handleToggleStatus(dish.food_id, dish.foodStatus)
-                    // }
+                    onChange={() =>
+                      handleToggleStatus(dish.food_id, dish.foodStatus)
+                    }
                   />
                 </HStack>
                 <Button

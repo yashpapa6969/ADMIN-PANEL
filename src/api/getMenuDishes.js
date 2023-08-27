@@ -129,16 +129,16 @@ function FetchDishesData() {
                 </Text>
                 <Text
                   color={
-                    dish.type === "0"
+                    dish.type === "1"
                       ? "red"
-                      : dish.type === "1"
+                      : dish.type === "0"
                       ? "green"
                       : "purple"
                   }
                 >
-                  {dish.type === "0"
+                  {dish.type === "1"
                     ? " Non-Veg"
-                    : dish.type === "1"
+                    : dish.type === "0"
                     ? " Veg"
                     : " Egg"}
                 </Text>

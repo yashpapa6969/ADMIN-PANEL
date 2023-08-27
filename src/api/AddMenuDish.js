@@ -1,11 +1,16 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import {
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
   Select,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
+import bulkData from "./bulkdata.js";
 
 function AddToMenuForm() {
   const [formData, setFormData] = useState({
@@ -19,6 +24,7 @@ function AddToMenuForm() {
 
   const [imageFile, setImageFile] = useState(null);
   const [foodCategories, setFoodCategories] = useState([]);
+  const [bulkDataIndex, setBulkDataIndex] = useState(0);
 
   useEffect(() => {
     fetch(
@@ -98,6 +104,8 @@ function AddToMenuForm() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+      const addedstuff = await response.json();
+      console.log(addedstuff);
 
       alert("Dish Added to Menu");
 
@@ -110,10 +118,22 @@ function AddToMenuForm() {
         description: "",
       });
       setImageFile(null);
+      if (bulkDataIndex < bulkData.length) {
+        handleAddBulkDataClick();
+      }
     } catch (error) {
       console.error("Error adding dish to menu:", error);
       alert("An error occurred while adding the dish to the menu.");
     }
+  };
+  const handleAddBulkDataClick = () => {
+    const currentItem = bulkData[bulkDataIndex];
+    setFormData(currentItem);
+    setBulkDataIndex(bulkDataIndex + 1);
+  };
+  const handlePopulateForm = (index) => {
+    const selectedData = bulkData[index];
+    setFormData(selectedData);
   };
 
   return (
@@ -176,8 +196,8 @@ function AddToMenuForm() {
         <FormLabel>Type</FormLabel>
         <Select name="type" value={formData.type} onChange={handleInputChange}>
           <option value="">Select type here</option>
-          <option value="0">Non-Veg</option>
-          <option value="1">Veg</option>
+          <option value="0">Veg</option>
+          <option value="1">Non-Veg</option>
           <option value="2">Egg</option>
         </Select>
       </FormControl>
@@ -197,6 +217,22 @@ function AddToMenuForm() {
       >
         Add to Menu
       </Button>
+      <Grid templateColumns="repeat(1, 1fr)" gap={2}>
+        {bulkData.map((item, index) => (
+          <GridItem key={index}>
+            <Button
+              key={index}
+              colorScheme="blue"
+              ml="4"
+              mt="4"
+              onClick={() => handlePopulateForm(index)}
+              borderRadius="lg"
+            >
+              ADD {item.foodName}
+            </Button>
+          </GridItem>
+        ))}
+      </Grid>
     </div>
   );
 }

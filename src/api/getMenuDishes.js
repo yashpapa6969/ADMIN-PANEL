@@ -7,7 +7,6 @@ import {
   SimpleGrid,
   Button,
   Flex,
-  useColorModeValue,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -17,12 +16,15 @@ import {
   ModalBody,
   ModalCloseButton,
   Switch,
+  Badge,
+  HStack,
 } from "@chakra-ui/react";
 
 function FetchDishesData() {
   const [dishesData, setDishesData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedDishId, setSelectedDishId] = useState(null);
+  const [foodStatus, setFoodStatus] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,8 +46,6 @@ function FetchDishesData() {
 
     fetchData();
   }, []);
-
-  const cardBg = useColorModeValue("white", "gray.800");
 
   const handleDelete = (food_id) => {
     setSelectedDishId(food_id);
@@ -103,47 +103,33 @@ function FetchDishesData() {
 
   return (
     <div>
-      <SimpleGrid columns={{ sm: 1, md: 1, lg: 2 }} spacing="10px">
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="10px">
         {dishesData.map((dish) => (
           <Box
             key={dish._id}
             p="4"
-            bg={cardBg}
+            bg="white"
             borderRadius="md"
             boxShadow="md"
             maxW="500px"
           >
-            <Flex>
+            <Flex direction="column">
               <Image
                 src={dish.filenames}
                 alt={dish.foodName}
-                boxSize="100px"
+                boxSize="120px"
+                objectFit="cover"
                 borderRadius="md"
-                mr="4"
+                mb="4"
               />
               <VStack align="flex-start" spacing="2">
-                {/* ... (dish details) */}
-                <Box borderTop="0px" borderColor="teal.500" mb="0"></Box>
-                <Text fontSize="xl" fontWeight="bold">
+                <Text fontSize="xl" fontWeight="semibold">
                   {dish.foodName}
                 </Text>
-                <Text
-                  color={
-                    dish.type === "1"
-                      ? "red"
-                      : dish.type === "0"
-                      ? "green"
-                      : "purple"
-                  }
-                >
-                  {dish.type === "1"
-                    ? " Non-Veg"
-                    : dish.type === "0"
-                    ? " Veg"
-                    : " Egg"}
-                </Text>
+                <Badge colorScheme={dish.type === "1" ? "red" : "green"}>
+                  {dish.type === "1" ? "Non-Veg" : "Veg"}
+                </Badge>
                 <Text>
-                  {" "}
                   <strong>Price:</strong> ₹ {dish.foodPrice}
                 </Text>
                 <Text>
@@ -152,16 +138,18 @@ function FetchDishesData() {
                 <Text>
                   <strong>Description:</strong> {dish.description}
                 </Text>
-                <Text>
-                  <strong>Status: </strong>
+                <HStack spacing="2" mt="2">
+                  <Text>
+                    <strong>Available Status:</strong>
+                  </Text>
                   <Switch
-                    colorScheme="teal"
-                    isChecked={dish.foodStatus === "1"}
-                    onChange={() =>
-                      handleToggleStatus(dish.food_id, dish.foodStatus)
-                    }
+                    colorScheme="green"
+                    isChecked={dish.foodStatus === "0"}
+                    // onChange={() =>
+                    //   handleToggleStatus(dish.food_id, dish.foodStatus)
+                    // }
                   />
-                </Text>
+                </HStack>
                 <Button
                   colorScheme="red"
                   mt="2"

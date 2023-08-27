@@ -25,6 +25,8 @@ function AddToMenuForm() {
   const [imageFile, setImageFile] = useState(null);
   const [foodCategories, setFoodCategories] = useState([]);
   const [bulkDataIndex, setBulkDataIndex] = useState(0);
+  //create a boolean state to check if the foodcategory id is selected or not
+  const [foodCategoryIdSelected, setFoodCategoryIdSelected] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -74,6 +76,7 @@ function AddToMenuForm() {
       food_category_id: selectedCategoryId,
       foodCategories: selectedCategory ? selectedCategory.label : "",
     }));
+    setFoodCategoryIdSelected(true);
   };
 
   const handleImageDrop = (event) => {
@@ -134,6 +137,7 @@ function AddToMenuForm() {
   const handlePopulateForm = (index) => {
     const selectedData = bulkData[index];
     setFormData(selectedData);
+    setBulkDataIndex(index + 1);
   };
 
   return (
@@ -214,6 +218,7 @@ function AddToMenuForm() {
         mt="4"
         onClick={handleAddToMenu}
         borderRadius="lg"
+        isDisabled={!foodCategoryIdSelected}
       >
         Add to Menu
       </Button>

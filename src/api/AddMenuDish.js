@@ -9,8 +9,16 @@ import {
   Select,
   Grid,
   GridItem,
+  InputGroup,
+  InputLeftAddon,
+  Textarea,
+  RadioGroup,
+  HStack,
+  Radio,
 } from "@chakra-ui/react";
 import bulkData from "./bulkdata.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddToMenuForm() {
   const [formData, setFormData] = useState({
@@ -24,8 +32,6 @@ function AddToMenuForm() {
 
   const [imageFile, setImageFile] = useState(null);
   const [foodCategories, setFoodCategories] = useState([]);
-  const [bulkDataIndex, setBulkDataIndex] = useState(0);
-  //create a boolean state to check if the foodcategory id is selected or not
   const [foodCategoryIdSelected, setFoodCategoryIdSelected] = useState(false);
 
   useEffect(() => {
@@ -110,7 +116,7 @@ function AddToMenuForm() {
       const addedstuff = await response.json();
       console.log(addedstuff);
 
-      alert("Dish Added to Menu");
+      toast.success(`Dish "${formData.foodName}" added to Menu`);
 
       setFormData({
         foodName: "",
@@ -121,70 +127,83 @@ function AddToMenuForm() {
         description: "",
       });
       setImageFile(null);
-      if (bulkDataIndex < bulkData.length) {
-        handleAddBulkDataClick();
-      }
     } catch (error) {
       console.error("Error adding dish to menu:", error);
       alert("An error occurred while adding the dish to the menu.");
+      toast.error("An error occurred while adding the dish to the menu.");
     }
   };
-  const handleAddBulkDataClick = () => {
-    const currentItem = bulkData[bulkDataIndex];
-    setFormData(currentItem);
-    setBulkDataIndex(bulkDataIndex + 1);
-  };
-  const handlePopulateForm = (index) => {
-    const selectedData = bulkData[index];
-    setFormData(selectedData);
-    setBulkDataIndex(index + 1);
-  };
-
   return (
-    <div>
-      <br />
-      <FormLabel>Drag and drop an image below:</FormLabel>
+    <div style={{ maxWidth: "80%", padding: "20px" }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <FormLabel mt={5} fontSize="xl">
+        Drag and drop an image below:
+      </FormLabel>
       <div
         onDrop={handleImageDrop}
         onDragOver={(e) => e.preventDefault()}
         style={{
-          border: "2px dashed #ccc",
+          border: "2px dashed #718096",
+          borderRadius: "8px",
           padding: "20px",
           textAlign: "center",
+          margin: "20px 0",
+          backgroundColor: "#edf2f7",
         }}
       >
         {imageFile ? (
           <img
             src={URL.createObjectURL(imageFile)}
             alt="Selected"
-            style={{ maxWidth: "100%", maxHeight: "200px" }}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "200px",
+              borderRadius: "8px",
+            }}
           />
         ) : (
-          <p>Dish Image</p>
+          <p style={{ margin: "0", color: "#718096", fontSize: "lg" }}>
+            Add Dish Image Here
+          </p>
         )}
       </div>
-      <FormControl>
-        <FormLabel>Food Name</FormLabel>
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Food Name</FormLabel>
         <Input
           name="foodName"
           value={formData.foodName}
           onChange={handleInputChange}
         />
       </FormControl>
-      <FormControl>
-        <FormLabel>Food Price</FormLabel>
-        <Input
-          name="foodPrice"
-          value={formData.foodPrice}
-          onChange={handleFoodPriceChange}
-        />
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Food Price</FormLabel>
+        <InputGroup>
+          <InputLeftAddon children="INR" />
+          <Input
+            name="foodPrice"
+            value={formData.foodPrice}
+            onChange={handleFoodPriceChange}
+          />
+        </InputGroup>
       </FormControl>
-      <FormControl>
-        <FormLabel>Food Categories </FormLabel>
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Food Categories</FormLabel>
         <Select
           name="foodCategories"
           value={formData.food_category_id}
           onChange={handleCategoryChange}
+          borderColor="gray.300"
         >
           <option value="" disabled>
             Select a food category
@@ -196,21 +215,34 @@ function AddToMenuForm() {
           ))}
         </Select>
       </FormControl>
-      <FormControl>
-        <FormLabel>Type</FormLabel>
-        <Select name="type" value={formData.type} onChange={handleInputChange}>
-          <option value="">Select type here</option>
-          <option value="0">Veg</option>
-          <option value="1">Non-Veg</option>
-          <option value="2">Egg</option>
-        </Select>
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Food Type</FormLabel>
+        <RadioGroup
+          value={formData.type}
+          onChange={(value) =>
+            handleInputChange({ target: { name: "type", value } })
+          }
+        >
+          <HStack spacing={4}>
+            <Radio value="0" colorScheme="green">
+              Veg
+            </Radio>
+            <Radio value="1" colorScheme="green">
+              Non-Veg
+            </Radio>
+            <Radio value="2" colorScheme="green">
+              Egg
+            </Radio>
+          </HStack>
+        </RadioGroup>
       </FormControl>
-      <FormControl>
-        <FormLabel>Food Description</FormLabel>
-        <Input
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Food Description</FormLabel>
+        <Textarea
           name="description"
           value={formData.description}
           onChange={handleInputChange}
+          borderColor="gray.300"
         />
       </FormControl>
       <Button
@@ -219,25 +251,10 @@ function AddToMenuForm() {
         onClick={handleAddToMenu}
         borderRadius="lg"
         isDisabled={!foodCategoryIdSelected}
+        _hover={{ backgroundColor: "#2c7a49" }}
       >
         Add to Menu
       </Button>
-      <Grid templateColumns="repeat(1, 1fr)" gap={2}>
-        {bulkData.map((item, index) => (
-          <GridItem key={index}>
-            <Button
-              key={index}
-              colorScheme="blue"
-              ml="4"
-              mt="4"
-              onClick={() => handlePopulateForm(index)}
-              borderRadius="lg"
-            >
-              ADD {item.foodName}
-            </Button>
-          </GridItem>
-        ))}
-      </Grid>
     </div>
   );
 }

@@ -24,7 +24,6 @@ function FetchDishesData() {
   const [dishesData, setDishesData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedDishId, setSelectedDishId] = useState(null);
-  const [foodStatus, setFoodStatus] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {

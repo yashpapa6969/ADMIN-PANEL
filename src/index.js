@@ -7,7 +7,7 @@ import RtlLayout from "layouts/rtl";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "theme/theme";
 import { ThemeEditorProvider } from "@hypertheme-editor/chakra-ui";
-import Login from "views/auth/signIn/Login"; // Make sure the path is correct
+import Login from "views/auth/signIn/Login";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

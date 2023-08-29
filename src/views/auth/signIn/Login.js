@@ -36,6 +36,19 @@ function Login({ setIsLoggedIn }) {
       history.push("/admin/default");
     } else {
       setError("Invalid username or password");
+      console.log(error);
+    }
+  };
+  const handleLoginTest = () => {
+    const authenticatedUsername = authenticateUser("admin", "admin123");
+
+    if (authenticatedUsername) {
+      setIsLoggedIn(true);
+      setUsername(authenticatedUsername);
+      history.push("/admin/default");
+    } else {
+      setError("Invalid username or password");
+      console.log(error);
     }
   };
 
@@ -108,6 +121,16 @@ function Login({ setIsLoggedIn }) {
               onClick={handleLogin}
             >
               Login
+            </Button>
+            <Button
+              borderRadius="md"
+              type="submit"
+              variant="solid"
+              colorScheme="blue"
+              width="full"
+              onClick={handleLoginTest}
+            >
+              Admin Login
             </Button>
           </Stack>
         </Box>

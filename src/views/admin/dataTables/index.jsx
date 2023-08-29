@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Flex, Button } from "@chakra-ui/react";
 import AddToMenuForm from "api/AddMenuDish";
+import BulkAddMenuForm from "api/BulkAddMenuDish";
 import AddToMenuFormDrink from "api/AddMenuDrink";
 import {
   isUserAdmin,
@@ -11,15 +12,24 @@ import {
 export default function Settings() {
   const [showDishForm, setShowDishForm] = useState(false);
   const [showDrinkForm, setShowDrinkForm] = useState(false);
+  const [showBulkDishForm, setShowBulkDishForm] = useState(false);
 
   const handleShowDishForm = () => {
     setShowDishForm(true);
     setShowDrinkForm(false);
+    setShowBulkDishForm(false);
   };
 
   const handleShowDrinkForm = () => {
     setShowDishForm(false);
     setShowDrinkForm(true);
+    setShowBulkDishForm(false);
+  };
+
+  const handleShowBulkDishForm = () => {
+    setShowDishForm(false);
+    setShowDrinkForm(false);
+    setShowBulkDishForm(true);
   };
 
   // Check if the user is an admin or has food/drink access
@@ -62,11 +72,21 @@ export default function Settings() {
             Create Drink
           </Button>
         )}
+        {canCreateBoth && (
+          <Button
+            colorScheme="yellow"
+            onClick={handleShowBulkDishForm}
+            borderRadius="lg"
+          >
+            Create Bulk Dishes
+          </Button>
+        )}
       </Flex>
       {canCreateDish && <AddToMenuForm />}
       {canCreateDrink && <AddToMenuFormDrink />}
       {showDishForm && canCreateBoth && <AddToMenuForm />}
       {showDrinkForm && canCreateBoth && <AddToMenuFormDrink />}
+      {showBulkDishForm && canCreateBoth && <BulkAddMenuForm />}
     </Box>
   );
 }

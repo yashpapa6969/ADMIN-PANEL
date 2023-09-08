@@ -18,6 +18,7 @@ import {
   ModalCloseButton,
   Switch,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function FetchDrinksData() {
   const [dishesData, setDishesData] = useState([]);
@@ -27,9 +28,7 @@ function FetchDrinksData() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinks"
-        );
+        const response = await fetch(`${TEST_URL}/api/client/getAllDrinks`);
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -52,27 +51,24 @@ function FetchDrinksData() {
     onOpen();
   };
 
- const handleConfirmDelete = async () => {
-   try {
-     await fetch(
-       `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/drinks/${selectedDishId}`,
-       {
-         method: "DELETE",
-         headers: {
-           "Content-Type": "application/json",
-         },
-       }
-     );
+  const handleConfirmDelete = async () => {
+    try {
+      await fetch(`${TEST_URL}/api/admin/drinks/${selectedDishId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-     // Remove the deleted dish from the state
-     setDishesData((prevData) =>
-       prevData.filter((dish) => dish.drink_id !== selectedDishId)
-     );
-     onClose();
-   } catch (error) {
-     console.error("Error deleting dish:", error);
-   }
- };
+      // Remove the deleted dish from the state
+      setDishesData((prevData) =>
+        prevData.filter((dish) => dish.drink_id !== selectedDishId)
+      );
+      onClose();
+    } catch (error) {
+      console.error("Error deleting dish:", error);
+    }
+  };
 
   const handleToggleStatus = async (drink_id, currentStatus) => {
     try {

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import { Container, Flex, Button, Box } from "@chakra-ui/react";
 import FetchDishesData from "../../../api/getMenuDishes";

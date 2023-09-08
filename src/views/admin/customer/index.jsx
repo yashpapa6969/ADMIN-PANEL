@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import {
   Avatar,
   Box,
@@ -8,7 +10,6 @@ import {
   SimpleGrid,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Assets
 
 // Custom components
 
@@ -20,7 +21,6 @@ import {
   MdFileCopy,
 } from "react-icons/md";
 import CustomerTableData from "../../../api/GetCustomer";
-
 
 import {
   columnsDataCheck,
@@ -34,7 +34,7 @@ export default function UserReports() {
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <Flex justifyContent="space-between" align="start" p="4" gap="20px">
-      <CustomerTableData/>
+        <CustomerTableData />
       </Flex>
     </Box>
   );

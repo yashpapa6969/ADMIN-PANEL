@@ -8,6 +8,7 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function BillByMemberID() {
   const [membershipId, setMembershipId] = useState("");
@@ -16,7 +17,7 @@ function BillByMemberID() {
   const fetchTotalExpenditure = async () => {
     try {
       const response = await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/superAdmin/total-expenditure/${membershipId}`
+        `${TEST_URL}/api/superAdmin/total-expenditure/${membershipId}`
       );
 
       if (!response.ok) {

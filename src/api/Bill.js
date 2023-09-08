@@ -20,6 +20,7 @@ import {
   Tag,
   useDisclosure,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function BillData() {
   const [bills, setBills] = useState([]);
@@ -36,9 +37,7 @@ function BillData() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/superAdmin/getAllBills"
-      );
+      const response = await fetch(`${TEST_URL}/api/superAdmin/getAllBills`);
 
       if (!response.ok) {
         throw new Error("Network response was not ok");

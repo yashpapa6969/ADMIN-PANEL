@@ -20,6 +20,7 @@ import {
   Tag,
   useDisclosure,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function BillByDate() {
   const [bills, setBills] = useState([]);
@@ -31,13 +32,11 @@ function BillByDate() {
   const [selectedBill, setSelectedBill] = useState(null);
   const [selectedDate, setSelectedDate] = useState(""); // Initialize with an empty string
 
-
   useEffect(() => {
     if (selectedDate) {
       fetchData(); // Fetch data when the date is selected
     }
   }, [selectedDate]);
-  
 
   const fetchData = async () => {
     try {
@@ -45,26 +44,25 @@ function BillByDate() {
         console.log("No date selected.");
         return;
       }
-  
+
       const response = await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/superAdmin/GetBillByDate/${selectedDate}`
+        `${TEST_URL}/api/superAdmin/GetBillByDate/${selectedDate}`
       );
-  
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       const data = await response.json();
       console.log("API response data:", data);
-      
+
       // Assuming that the API response is an array of bill objects
       setBills(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  
-  
+
   const handleMoreInfoClick = (bill) => {
     setSelectedBill(bill);
     onOpenMoreInfo();
@@ -73,17 +71,17 @@ function BillByDate() {
   return (
     <Box pt="4">
       <VStack align="stretch" spacing="4">
-      <Box pt="4">
-      <VStack align="stretch" spacing="4">
-        {/* ... (other components) */}
-        <input // Date input component
-          type="date"
-          value={selectedDate}
-          onChange={(event) => setSelectedDate(event.target.value)} // Update selectedDate when the input changes
-        />
-        {/* ... (other components) */}
-      </VStack>
-    </Box>
+        <Box pt="4">
+          <VStack align="stretch" spacing="4">
+            {/* ... (other components) */}
+            <input // Date input component
+              type="date"
+              value={selectedDate}
+              onChange={(event) => setSelectedDate(event.target.value)} // Update selectedDate when the input changes
+            />
+            {/* ... (other components) */}
+          </VStack>
+        </Box>
         <Text fontSize="xl" fontWeight="bold">
           Bill Data
         </Text>

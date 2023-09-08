@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import {
@@ -9,8 +11,6 @@ import FoodManagerTable from "api/FoodManager";
 
 export default function FoodManagerReports() {
   const username = getUsername();
-
-  // Chakra Color Mode
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>

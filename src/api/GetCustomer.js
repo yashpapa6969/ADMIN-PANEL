@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -23,9 +24,10 @@ import {
   useDisclosure,
   Badge,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function CustomerTableData() {
-  const baseUrl = "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com"; // Replace with your actual base URL
+  const baseUrl = TEST_URL;
 
   const [staffData, setStaffData] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);

@@ -29,6 +29,7 @@ import {
   AlertDialogFooter,
   useDisclosure,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function DrinkManagerTable() {
   const [foodManagers, setFoodManagers] = useState([]);
@@ -63,7 +64,7 @@ function DrinkManagerTable() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/superAdmin/getAlldrinksManager/"
+        `${TEST_URL}/api/superAdmin/getAlldrinksManager`
       );
 
       if (!response.ok) {
@@ -90,7 +91,7 @@ function DrinkManagerTable() {
   const handleConfirmDelete = async () => {
     try {
       const response = await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/superAdmin/DeletedrinkManagerById/${deleteFoodManagerId}`,
+        `${TEST_URL}/api/superAdmin/DeletedrinkManagerById/${deleteFoodManagerId}`,
         {
           method: "DELETE",
         }
@@ -115,7 +116,7 @@ function DrinkManagerTable() {
   const handleAddFoodManager = async (newManager) => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/superAdmin/addDrinksManager",
+        `${TEST_URL}/api/superAdmin/addDrinksManager`,
         {
           method: "POST",
           headers: {

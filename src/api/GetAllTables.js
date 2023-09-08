@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -25,6 +26,7 @@ import {
   Select,
   useDisclosure,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function FetchTableData() {
   const [tableData, setTableData] = useState([]);
@@ -53,9 +55,7 @@ function FetchTableData() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllTables"
-      );
+      const response = await fetch(`${TEST_URL}/api/client/getAllTables`);
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -70,20 +70,17 @@ function FetchTableData() {
 
   const handleCreate = async () => {
     try {
-      const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/setTable",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            tableNo,
-            active,
-            maxPeople,
-          }),
-        }
-      );
+      const response = await fetch(`${TEST_URL}/api/admin/setTable`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tableNo,
+          active,
+          maxPeople,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -103,7 +100,7 @@ function FetchTableData() {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/tables/${tableToDelete}`,
+        `${TEST_URL}/api/admin/tables/${tableToDelete}`,
         {
           method: "DELETE",
         }
@@ -150,7 +147,6 @@ function FetchTableData() {
                     <strong>{table.tableNo}</strong>
                   </Td>
 
-                  
                   <Td>
                     <strong>{table.maxPeople}</strong>
                   </Td>
@@ -218,7 +214,6 @@ function FetchTableData() {
                   }
                 />
               </FormControl>
-             
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="green" mr={3} onClick={handleCreate}>

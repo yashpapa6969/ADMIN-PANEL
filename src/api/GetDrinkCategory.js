@@ -24,6 +24,7 @@ import {
   Input,
   useDisclosure,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function FetchDrinksCategory() {
   const [tableData, setTableData] = useState([]);
@@ -51,7 +52,7 @@ function FetchDrinksCategory() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinksCategories"
+        `${TEST_URL}/api/client/getAllDrinksCategories`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -66,18 +67,15 @@ function FetchDrinksCategory() {
 
   const handleCreate = async () => {
     try {
-      const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/set_drink_category",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            drinksCategory: tableNo,
-          }),
-        }
-      );
+      const response = await fetch(`${TEST_URL}/api/admin/set_drink_category`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          drinksCategory: tableNo,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -97,7 +95,7 @@ function FetchDrinksCategory() {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/drinksCategory/${tableToDelete}`,
+        `${TEST_URL}/api/admin/drinksCategory/${tableToDelete}`,
         {
           method: "DELETE",
         }

@@ -24,6 +24,7 @@ import {
   Input,
   useDisclosure,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function FetchDishesCategory() {
   const [tableData, setTableData] = useState([]);
@@ -51,7 +52,7 @@ function FetchDishesCategory() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishesCategories"
+        `${TEST_URL}/api/client/getAllDishesCategories`
       );
 
       if (!response.ok) {
@@ -67,18 +68,15 @@ function FetchDishesCategory() {
 
   const handleCreate = async () => {
     try {
-      const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/set_food_category",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            food_Category: tableNo,
-          }),
-        }
-      );
+      const response = await fetch(`${TEST_URL}/api/admin/set_food_category`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          food_Category: tableNo,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -98,7 +96,7 @@ function FetchDishesCategory() {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/dishCategory/${tableToDelete}`,
+        `${TEST_URL}/api/admin/dishCategory/${tableToDelete}`,
         {
           method: "DELETE",
         }

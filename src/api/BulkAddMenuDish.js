@@ -20,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import bulkData from "./bulkdata.js";
 import { all } from "axios";
+import { TEST_URL } from "./URL";
 
 function BulkAddToMenuForm() {
   const [formData, setFormData] = useState({
@@ -47,10 +48,10 @@ function BulkAddToMenuForm() {
   const fetchFoodCategories = async () => {
     try {
       const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishesCategories"
+        `${TEST_URL}/api/client/getAllDishesCategories`
       );
       const allfoodresponse = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishes"
+        `${TEST_URL}/api/client/getAllDishes`
       );
       if (!allfoodresponse.ok) {
         throw new Error("Network response was not ok");
@@ -132,13 +133,10 @@ function BulkAddToMenuForm() {
       formDataToSend.append("food_category_id", formData.food_category_id);
       formDataToSend.append("description", formData.description);
 
-      const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/createDish",
-        {
-          method: "POST",
-          body: formDataToSend,
-        }
-      );
+      const response = await fetch(`${TEST_URL}/api/admin/createDish`, {
+        method: "POST",
+        body: formDataToSend,
+      });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

@@ -20,6 +20,8 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
+import { TEST_URL } from "./URL";
+
 function FetchDishesData() {
   const [dishesData, setDishesData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,9 +30,7 @@ function FetchDishesData() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishes"
-        );
+        const response = await fetch(`${TEST_URL}/api/client/getAllDishes`);
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -53,15 +53,12 @@ function FetchDishesData() {
 
   const handleConfirmDelete = async () => {
     try {
-      await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/dishes/${selectedDishId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await fetch(`${TEST_URL}/api/admin/dishes/${selectedDishId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       // Remove the deleted dish from the state
       setDishesData((prevData) =>
@@ -77,7 +74,7 @@ function FetchDishesData() {
     try {
       const newStatus = currentStatus === "1" ? "0" : "1";
       await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/updateFoodStatus/${food_id}`,
+        `${TEST_URL}/api/admin/updateFoodStatus/${food_id}`,
         {
           method: "PATCH",
           headers: {

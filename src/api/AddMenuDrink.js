@@ -6,6 +6,7 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
 function AddToMenuFormDrink() {
   const [formData, setFormData] = useState({
@@ -20,9 +21,7 @@ function AddToMenuFormDrink() {
   const [drinkCategories, setDrinkCategories] = useState([]);
 
   useEffect(() => {
-    fetch(
-      "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDrinksCategories"
-    )
+    fetch(`${TEST_URL}/api/client/getAllDrinksCategories`)
       .then((response) => response.json())
       .then((data) => {
         const categories = data.category_d.map((drinkCategory) => ({
@@ -85,13 +84,10 @@ function AddToMenuFormDrink() {
       formDataToSend.append("drinks_category_id", formData.drinks_category_id);
       formDataToSend.append("description", formData.description);
 
-      const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/createDrink",
-        {
-          method: "POST",
-          body: formDataToSend,
-        }
-      );
+      const response = await fetch(`${TEST_URL}/api/admin/createDrink`, {
+        method: "POST",
+        body: formDataToSend,
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");

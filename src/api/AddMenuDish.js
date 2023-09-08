@@ -16,9 +16,9 @@ import {
   HStack,
   Radio,
 } from "@chakra-ui/react";
-import bulkData from "./bulkdata.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TEST_URL } from "./URL";
 
 function AddToMenuForm() {
   const [formData, setFormData] = useState({
@@ -35,9 +35,7 @@ function AddToMenuForm() {
   const [foodCategoryIdSelected, setFoodCategoryIdSelected] = useState(false);
 
   useEffect(() => {
-    fetch(
-      "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllDishesCategories"
-    )
+    fetch(`${TEST_URL}/api/client/getAllDishesCategories`)
       .then((response) => response.json())
       .then((data) => {
         const categories = data.category_d.map((dish) => ({
@@ -102,13 +100,10 @@ function AddToMenuForm() {
       formDataToSend.append("food_category_id", formData.food_category_id);
       formDataToSend.append("description", formData.description);
 
-      const response = await fetch(
-        "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/createDish",
-        {
-          method: "POST",
-          body: formDataToSend,
-        }
-      );
+      const response = await fetch(`${TEST_URL}/api/admin/createDish`, {
+        method: "POST",
+        body: formDataToSend,
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");

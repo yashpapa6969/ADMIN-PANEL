@@ -20,6 +20,7 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
+import MemberUpdateForm from "./MemberUpdateForm";
 
 const baseUrl = TEST_URL; // Replace with your API base URL
 
@@ -37,6 +38,7 @@ function Members() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [memberIdToDelete, setMemberIdToDelete] = useState("");
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
 
   useEffect(() => {
     fetchMembers();
@@ -90,6 +92,10 @@ function Members() {
 
   const handleMoreInfoClick = (member) => {
     setSelectedMember(member);
+  };
+  const handleEditClick = (member) => {
+    setSelectedMember(member);
+    setIsUpdateFormOpen(true);
   };
 
   const handleDelete = () => {
@@ -249,6 +255,12 @@ function Members() {
                   >
                     More Info
                   </Button>
+                  <Button
+                    colorScheme="purple"
+                    onClick={() => handleEditClick(member)}
+                  >
+                    Edit
+                  </Button>
                 </Td>
               </Tr>
             ))
@@ -262,27 +274,37 @@ function Members() {
       >
         <ModalOverlay />
         <ModalContent>
+          
           <ModalHeader>Member Information</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {selectedMember && (
-              <VStack align="start" spacing="2">
-                <Text>
-                  <strong>Postal Address:</strong> {selectedMember.Address}
-                </Text>
-                <Text>
-                  <strong>Member ID:</strong> {selectedMember.membership_id}
-                </Text>
-                <Text>
-                  <strong>Members Name:</strong> {selectedMember.name}
-                </Text>
-                <Text>
-                  <strong>Mobile Number:</strong> {selectedMember.phoneNo}
-                </Text>
-                <Text>
-                  <strong>Status:</strong> {selectedMember.status}
-                </Text>
-              </VStack>
+                <VStack align="start" spacing="2">
+                  <Text>
+                    <strong>Postal Address:</strong> {selectedMember.Address}
+                  </Text>
+                  <Text>
+                    <strong>Member ID:</strong> {selectedMember.membership_id}
+                  </Text>
+                  <Text>
+                    <strong>Members Name:</strong> {selectedMember.name}
+                  </Text>
+                  <Text>
+                    <strong>Mobile Number:</strong> {selectedMember.phoneNo}
+                  </Text>
+                  <Text>
+                    <strong>Status:</strong> {selectedMember.status}
+                  </Text>
+                </VStack>
+              )}
+
+            {isUpdateFormOpen && (
+              <MemberUpdateForm
+                isOpen={isUpdateFormOpen}
+                onClose={() => setIsUpdateFormOpen(false)}
+                member={selectedMember}
+                onUpdate={fetchMembers} // Refresh member data after updating
+              />
             )}
           </ModalBody>
         </ModalContent>

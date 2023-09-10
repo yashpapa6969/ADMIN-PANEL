@@ -133,7 +133,7 @@ function BillData() {
                       borderRadius="lg"
                       onClick={() => handleUpdateClick(bill)}
                     >
-                      Update
+                      Edit
                     </Button>
                   </Td>
                 </Tr>

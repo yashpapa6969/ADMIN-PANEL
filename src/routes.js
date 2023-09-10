@@ -73,7 +73,6 @@ const routes = [
     name: "Bill by Table Number",
     layout: "/admin",
     path: "/bill-by-table-no",
-    path: "/bill-by-table-no",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),
@@ -82,7 +81,6 @@ const routes = [
   {
     name: "Bill by Member ID",
     layout: "/admin",
-    path: "/bill-by-member-id",
     path: "/bill-by-member-id",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
@@ -145,13 +143,11 @@ const routes = [
     name: "Taxes",
     layout: "/admin",
     path: "/taxes",
-    path: "/taxes",
     icon: (
       <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
     ),
     component: Taxes,
   },
 ];
-
 
 export default routes;

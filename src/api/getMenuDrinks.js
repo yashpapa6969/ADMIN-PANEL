@@ -112,18 +112,15 @@ const handelEdit = (food_id) => {
   const handleToggleStatus = async (drink_id, currentStatus) => {
     try {
       const newStatus = currentStatus === "1" ? "0" : "1";
-      await fetch(
-        `https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/admin/updateDrinkStatus/${drink_id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            drinkStatus: newStatus,
-          }),
-        }
-      );
+      await fetch(`${TEST_URL}/api/admin/updateDrinkStatus/${drink_id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          drinkStatus: newStatus,
+        }),
+      });
 
       // Update the status in the state
       setDishesData((prevData) =>

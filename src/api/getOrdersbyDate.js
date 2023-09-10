@@ -26,8 +26,9 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
-const baseUrl = "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com"; // Replace with your API base URL
+const baseUrl = TEST_URL;
 
 function OrderByDate() {
   const [orders, setOrders] = useState([]);
@@ -36,23 +37,18 @@ function OrderByDate() {
   const [orderIdToDelete, setOrderIdToDelete] = useState(null);
   const [selectedDate, setSelectedDate] = useState(""); // Add state for the selected date
 
-
   useEffect(() => {
     if (selectedDate) {
-
       const formattedDate = selectedDate.split("-").reverse().join("-");
-      console.log(formattedDate)
+      console.log(formattedDate);
       // Fetch orders from the API based on the selected date
       fetch(`${baseUrl}/api/superAdmin/GetOrdersByDate/${selectedDate}`)
         .then((response) => response.json())
         .then((data) => setOrders(data))
         .catch((error) => console.error("Error fetching orders:", error));
-        console.log(setOrders)
-
+      console.log(setOrders);
     }
   }, [selectedDate]);
-  
-
 
   const handleViewClick = (order) => {
     setSelectedOrder(order);
@@ -86,12 +82,13 @@ function OrderByDate() {
   };
 
   return (
-        <VStack p="3" align="stretch" spacing="4">
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />      <Table variant="striped" colorScheme="teal">
+    <VStack p="3" align="stretch" spacing="4">
+      <input
+        type="date"
+        value={selectedDate}
+        onChange={(e) => setSelectedDate(e.target.value)}
+      />{" "}
+      <Table variant="striped" colorScheme="teal">
         <Thead>
           <Tr>
             <Th>
@@ -106,40 +103,39 @@ function OrderByDate() {
           </Tr>
         </Thead>
         <Tbody>
-  {orders && orders.map((order) => (
-    <Tr key={order._id}>
-      <Td>
-        <Text fontWeight="bold">{order.tableNo}</Text>
-      </Td>
-      <Td color={order.orderStatus === "0" ? "red" : "green"}>
-        <Text fontWeight="bold">
-          {order.orderStatus === "0" ? "Inactive" : "Active"}
-        </Text>
-      </Td>
-      <Td>
-        <Button
-          size="sm"
-          colorScheme="blue"
-          onClick={() => handleViewClick(order)}
-        >
-          <Text fontWeight="bold">View Details</Text>
-        </Button>
-      </Td>
-      <Td>
-        <Button
-          size="sm"
-          colorScheme="red"
-          onClick={() => handleDeleteClick(order._id)}
-        >
-          <Text fontWeight="bold">Delete</Text>
-        </Button>
-      </Td>
-    </Tr>
-  ))}
-</Tbody>
-
+          {orders &&
+            orders.map((order) => (
+              <Tr key={order._id}>
+                <Td>
+                  <Text fontWeight="bold">{order.tableNo}</Text>
+                </Td>
+                <Td color={order.orderStatus === "0" ? "red" : "green"}>
+                  <Text fontWeight="bold">
+                    {order.orderStatus === "0" ? "Inactive" : "Active"}
+                  </Text>
+                </Td>
+                <Td>
+                  <Button
+                    size="sm"
+                    colorScheme="blue"
+                    onClick={() => handleViewClick(order)}
+                  >
+                    <Text fontWeight="bold">View Details</Text>
+                  </Button>
+                </Td>
+                <Td>
+                  <Button
+                    size="sm"
+                    colorScheme="red"
+                    onClick={() => handleDeleteClick(order._id)}
+                  >
+                    <Text fontWeight="bold">Delete</Text>
+                  </Button>
+                </Td>
+              </Tr>
+            ))}
+        </Tbody>
       </Table>
-
       {/* Order Details Modal */}
       <Modal isOpen={selectedOrder} onClose={handleCloseModal}>
         <ModalOverlay />
@@ -202,12 +198,10 @@ function OrderByDate() {
                   </Text>
                 ))}
                 <Text>
-                  <Text fontWeight="bold">Date:</Text>{" "}
-                  {selectedOrder.date1}
+                  <Text fontWeight="bold">Date:</Text> {selectedOrder.date1}
                 </Text>
                 <Text>
-                  <Text fontWeight="bold">Time:</Text>{" "}
-                  {selectedOrder.time1}
+                  <Text fontWeight="bold">Time:</Text> {selectedOrder.time1}
                 </Text>
                 <Text>
                   <Text fontWeight="bold">Order ID:</Text>{" "}
@@ -223,7 +217,6 @@ function OrderByDate() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
       {/* Delete Confirmation Dialog */}
       <AlertDialog
         isOpen={isOpen}

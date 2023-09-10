@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import {
-  Select,
+  Radio,
+  RadioGroup,
   Box,
   Text,
   VStack,
@@ -14,6 +16,8 @@ import {
   FormControl,
   FormLabel,
   Tag,
+  Select,
+  Stack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
@@ -67,17 +71,15 @@ function BillByTableNo() {
       <VStack align="stretch" spacing="4">
         <FormControl>
           <FormLabel fontWeight="bold">Select Table Number :</FormLabel>
-          <Select
-            placeholder="Select table"
-            value={selectedTable}
-            onChange={(e) => setSelectedTable(e.target.value)}
-          >
-            {tables.map((table) => (
-              <option key={table._id} value={table.tableNo}>
-                {table.tableNo}
-              </option>
-            ))}
-          </Select>
+          <RadioGroup value={selectedTable} onChange={setSelectedTable}>
+            <Stack direction="column">
+              {tables.map((table) => (
+                <Radio key={table._id} value={table.tableNo}>
+                  {table.tableNo}
+                </Radio>
+              ))}
+            </Stack>
+          </RadioGroup>
         </FormControl>
 
         <Button

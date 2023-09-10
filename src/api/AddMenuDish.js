@@ -125,7 +125,7 @@ function AddToMenuForm() {
     } catch (error) {
       console.error("Error adding dish to menu:", error);
       alert("An error occurred while adding the dish to the menu.");
-      toast.error("An error occurred while adding the dish to the menu.");
+      toast.error(`Error adding dish: ${formData.foodName} to menu: ${error}`);
     }
   };
   return (
@@ -133,7 +133,6 @@ function AddToMenuForm() {
       <ToastContainer
         position="top-right"
         autoClose={5000}
-        hideProgressBar
         newestOnTop={false}
         closeOnClick
         rtl={false}

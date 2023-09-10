@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -8,9 +7,6 @@ import {
   InputGroup,
   InputLeftAddon,
   Textarea,
-  RadioGroup,
-  HStack,
-  Radio,
   Select,
   Grid,
   GridItem,
@@ -18,54 +14,53 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import bulkData from "./bulkdataDish.js";
+import bulkData from "./bulkdataDrink.js"; // Import your bulk data here
 import { TEST_URL } from "./URL";
 
-function BulkAddToMenuForm() {
+function BulkAddToMenuFormDrink() {
   const [formData, setFormData] = useState({
-    foodName: "",
-    foodPrice: "",
-    foodCategories: "",
-    type: "",
-    food_category_id: "",
+    drinkName: "",
+    drinkNamePrice: "",
+    drinkCategories: "",
+    drinks_category_id: "",
     description: "",
   });
 
   const [imageFile, setImageFile] = useState(null);
-  const [foodCategories, setFoodCategories] = useState([]);
+  const [drinkCategories, setDrinkCategories] = useState([]);
   const [bulkDataIndex, setBulkDataIndex] = useState(0);
-  const [foodCategoryIdSelected, setFoodCategoryIdSelected] = useState(false);
-  const [allFoodNames, setAllFoodNames] = useState([]);
-  const isFoodAdded = (foodName) => {
-    return allFoodNames.includes(foodName);
+  const [drinkCategoryIdSelected, setDrinkCategoryIdSelected] = useState(false);
+  const [allDrinkNames, setAllDrinkNames] = useState([]);
+  const isDrinkAdded = (drinkName) => {
+    return allDrinkNames.includes(drinkName);
   };
 
   useEffect(() => {
-    fetchFoodCategories();
+    fetchDrinkCategories();
   }, []);
 
-  const fetchFoodCategories = async () => {
+  const fetchDrinkCategories = async () => {
     try {
       const response = await fetch(
-        `${TEST_URL}/api/client/getAllDishesCategories`
+        `${TEST_URL}/api/client/getAllDrinksCategories`
       );
-      const allfoodresponse = await fetch(
-        `${TEST_URL}/api/client/getAllDishes`
+      const alldrinkresponse = await fetch(
+        `${TEST_URL}/api/client/getAllDrinks`
       );
-      if (!allfoodresponse.ok) {
+      if (!alldrinkresponse.ok) {
         throw new Error("Network response was not ok");
       }
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw Error("Network response was not ok");
       }
       const data = await response.json();
-      const allfooddata = await allfoodresponse.json();
-      const categories = data.category_d.map((dish) => ({
-        value: dish.food_Category_id,
-        label: dish.food_Category,
+      const alldrinkdata = await alldrinkresponse.json();
+      const categories = data.category_d.map((drinkCategory) => ({
+        value: drinkCategory.drinks_Category_id,
+        label: drinkCategory.drinksCategory,
       }));
-      setFoodCategories(categories);
-      setAllFoodNames(allfooddata.dishes.map((dish) => dish.foodName));
+      setDrinkCategories(categories);
+      setAllDrinkNames(alldrinkdata.drinks.map((drink) => drink.drinkName));
     } catch (error) {
       console.error("Error fetching food categories:", error);
     }
@@ -79,28 +74,18 @@ function BulkAddToMenuForm() {
     }));
   };
 
-  // const bulkDataWithFoodCategoryId = bulkData.map((item) => {
-  //   const selectedCategory = foodCategories.find(
-  //     (cat) => cat.label === item.foodCategories
-  //   );
-  //   return {
-  //     ...item,
-  //     food_category_id: selectedCategory ? selectedCategory.value : "",
-  //   };
-  // });
-
   const handleCategoryChange = (event) => {
     const selectedCategoryId = event.target.value;
-    const selectedCategory = foodCategories.find(
+    const selectedCategory = drinkCategories.find(
       (cat) => cat.value === selectedCategoryId
     );
 
     setFormData((prevData) => ({
       ...prevData,
-      food_category_id: selectedCategoryId,
-      foodCategories: selectedCategory ? selectedCategory.label : "",
+      drinks_category_id: selectedCategoryId,
+      drinkCategories: selectedCategory ? selectedCategory.label : "",
     }));
-    setFoodCategoryIdSelected(true);
+    setDrinkCategoryIdSelected(true);
   };
 
   const handleImageDrop = (event) => {
@@ -109,14 +94,14 @@ function BulkAddToMenuForm() {
     setImageFile(file);
   };
 
-  const handleFoodPriceChange = (event) => {
+  const handleDrinkPriceChange = (event) => {
     const { value } = event.target;
 
     // Ensure only numbers are entered for foodPrice
     if (!isNaN(value)) {
       setFormData((prevData) => ({
         ...prevData,
-        foodPrice: value,
+        drinkNamePrice: value,
       }));
     }
   };
@@ -125,33 +110,31 @@ function BulkAddToMenuForm() {
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("image", imageFile);
-      formDataToSend.append("foodName", formData.foodName);
-      formDataToSend.append("foodPrice", formData.foodPrice);
-      formDataToSend.append("foodCategories", formData.foodCategories);
-      formDataToSend.append("type", formData.type);
-      formDataToSend.append("food_category_id", formData.food_category_id);
+      formDataToSend.append("drinkName", formData.drinkName);
+      formDataToSend.append("drinkNamePrice", formData.drinkNamePrice);
+      formDataToSend.append("drinkCategories", formData.drinkCategories);
+      formDataToSend.append("drinks_category_id", formData.drinks_category_id);
       formDataToSend.append("description", formData.description);
 
-      const response = await fetch(`${TEST_URL}/api/admin/createDish`, {
+      const response = await fetch(`${TEST_URL}/api/admin/createDrink`, {
         method: "POST",
         body: formDataToSend,
       });
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      setAllFoodNames((prevNames) => [...prevNames, formData.foodName]);
-      setFoodCategoryIdSelected(false);
+      setAllDrinkNames((prevNames) => [...prevNames, formData.drinkName]);
+      setDrinkCategoryIdSelected(false);
       const addedstuff = await response.json();
       console.log(addedstuff);
-      const message = "Dish " + formData.foodName + " added to Menu";
+      const message = "Drink " + formData.drinkName + " added to Menu";
       toast.success(`${message}`);
 
       setFormData({
-        foodName: "",
-        foodPrice: "",
-        foodCategories: "",
-        type: "",
-        food_category_id: "",
+        drinkName: "",
+        drinkNamePrice: "",
+        drinkCategories: "",
+        drinks_category_id: "",
         description: "",
       });
       setImageFile(null);
@@ -159,8 +142,10 @@ function BulkAddToMenuForm() {
         handleAddBulkDataClick();
       }
     } catch (error) {
-      console.error("Error adding dish to menu:", error);
-      toast.error("An error occurred while adding the dish to the menu.");
+      console.error("Error adding drink to menu:", error);
+      toast.error(
+        `Error adding drink: ${formData.drinkName} to menu: ${error}`
+      );
     }
   };
 
@@ -210,41 +195,40 @@ function BulkAddToMenuForm() {
                 style={{ maxWidth: "100%", maxHeight: "200px" }}
               />
             ) : (
-              <p>Add {formData.foodName} Image Here</p>
+              <p>Add {formData.drinkName} Image Here</p>
             )}
           </div>
           <FormControl mt={4} bg="white" p={3} borderRadius="md">
-            <FormLabel fontSize="xl">Food Name</FormLabel>
+            <FormLabel fontSize="xl">Drink Name</FormLabel>
             <Input
-              name="foodName"
-              value={formData.foodName}
+              name="drinkName"
+              value={formData.drinkName}
               onChange={handleInputChange}
             />
           </FormControl>
           <FormControl mt={4} bg="white" p={3} borderRadius="md">
-            <FormLabel fontSize="xl">Food Price</FormLabel>
+            <FormLabel fontSize="xl">Drink Price</FormLabel>
             <InputGroup>
               <InputLeftAddon children="INR" />
               <Input
-                name="foodPrice"
-                value={formData.foodPrice}
-                onChange={handleFoodPriceChange}
+                name="drinkPrice"
+                value={formData.drinkNamePrice}
+                onChange={handleDrinkPriceChange}
               />
             </InputGroup>
           </FormControl>
           <FormControl mt={4} bg="white" p={3} borderRadius="md">
-            {/* <p>Set: {formData.foodCategories}</p> */}
-            <FormLabel fontSize="xl">Set: {formData.foodCategories}</FormLabel>
+            <FormLabel fontSize="xl">Set: {formData.drinkCategories}</FormLabel>
             <Select
-              name="foodCategories"
-              value={formData.food_category_id}
+              name="drinkCategories"
+              value={formData.drinks_category_id}
               onChange={handleCategoryChange}
               borderColor="gray.300"
             >
               <option value="" disabled>
-                Select a food category
+                Select a drink category
               </option>
-              {foodCategories.map((category) => (
+              {drinkCategories.map((category) => (
                 <option key={category.value} value={category.value}>
                   {category.label}
                 </option>
@@ -252,28 +236,7 @@ function BulkAddToMenuForm() {
             </Select>
           </FormControl>
           <FormControl mt={4} bg="white" p={3} borderRadius="md">
-            <FormLabel fontSize="xl">Food Type</FormLabel>
-            <RadioGroup
-              value={formData.type}
-              onChange={(value) =>
-                handleInputChange({ target: { name: "type", value } })
-              }
-            >
-              <HStack spacing={4}>
-                <Radio value="0" colorScheme="green">
-                  Veg
-                </Radio>
-                <Radio value="1" colorScheme="green">
-                  Non-Veg
-                </Radio>
-                <Radio value="2" colorScheme="green">
-                  Egg
-                </Radio>
-              </HStack>
-            </RadioGroup>
-          </FormControl>
-          <FormControl mt={4} bg="white" p={3} borderRadius="md">
-            <FormLabel fontSize="xl">Food Description</FormLabel>
+            <FormLabel fontSize="xl">Drink Description</FormLabel>
             <Textarea
               name="description"
               value={formData.description}
@@ -286,7 +249,7 @@ function BulkAddToMenuForm() {
             mt="4"
             onClick={handleAddToMenu}
             borderRadius="lg"
-            isDisabled={!foodCategoryIdSelected}
+            isDisabled={!drinkCategoryIdSelected}
           >
             Add to Menu
           </Button>
@@ -295,7 +258,7 @@ function BulkAddToMenuForm() {
       <div style={{ flex: 1 }}>
         <Grid templateColumns="repeat(1, 1fr)" gap={2} paddingTop={10}>
           {bulkData.map((item, index) => {
-            const shouldShowButton = !isFoodAdded(item.foodName);
+            const shouldShowButton = !isDrinkAdded(item.drinkName);
             return shouldShowButton ? (
               <GridItem key={index}>
                 <Button
@@ -306,7 +269,7 @@ function BulkAddToMenuForm() {
                   onClick={() => handlePopulateForm(index)}
                   borderRadius="lg"
                 >
-                  ADD {item.foodName}
+                  ADD {item.drinkName}
                 </Button>
               </GridItem>
             ) : null;
@@ -317,4 +280,4 @@ function BulkAddToMenuForm() {
   );
 }
 
-export default BulkAddToMenuForm;
+export default BulkAddToMenuFormDrink;

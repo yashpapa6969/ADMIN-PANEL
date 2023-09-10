@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "assets/css/App.css";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import AdminLayout from "layouts/admin";
-import RtlLayout from "layouts/rtl";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "theme/theme";
 import { ThemeEditorProvider } from "@hypertheme-editor/chakra-ui";
@@ -26,7 +25,6 @@ function App() {
               ) : (
                 <Redirect to="/auth/sign-in/login" />
               )}
-              <Route path="/rtl" component={RtlLayout} />
               <Redirect from="/" to="/admin/default" />
             </Switch>
           </HashRouter>

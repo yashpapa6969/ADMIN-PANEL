@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, Flex, Button } from "@chakra-ui/react";
 import AddToMenuForm from "api/AddMenuDish";
-import BulkAddMenuForm from "api/BulkAddMenuDish";
+import BulkAddMenuFormDish from "api/BulkAddMenuDish";
+import BulkAddToMenuFormDrink from "api/BulkAddMenuDrink";
 import AddToMenuFormDrink from "api/AddMenuDrink";
+
 import {
   isUserAdmin,
   isUserFood,
@@ -13,23 +15,34 @@ export default function Settings() {
   const [showDishForm, setShowDishForm] = useState(false);
   const [showDrinkForm, setShowDrinkForm] = useState(false);
   const [showBulkDishForm, setShowBulkDishForm] = useState(false);
+  const [showBulkDrinkForm, setShowBulkDrinkForm] = useState(false);
 
   const handleShowDishForm = () => {
     setShowDishForm(true);
     setShowDrinkForm(false);
     setShowBulkDishForm(false);
+    setShowBulkDrinkForm(false);
   };
 
   const handleShowDrinkForm = () => {
     setShowDishForm(false);
     setShowDrinkForm(true);
+    setShowBulkDrinkForm(false);
     setShowBulkDishForm(false);
   };
 
   const handleShowBulkDishForm = () => {
     setShowDishForm(false);
     setShowDrinkForm(false);
+    setShowBulkDrinkForm(false);
     setShowBulkDishForm(true);
+  };
+
+  const handleShowBulkDrinkForm = () => {
+    setShowDishForm(false);
+    setShowDrinkForm(false);
+    setShowBulkDishForm(false);
+    setShowBulkDrinkForm(true);
   };
 
   // Check if the user is an admin or has food/drink access
@@ -81,12 +94,22 @@ export default function Settings() {
             Create Bulk Dishes
           </Button>
         )}
+        {canCreateBoth && (
+          <Button
+            colorScheme="yellow"
+            onClick={handleShowBulkDrinkForm}
+            borderRadius="lg"
+          >
+            Create Bulk Drinks
+          </Button>
+        )}
       </Flex>
       {canCreateDish && <AddToMenuForm />}
       {canCreateDrink && <AddToMenuFormDrink />}
       {showDishForm && canCreateBoth && <AddToMenuForm />}
       {showDrinkForm && canCreateBoth && <AddToMenuFormDrink />}
-      {showBulkDishForm && canCreateBoth && <BulkAddMenuForm />}
+      {showBulkDishForm && canCreateBoth && <BulkAddMenuFormDish />}
+      {showBulkDrinkForm && canCreateBoth && <BulkAddToMenuFormDrink />}
     </Box>
   );
 }

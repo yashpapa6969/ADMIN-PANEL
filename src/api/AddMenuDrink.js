@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -5,7 +6,12 @@ import {
   FormLabel,
   Input,
   Select,
+  InputGroup,
+  InputLeftAddon,
+  Textarea,
 } from "@chakra-ui/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { TEST_URL } from "./URL";
 
 function AddToMenuFormDrink() {
@@ -19,6 +25,7 @@ function AddToMenuFormDrink() {
 
   const [imageFile, setImageFile] = useState(null);
   const [drinkCategories, setDrinkCategories] = useState([]);
+  const [drinkCategoryIdSelected, setDrinkCategoryIdSelected] = useState(false);
 
   useEffect(() => {
     fetch(`${TEST_URL}/api/client/getAllDrinksCategories`)
@@ -66,6 +73,7 @@ function AddToMenuFormDrink() {
       drinks_category_id: selectedCategoryId,
       drinkCategories: selectedCategory ? selectedCategory.label : "",
     }));
+    setDrinkCategoryIdSelected(true);
   };
 
   const handleImageDrop = (event) => {
@@ -88,12 +96,13 @@ function AddToMenuFormDrink() {
         method: "POST",
         body: formDataToSend,
       });
-
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+      const data = await response.json();
+      console.log(data);
 
-      alert("Drink Added to Menu");
+      toast.success(`Drink ${formData.drinkName} added to Menu`);
 
       setFormData({
         drinkName: "",
@@ -106,50 +115,77 @@ function AddToMenuFormDrink() {
     } catch (error) {
       console.error("Error adding drink to menu:", error);
       alert("An error occurred while adding the drink to the menu.");
+      toast.error(
+        `Error adding drink: ${formData.drinkName} to menu: ${error}`
+      );
     }
   };
 
   return (
-    <div>
-      <br />
-      <FormLabel>Drag and drop an image below:</FormLabel>
+    <div style={{ maxWidth: "80%", padding: "20px" }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <FormLabel mt={5} fontSize="xl">
+        Drag and drop an image below:
+      </FormLabel>
       <div
         onDrop={handleImageDrop}
         onDragOver={(e) => e.preventDefault()}
         style={{
-          border: "2px dashed #ccc",
+          border: "2px dashed #718096",
+          borderRadius: "8px",
           padding: "20px",
           textAlign: "center",
+          margin: "20px 0",
+          backgroundColor: "#edf2f7",
         }}
       >
         {imageFile ? (
           <img
             src={URL.createObjectURL(imageFile)}
             alt="Selected"
-            style={{ maxWidth: "100%", maxHeight: "200px" }}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "200px",
+              borderRadius: "8px",
+            }}
           />
         ) : (
-          <p>Drink Image</p>
+          <p style={{ margin: "0", color: "#718096", fontSize: "lg" }}>
+            Add Drink Image Here
+          </p>
         )}
       </div>
-      <FormControl>
-        <FormLabel>Drink Name</FormLabel>
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Drink Name</FormLabel>
         <Input
           name="drinkName"
           value={formData.drinkName}
           onChange={handleInputChange}
         />
       </FormControl>
-      <FormControl>
-        <FormLabel>Drink Price</FormLabel>
-        <Input
-          name="drinkNamePrice"
-          value={formData.drinkNamePrice}
-          onChange={handleDrinkPriceChange}
-        />
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Drink Price</FormLabel>
+        <InputGroup>
+          <InputLeftAddon children="INR" />
+          <Input
+            name="drinkPrice"
+            value={formData.drinkNamePrice}
+            onChange={handleDrinkPriceChange}
+          />
+        </InputGroup>
       </FormControl>
-      <FormControl>
-        <FormLabel>Drink Categories</FormLabel>
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Drink Category</FormLabel>
         <Select
           name="drinkCategories"
           value={formData.drinks_category_id}
@@ -165,12 +201,13 @@ function AddToMenuFormDrink() {
           ))}
         </Select>
       </FormControl>
-      <FormControl>
-        <FormLabel>Drink Description</FormLabel>
-        <Input
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Drink Description</FormLabel>
+        <Textarea
           name="description"
           value={formData.description}
           onChange={handleInputChange}
+          borderColor="gray.300"
         />
       </FormControl>
       <Button
@@ -178,6 +215,8 @@ function AddToMenuFormDrink() {
         mt="4"
         onClick={handleAddToMenu}
         borderRadius="lg"
+        isDisabled={!drinkCategoryIdSelected}
+        _hover={{ bg: "green.500" }}
       >
         Add to Menu
       </Button>

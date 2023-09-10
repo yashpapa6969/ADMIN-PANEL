@@ -26,8 +26,9 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from "@chakra-ui/react";
+import { TEST_URL } from "./URL";
 
-const baseUrl = "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com"; // Replace with your API base URL
+const baseUrl = TEST_URL; // Replace with your API base URL
 
 function Order() {
   const [orders, setOrders] = useState([]);
@@ -82,7 +83,7 @@ function Order() {
             <Th>
               <Text fontWeight="bold">Table Number</Text>
             </Th>
-           
+
             <Th>
               <Text fontWeight="bold">Actions</Text>
             </Th>
@@ -94,7 +95,7 @@ function Order() {
               <Td>
                 <Text fontWeight="bold">{order.tableNo}</Text>
               </Td>
-             
+
               <Td>
                 <Button
                   size="sm"
@@ -180,12 +181,10 @@ function Order() {
                   </Text>
                 ))}
                 <Text>
-                  <Text fontWeight="bold">Date:</Text>{" "}
-                  {selectedOrder.date1}
+                  <Text fontWeight="bold">Date:</Text> {selectedOrder.date1}
                 </Text>
                 <Text>
-                  <Text fontWeight="bold">Time:</Text>{" "}
-                  {selectedOrder.time1}
+                  <Text fontWeight="bold">Time:</Text> {selectedOrder.time1}
                 </Text>
                 <Text>
                   <Text fontWeight="bold">Order ID:</Text>{" "}

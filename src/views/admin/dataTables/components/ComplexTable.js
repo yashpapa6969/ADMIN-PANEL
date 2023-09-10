@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import {
   Flex,
@@ -21,34 +22,30 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
+import { TEST_URL } from "./URL";
 
 export default function ColumnsTable(props) {
   const { columnsData } = props;
 
   const [tableData, setTableData] = useState([]);
 
-  // Function to fetch the API data
- 
-   console.log("first");
   useEffect(() => {
     fetchTableData();
   }, []); // The empty dependency array ensures this effect runs only once
-   const fetchTableData = async () => {
-     try {
+  const fetchTableData = async () => {
+    try {
       console.log("IN");
-       const response = await fetch(
-         "https://l4ts4vhb71.execute-api.us-east-1.amazonaws.com/api/client/getAllTables"
-       );
-       const data = await response.json();
-       console.log(data.tables)
-       setTableData(data.tables);
-     } catch (error) {
-       console.error("Error fetching table data:", error);
-     }
-   };
+      const response = await fetch(`${TEST_URL}/api/client/getAllTables`);
+      const data = await response.json();
+      console.log(data.tables);
+      setTableData(data.tables);
+    } catch (error) {
+      console.error("Error fetching table data:", error);
+    }
+  };
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
-    console.log("first");
+  console.log("first");
   return (
     <Card
       direction="column"

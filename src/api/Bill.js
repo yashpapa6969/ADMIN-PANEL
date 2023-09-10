@@ -21,6 +21,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
+import BillUpdateForm from "./BillUpdateForm";
 
 function BillData() {
   const [bills, setBills] = useState([]);
@@ -30,6 +31,7 @@ function BillData() {
     onClose: onCloseMoreInfo,
   } = useDisclosure();
   const [selectedBill, setSelectedBill] = useState(null);
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -54,6 +56,11 @@ function BillData() {
     setSelectedBill(bill);
     onOpenMoreInfo();
   };
+  const handleUpdateClick = (bill) => {
+    setSelectedBill(bill);
+    setIsUpdateFormOpen(true); // Open the update form
+  };
+
 
   return (
     <Box pt="4">
@@ -117,6 +124,16 @@ function BillData() {
                       onClick={() => handleMoreInfoClick(bill)}
                     >
                       More Info
+                    </Button>
+                  </Td>
+                  <Td>
+                    <Button
+                      size="sm"
+                      colorScheme="purple" // Use purple color for the update button
+                      borderRadius="lg"
+                      onClick={() => handleUpdateClick(bill)}
+                    >
+                      Edit
                     </Button>
                   </Td>
                 </Tr>
@@ -238,6 +255,17 @@ function BillData() {
               </ModalBody>
             </ModalContent>
           </Modal>
+        )}
+        {isUpdateFormOpen && (
+          <BillUpdateForm
+            isOpen={isUpdateFormOpen}
+            onClose={() => {
+              setSelectedBill(null);
+              setIsUpdateFormOpen(false);
+            }}
+            bill={selectedBill}
+            onUpdate={fetchData}
+          />
         )}
       </VStack>
     </Box>

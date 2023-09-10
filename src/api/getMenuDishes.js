@@ -18,6 +18,10 @@ import {
   Switch,
   Badge,
   HStack,
+  Input,
+  FormLabel,
+  FormControl,
+  Textarea,
 } from "@chakra-ui/react";
 
 import { TEST_URL } from "./URL";
@@ -26,28 +30,37 @@ function FetchDishesData() {
   const [dishesData, setDishesData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedDishId, setSelectedDishId] = useState(null);
+  const [model, setModel] = useState(null);
+  const [editedDish, setEditedDish] = useState(null);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${TEST_URL}/api/client/getAllDishes`);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${TEST_URL}/api/client/getAllDishes`);
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        setDishesData(data.dishes);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
 
+      const data = await response.json();
+      setDishesData(data.dishes);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 
   const handleDelete = (food_id) => {
+    setModel("delete");
     setSelectedDishId(food_id);
+    onOpen();
+  };
+
+  const handelEdit = (food_id) => {
+    setModel("edit");
+    setSelectedDishId(food_id);
+    const selectedDish = dishesData.find((dish) => dish.food_id === food_id);
+    setEditedDish(selectedDish);
     onOpen();
   };
 
@@ -70,21 +83,47 @@ function FetchDishesData() {
     }
   };
 
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    console.log({
+      foodPrice: editedDish.foodPrice,
+      description: editedDish.description,
+      foodName: editedDish.foodName,
+      foodCategories: editedDish.foodCategories,
+    });
+    try {
+      await fetch(`${TEST_URL}/api/admin/updateDishById/${selectedDishId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          foodPrice: editedDish.foodPrice,
+          description: editedDish.description,
+          foodName: editedDish.foodName,
+          foodCategories: editedDish.foodCategories,
+        }),
+      });
+
+      onClose();
+      fetchData();
+    } catch (error) {
+      console.error("Error editing dish:", error);
+    }
+  };
+
   const handleToggleStatus = async (food_id, currentStatus) => {
     try {
       const newStatus = currentStatus === "1" ? "0" : "1";
-      await fetch(
-        `${TEST_URL}/api/admin/updateFoodStatus/${food_id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            foodStatus: newStatus,
-          }),
-        }
-      );
+      await fetch(`${TEST_URL}/api/admin/updateFoodStatus/${food_id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          foodStatus: newStatus,
+        }),
+      });
 
       // Update the status in the state
       setDishesData((prevData) =>
@@ -151,14 +190,24 @@ function FetchDishesData() {
                     }
                   />
                 </HStack>
-                <Button
-                  colorScheme="red"
-                  mt="2"
-                  borderRadius="lg"
-                  onClick={() => handleDelete(dish.food_id)}
-                >
-                  Delete
-                </Button>
+                <HStack>
+                  <Button
+                    colorScheme="red"
+                    mt="2"
+                    borderRadius="lg"
+                    onClick={() => handleDelete(dish.food_id)}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    colorScheme="blue"
+                    mt="2"
+                    borderRadius="lg"
+                    onClick={() => handelEdit(dish.food_id)}
+                  >
+                    Edit
+                  </Button>
+                </HStack>
               </VStack>
             </Flex>
           </Box>
@@ -167,23 +216,100 @@ function FetchDishesData() {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Confirm Delete</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>Are you sure you want to delete this dish?</ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="red"
-              onClick={handleConfirmDelete}
-              borderRadius="lg"
-            >
-              Delete
-            </Button>
-            <Button variant="ghost" onClick={onClose}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </ModalContent>
+        {model === "delete" ? (
+          <ModalContent>
+            <ModalHeader>Confirm Delete</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>Are you sure you want to delete this dish?</ModalBody>
+            <ModalFooter>
+              <Button
+                colorScheme="red"
+                onClick={handleConfirmDelete}
+                borderRadius="lg"
+              >
+                Delete
+              </Button>
+              <Button variant="ghost" onClick={onClose}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        ) : (
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            {model === "edit" && editedDish && (
+              <ModalContent>
+                <ModalHeader>Edit</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <form onSubmit={handleEdit}>
+                    <VStack spacing="4">
+                      <FormControl>
+                        <FormLabel>Food Name</FormLabel>
+                        <Input
+                          type="text"
+                          value={editedDish.foodName}
+                          onChange={(e) =>
+                            setEditedDish({
+                              ...editedDish,
+                              foodName: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Price</FormLabel>
+                        <Input
+                          type="text"
+                          value={editedDish.foodPrice}
+                          onChange={(e) =>
+                            setEditedDish({
+                              ...editedDish,
+                              foodPrice: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Description</FormLabel>
+                        <Textarea
+                          value={editedDish.description}
+                          onChange={(e) =>
+                            setEditedDish({
+                              ...editedDish,
+                              description: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Food Categories</FormLabel>
+                        <Input
+                          type="text"
+                          value={editedDish.foodCategories}
+                          onChange={(e) =>
+                            setEditedDish({
+                              ...editedDish,
+                              foodCategories: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                    </VStack>
+                    <Button mt="4" colorScheme="blue" type="submit">
+                      Save Changes
+                    </Button>
+                  </form>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="ghost" onClick={onClose}>
+                    Cancel
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            )}
+          </Modal>
+        )}
       </Modal>
     </div>
   );

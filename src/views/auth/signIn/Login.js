@@ -39,8 +39,23 @@ function Login({ setIsLoggedIn }) {
       console.log(error);
     }
   };
-  const handleLoginTest = () => {
-    const authenticatedUsername = authenticateUser("admin", "admin123");
+  const handleLoginTest = (userType) => {
+    let authenticatedUsername;
+
+    switch (userType) {
+      case "admin":
+        authenticatedUsername = authenticateUser("admin", "admin123");
+        break;
+      case "food":
+        authenticatedUsername = authenticateUser("food", "food123"); // Replace with actual credentials
+        break;
+      case "drink":
+        authenticatedUsername = authenticateUser("drink", "drink123"); // Replace with actual credentials
+        break;
+      default:
+        authenticatedUsername = null;
+        break;
+    }
 
     if (authenticatedUsername) {
       setIsLoggedIn(true);
@@ -128,9 +143,29 @@ function Login({ setIsLoggedIn }) {
               variant="solid"
               colorScheme="blue"
               width="full"
-              onClick={handleLoginTest}
+              onClick={() => handleLoginTest("admin")}
             >
               Admin Login
+            </Button>
+            <Button
+              borderRadius="md"
+              type="submit"
+              variant="solid"
+              colorScheme="blue"
+              width="full"
+              onClick={() => handleLoginTest("food")}
+            >
+              Food Login
+            </Button>
+            <Button
+              borderRadius="md"
+              type="submit"
+              variant="solid"
+              colorScheme="blue"
+              width="full"
+              onClick={() => handleLoginTest("drink")}
+            >
+              Drink Login
             </Button>
           </Stack>
         </Box>

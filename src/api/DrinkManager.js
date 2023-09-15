@@ -189,14 +189,18 @@ function DrinkManagerTable() {
             </Tbody>
           </Table>
         </TableContainer>
-
-        <Button
-          colorScheme="green"
-          onClick={onOpenAddFoodManager}
-          borderRadius="lg"
+        <Box 
+        display="flex"
+        justifyContent="center"
         >
-          Add Drink Manager
-        </Button>
+          <Button
+            colorScheme="green"
+            onClick={onOpenAddFoodManager}
+            borderRadius="lg"
+          >
+            Add Drink Manager
+          </Button>
+        </Box>
 
         {selectedFoodManager && (
           <Modal

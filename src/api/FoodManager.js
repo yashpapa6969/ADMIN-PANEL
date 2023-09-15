@@ -169,6 +169,7 @@ function FoodManagerTable() {
                     <Button
                       size="sm"
                       colorScheme="blue"
+                      borderRadius="md"
                       onClick={() => handleMoreInfoClick(foodManager)}
                     >
                       More Info
@@ -188,10 +189,15 @@ function FoodManagerTable() {
             </Tbody>
           </Table>
         </TableContainer>
-
-        <Button colorScheme="green" onClick={onOpenAddFoodManager}>
-          Add Food Manager
-        </Button>
+        <Box display="flex" justifyContent="center">
+          <Button
+            colorScheme="green"
+            borderRadius="md"
+            onClick={onOpenAddFoodManager}
+          >
+            Add Food Manager
+          </Button>
+        </Box>
 
         {selectedFoodManager && (
           <Modal

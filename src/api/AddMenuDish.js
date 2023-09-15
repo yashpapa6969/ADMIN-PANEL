@@ -28,7 +28,7 @@ function AddToMenuForm() {
     type: "",
     food_category_id: "",
     description: "",
-    tax:""
+    tax: "",
   });
 
   const [imageFile, setImageFile] = useState(null);

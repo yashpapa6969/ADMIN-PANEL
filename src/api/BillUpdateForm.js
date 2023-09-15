@@ -9,8 +9,7 @@ import {
   Box,
   Button,
   Input,
-  FormLabel,
-  Select
+  Select,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
 
@@ -20,7 +19,7 @@ function BillUpdateForm({ isOpen, onClose, bill, onUpdate }) {
   const handleUpdate = async () => {
     try {
       const response = await fetch(
-        `https://1cxmul59q5.execute-api.ap-south-1.amazonaws.com/api/admin/updateBillById/${bill.bills_id}`,
+        `${TEST_URL}/api/admin/updateBillById/${bill.bills_id}`,
         {
           method: "PATCH",
           headers: {
@@ -88,7 +87,6 @@ function BillUpdateForm({ isOpen, onClose, bill, onUpdate }) {
               name="foodBillpaid"
               value={updatedBill.foodBillpaid}
               onChange={handleChange}
-              
             >
               <option value="Paid">Paid</option>
               <option value="notPaid">Not Paid</option>
@@ -99,7 +97,6 @@ function BillUpdateForm({ isOpen, onClose, bill, onUpdate }) {
               name="drinkBillpaid"
               value={updatedBill.drinkBillpaid}
               onChange={handleChange}
-              
             >
               <option value="Paid">Paid</option>
               <option value="notPaid">Not Paid</option>

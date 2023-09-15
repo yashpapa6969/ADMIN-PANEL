@@ -19,8 +19,10 @@ import {
   Text,
   Tag,
   useDisclosure,
+  Input,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
+import CsvDownloadButton from "./CsvDownloadBill";
 
 function BillByDate() {
   const [bills, setBills] = useState([]);
@@ -30,14 +32,8 @@ function BillByDate() {
     onClose: onCloseMoreInfo,
   } = useDisclosure();
   const [selectedBill, setSelectedBill] = useState(null);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-
-  useEffect(() => {
-    if (startDate && endDate) {
-      fetchData();
-    }
-  }, [startDate, endDate]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const fetchData = async () => {
     try {
@@ -62,6 +58,11 @@ function BillByDate() {
       console.error("Error fetching data:", error);
     }
   };
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchData();
+    }
+  }, [startDate, endDate]);
 
   const handleMoreInfoClick = (bill) => {
     setSelectedBill(bill);
@@ -71,25 +72,49 @@ function BillByDate() {
   return (
     <Box pt="4">
       <VStack align="stretch" spacing="4">
-        <Box pt="4">
+        <Box pt="4" display="flex">
           <VStack align="stretch" spacing="4">
-            <input
+            <Text>Start Date</Text>
+            <Input
               type="date"
               value={startDate}
               onChange={(event) => setStartDate(event.target.value)}
               placeholder="Start Date"
+              borderRadius="md"
+              borderColor="gray.300"
+              borderWidth="1px"
+              px="3"
+              py="2"
+              _focus={{
+                borderColor: "blue.500",
+                boxShadow: "outline",
+              }}
             />
-            <input
+            <Text>End Date</Text>
+            <Input
               type="date"
               value={endDate}
               onChange={(event) => setEndDate(event.target.value)}
               placeholder="End Date"
+              borderRadius="md"
+              borderColor="gray.300"
+              borderWidth="1px"
+              px="3"
+              py="2"
+              _focus={{
+                borderColor: "blue.500",
+                boxShadow: "outline",
+              }}
             />
           </VStack>
         </Box>
         <Text fontSize="xl" fontWeight="bold">
           Bill Data
         </Text>
+        <Box>
+          <CsvDownloadButton />
+        </Box>
+
         <TableContainer>
           <Table variant="striped" colorScheme="teal">
             <Thead>
@@ -107,11 +132,13 @@ function BillByDate() {
                 <Tr key={bill._id}>
                   <Td fontWeight="bold">{bill.name}</Td>
                   <Td fontWeight="bold">{bill.tableNo}</Td>
-                  <Td fontWeight="bold">{bill.grandTotal}</Td>
+                  <Td fontWeight="bold">
+                    {parseFloat(bill.grandTotal).toFixed(2)}
+                  </Td>
                   <Td>
                     <Tag
                       size="lg"
-                      borderRadius="0%"
+                      borderRadius="md"
                       bg={
                         bill.foodBillpaid === "notPaid"
                           ? "red.500"
@@ -119,6 +146,7 @@ function BillByDate() {
                       }
                       color="white"
                       padding="0.5rem 1rem"
+                      textTransform="capitalize"
                     >
                       {bill.foodBillpaid}
                     </Tag>
@@ -126,7 +154,7 @@ function BillByDate() {
                   <Td>
                     <Tag
                       size="lg"
-                      borderRadius="0%"
+                      borderRadius="md"
                       bg={
                         bill.drinkBillpaid === "notPaid"
                           ? "red.500"
@@ -134,6 +162,7 @@ function BillByDate() {
                       }
                       color="white"
                       padding="0.5rem 1rem"
+                      textTransform="capitalize"
                     >
                       {bill.drinkBillpaid}
                     </Tag>

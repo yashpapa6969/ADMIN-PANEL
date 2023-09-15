@@ -68,22 +68,15 @@ const allroutes = [
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: customer,
   },
-  {
-    name: "Billing",
-    layout: "/admin",
-    path: "/billing",
-    icon: (
-      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
-    ),
-    component: bill,
-  },
-  {
-    name: "Bill By Date",
-    layout: "/admin",
-    path: "/billbydate",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    component: billByDate,
-  },
+  // {
+  //   name: "Billing",
+  //   layout: "/admin",
+  //   path: "/billing",
+  //   icon: (
+  //     <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+  //   ),
+  //   component: bill,
+  // },
   {
     name: "Bill by Member ID",
     layout: "/admin",
@@ -111,9 +104,9 @@ const allroutes = [
   },
 
   {
-    name: "BillByDate",
+    name: "Bill By Date",
     layout: "/admin",
-    path: "/billByDate",
+    path: "/billbydate",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: billByDate,
   },

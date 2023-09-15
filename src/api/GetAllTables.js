@@ -142,11 +142,9 @@ function FetchTableData() {
             <Tbody>
               {tableData.map((table) => (
                 <Tr key={table._id}>
-                  {/* Your table data rows go here */}
                   <Td>
                     <strong>{table.tableNo}</strong>
                   </Td>
-
                   <Td>
                     <strong>{table.maxPeople}</strong>
                   </Td>
@@ -174,7 +172,7 @@ function FetchTableData() {
           colorScheme="green"
           borderRadius="lg"
           onClick={() => {
-            setTableToCreate({ tableNo: "", active: "yes", maxPeople: "" });
+            setTableToCreate({ tableNo: "", active: "true", maxPeople: "" });
             onOpenCreate();
           }}
         >

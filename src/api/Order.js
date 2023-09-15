@@ -98,6 +98,7 @@ function Order() {
 
               <Td>
                 <Button
+                  borderRadius="md"
                   size="sm"
                   colorScheme="blue"
                   onClick={() => handleViewClick(order)}
@@ -109,6 +110,7 @@ function Order() {
                 <Button
                   size="sm"
                   colorScheme="red"
+                  borderRadius="md"
                   onClick={() => handleDeleteClick(order._id)}
                 >
                   <Text fontWeight="bold">Delete</Text>

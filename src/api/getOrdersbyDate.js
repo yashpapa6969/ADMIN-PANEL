@@ -25,6 +25,7 @@ import {
   AlertDialogCloseButton,
   AlertDialogBody,
   AlertDialogFooter,
+  Input,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
 
@@ -83,11 +84,22 @@ function OrderByDate() {
 
   return (
     <VStack p="3" align="stretch" spacing="4">
-      <input
-        type="date"
-        value={selectedDate}
-        onChange={(e) => setSelectedDate(e.target.value)}
-      />{" "}
+      <Box>
+        <Input
+          type="date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          borderWidth="1px"
+          borderColor="gray.300"
+          borderRadius="md"
+          py="2"
+          px="3"
+          _focus={{
+            borderColor: "blue.500",
+            boxShadow: "outline",
+          }}
+        />
+      </Box>
       <Table variant="striped" colorScheme="teal">
         <Thead>
           <Tr>

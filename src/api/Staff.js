@@ -110,7 +110,6 @@ function StaffTableData() {
         <Thead>
           <Tr>
             <Th>Name</Th>
-            <Th>Table Assigned</Th>
             <Th>Phone No.</Th>
             <Th>Actions</Th>
           </Tr>
@@ -122,32 +121,27 @@ function StaffTableData() {
                 <strong>{staff.name}</strong>
               </Td>
               <Td>
-                <Text
-                  fontWeight="bold"
-                  color={staff.tableNoAssigned ? "green" : "red"}
-                >
-                  {staff.tableNoAssigned || "Not Assigned"}
-                </Text>
-              </Td>
-              <Td>
                 <strong>{staff.phoneNo}</strong>
               </Td>
               <Td>
-                <Button
-                  size="sm"
-                  colorScheme="blue"
-                  onClick={() => handleMoreInfoClick(staff)}
-                >
-                  More Info
-                </Button>{" "}
-                <Button
-                  size="sm"
-                  colorScheme="red"
-                  borderRadius="lg"
-                  onClick={() => handleDeleteClick(staff)}
-                >
-                  Delete
-                </Button>
+                <Box display="flex" gap="6px">
+                  <Button
+                    size="sm"
+                    colorScheme="blue"
+                    borderRadius="md"
+                    onClick={() => handleMoreInfoClick(staff)}
+                  >
+                    More Info
+                  </Button>
+                  <Button
+                    size="sm"
+                    colorScheme="red"
+                    borderRadius="lg"
+                    onClick={() => handleDeleteClick(staff)}
+                  >
+                    Delete
+                  </Button>
+                </Box>
               </Td>
             </Tr>
           ))}

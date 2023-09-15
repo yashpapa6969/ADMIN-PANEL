@@ -8,7 +8,6 @@ export default function UserReports() {
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <Flex justifyContent="space-between" align="start" p="4" gap="20px">
         <GetBillsByDate />
-        {/* <CsvDownloadButton /> */}
       </Flex>
     </Box>
   );

@@ -30,23 +30,24 @@ function BillByDate() {
     onClose: onCloseMoreInfo,
   } = useDisclosure();
   const [selectedBill, setSelectedBill] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(""); // Initialize with an empty string
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
-    if (selectedDate) {
-      fetchData(); // Fetch data when the date is selected
+    if (startDate && endDate) {
+      fetchData();
     }
-  }, [selectedDate]);
+  }, [startDate, endDate]);
 
   const fetchData = async () => {
     try {
-      if (!selectedDate) {
-        console.log("No date selected.");
+      if (!startDate || !endDate) {
+        console.log("Start date and end date are required.");
         return;
       }
 
       const response = await fetch(
-        `${TEST_URL}/api/superAdmin/GetBillByDate/${selectedDate}`
+        `${TEST_URL}/api/superAdmin/GetBillByDate/${startDate}/${endDate}`
       );
 
       if (!response.ok) {
@@ -56,7 +57,6 @@ function BillByDate() {
       const data = await response.json();
       console.log("API response data:", data);
 
-      // Assuming that the API response is an array of bill objects
       setBills(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -73,13 +73,18 @@ function BillByDate() {
       <VStack align="stretch" spacing="4">
         <Box pt="4">
           <VStack align="stretch" spacing="4">
-            {/* ... (other components) */}
-            <input // Date input component
+            <input
               type="date"
-              value={selectedDate}
-              onChange={(event) => setSelectedDate(event.target.value)} // Update selectedDate when the input changes
+              value={startDate}
+              onChange={(event) => setStartDate(event.target.value)}
+              placeholder="Start Date"
             />
-            {/* ... (other components) */}
+            <input
+              type="date"
+              value={endDate}
+              onChange={(event) => setEndDate(event.target.value)}
+              placeholder="End Date"
+            />
           </VStack>
         </Box>
         <Text fontSize="xl" fontWeight="bold">
@@ -105,30 +110,30 @@ function BillByDate() {
                   <Td fontWeight="bold">{bill.grandTotal}</Td>
                   <Td>
                     <Tag
-                      size="lg" // Increase the size for a bigger circle
-                      borderRadius="0%" // Make it a circle
+                      size="lg"
+                      borderRadius="0%"
                       bg={
                         bill.foodBillpaid === "notPaid"
                           ? "red.500"
                           : "green.500"
-                      } // Set background color based on 'paid' value
-                      color="white" // Text color
-                      padding="0.5rem 1rem" // Adjust padding as needed
+                      }
+                      color="white"
+                      padding="0.5rem 1rem"
                     >
                       {bill.foodBillpaid}
                     </Tag>
                   </Td>
                   <Td>
                     <Tag
-                      size="lg" // Increase the size for a bigger circle
-                      borderRadius="0%" // Make it a circle
+                      size="lg"
+                      borderRadius="0%"
                       bg={
                         bill.drinkBillpaid === "notPaid"
                           ? "red.500"
                           : "green.500"
-                      } // Set background color based on 'paid' value
-                      color="white" // Text color
-                      padding="0.5rem 1rem" // Adjust padding as needed
+                      }
+                      color="white"
+                      padding="0.5rem 1rem"
                     >
                       {bill.drinkBillpaid}
                     </Tag>
@@ -162,7 +167,6 @@ function BillByDate() {
               <ModalHeader>Bill Information</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                {/* Display bill details */}
                 <Box>
                   <Text>
                     <strong>Name:</strong> {selectedBill.name}

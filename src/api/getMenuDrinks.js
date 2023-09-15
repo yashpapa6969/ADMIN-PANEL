@@ -16,7 +16,6 @@ import {
   ModalBody,
   ModalCloseButton,
   Switch,
-  Badge,
   HStack,
   Input,
   FormLabel,
@@ -27,6 +26,7 @@ import { TEST_URL } from "./URL";
 
 function FetchDrinksData() {
   const [dishesData, setDishesData] = useState([]);
+  const [overallStatus, setOverallStatus] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedDishId, setSelectedDishId] = useState(null);
    const [editedDish, setEditedDish] = useState(null);
@@ -100,6 +100,7 @@ const handelEdit = (food_id) => {
            description: editedDish.description,
            drinkName: editedDish.drinkName,
            drinkCategories: editedDish.drinkCategories,
+           tax: editedDish.tax,
          }),
        });
 
@@ -134,9 +135,43 @@ const handelEdit = (food_id) => {
       console.error("Error updating drink status:", error);
     }
   };
+   const handleToggleAllStatus = async () => {
+     try {
+       const newStatus = !overallStatus;
+       await fetch(`${TEST_URL}/api/admin/updateAllFoodStatus`, {
+         method: "PATCH",
+         headers: {
+           "Content-Type": "application/json",
+         },
+         body: JSON.stringify({
+           drinkStatus: newStatus ? "1" : "0",
+         }),
+       });
+
+       // Update the status in the state for all dishes
+       setDishesData((prevData) =>
+         prevData.map((dish) => ({
+           ...dish,
+           drinkStatus: newStatus ? "1" : "0",
+         }))
+       );
+
+       // Update the overall status
+       setOverallStatus(newStatus);
+     } catch (error) {
+       console.error("Error updating all dish statuses:", error);
+     }
+   };
 
   return (
     <>
+      <Button
+        colorScheme={overallStatus ? "red" : "green"}
+        onClick={handleToggleAllStatus}
+        mb="2"
+      >
+        Status
+      </Button>
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 2 }} spacing="4">
         {dishesData.map((dish) => (
           <Box
@@ -170,10 +205,13 @@ const handelEdit = (food_id) => {
                   <strong>Description:</strong> {dish.description}
                 </Text>
                 <Text>
+                  <strong>TAX:</strong> ₹ {dish.tax}
+                </Text>
+                <Text>
                   <strong>Available Status: </strong>
                   <Switch
                     colorScheme="teal"
-                    isChecked={dish.drinkStatus === "1"}
+                    isChecked={dish.drinkStatus === "0"}
                     onChange={() =>
                       handleToggleStatus(dish.drink_id, dish.drinkStatus)
                     }
@@ -267,6 +305,18 @@ const handelEdit = (food_id) => {
                             setEditedDish({
                               ...editedDish,
                               description: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>TAX</FormLabel>
+                        <Textarea
+                          value={editedDish.tax}
+                          onChange={(e) =>
+                            setEditedDish({
+                              ...editedDish,
+                              tax: e.target.value,
                             })
                           }
                         />

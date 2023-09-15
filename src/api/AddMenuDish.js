@@ -28,6 +28,7 @@ function AddToMenuForm() {
     type: "",
     food_category_id: "",
     description: "",
+    tax:""
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -99,6 +100,7 @@ function AddToMenuForm() {
       formDataToSend.append("type", formData.type);
       formDataToSend.append("food_category_id", formData.food_category_id);
       formDataToSend.append("description", formData.description);
+      formDataToSend.append("tax", formData.tax);
 
       const response = await fetch(`${TEST_URL}/api/admin/createDish`, {
         method: "POST",
@@ -120,6 +122,7 @@ function AddToMenuForm() {
         type: "",
         food_category_id: "",
         description: "",
+        tax: "",
       });
       setImageFile(null);
     } catch (error) {
@@ -235,6 +238,15 @@ function AddToMenuForm() {
         <Textarea
           name="description"
           value={formData.description}
+          onChange={handleInputChange}
+          borderColor="gray.300"
+        />
+      </FormControl>
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">TAX </FormLabel>
+        <Textarea
+          name="tax"
+          value={formData.tax}
           onChange={handleInputChange}
           borderColor="gray.300"
         />

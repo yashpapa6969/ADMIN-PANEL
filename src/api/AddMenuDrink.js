@@ -21,6 +21,7 @@ function AddToMenuFormDrink() {
     drinkCategories: "",
     drinks_category_id: "",
     description: "",
+    tax: "",
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -91,6 +92,7 @@ function AddToMenuFormDrink() {
       formDataToSend.append("drinkCategories", formData.drinkCategories);
       formDataToSend.append("drinks_category_id", formData.drinks_category_id);
       formDataToSend.append("description", formData.description);
+      formDataToSend.append("tax", formData.tax);
 
       const response = await fetch(`${TEST_URL}/api/admin/createDrink`, {
         method: "POST",
@@ -110,6 +112,7 @@ function AddToMenuFormDrink() {
         drinkCategories: "",
         drinks_category_id: "",
         description: "",
+        tax:"",
       });
       setImageFile(null);
     } catch (error) {
@@ -202,10 +205,19 @@ function AddToMenuFormDrink() {
         </Select>
       </FormControl>
       <FormControl mt={4} bg="white" p={3} borderRadius="md">
-        <FormLabel fontSize="xl">Drink Description</FormLabel>
+        <FormLabel fontSize="xl">Drink Description </FormLabel>
         <Textarea
           name="description"
           value={formData.description}
+          onChange={handleInputChange}
+          borderColor="gray.300"
+        />
+      </FormControl>
+      <FormControl mt={4} bg="white" p={3} borderRadius="md">
+        <FormLabel fontSize="xl">Drink TAX ₹ </FormLabel>
+        <Textarea
+          name="tax"
+          value={formData.tax}
           onChange={handleInputChange}
           borderColor="gray.300"
         />

@@ -104,7 +104,7 @@ function StaffTableData() {
   return (
     <VStack p="3" align="stretch" spacing="4">
       <Text fontSize="xl" fontWeight="bold">
-        Staff Information
+        Waiter (Staff) Information
       </Text>
       <Table variant="striped" colorScheme="teal">
         <Thead>

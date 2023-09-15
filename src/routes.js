@@ -1,11 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
+import { useEffect, useState } from "react";
 
 import { Icon } from "@chakra-ui/react";
 import { MdPerson, MdHome, MdRestaurant } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaFileInvoice } from "react-icons/fa";
 
-// Admin Imports
 import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
@@ -22,7 +23,14 @@ import MemberByPhoneNumber from "views/admin/MemberByPhoneNumber";
 import BillByMemberID from "views/admin/BillByMemberID";
 import OrderByDate from "views/admin/OrderByDate";
 import billByDate from "views/admin/billByDate/index";
-const routes = [
+
+import {
+  isUserAdmin,
+  isUserDrink,
+  isUserFood,
+} from "views/auth/signIn/UserAuth";
+
+const allroutes = [
   {
     name: "Main Dashboard",
     layout: "/admin",
@@ -103,6 +111,14 @@ const routes = [
   },
 
   {
+    name: "BillByDate",
+    layout: "/admin",
+    path: "/billByDate",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: billByDate,
+  },
+
+  {
     name: "Food Manager",
     layout: "/admin",
     path: "/food-managers",
@@ -140,5 +156,42 @@ const routes = [
     component: Taxes,
   },
 ];
+console.log(isUserDrink());
+console.log(isUserFood());
+console.log(isUserAdmin());
 
-export default routes;
+function Routes() {
+  const [routes, setRoutes] = React.useState([]);
+  const [isUserDrinkRole, setIsUserDrinkRole] = useState(false); // Initialize to false initially
+  const [isUserFoodRole, setIsUserFoodRole] = useState(false);
+  const [isUserAdminRole, setIsUserAdminRole] = useState(false);
+
+  useEffect(() => {
+    setIsUserDrinkRole(isUserDrink());
+    setIsUserFoodRole(isUserFood());
+    setIsUserAdminRole(isUserAdmin());
+  }, []);
+
+  useEffect(() => {
+    const filteredRoutes = allroutes.filter((route) => {
+      if (isUserAdminRole) {
+        return route.layout === "/admin";
+      } else if (isUserDrinkRole) {
+        if (route.name === "Food Manager") {
+          return false;
+        }
+        return route.layout === "/admin";
+      } else if (isUserFoodRole) {
+        if (route.name === "Drink Manager") {
+          return false;
+        }
+        return route.layout === "/admin";
+      }
+      return true;
+    });
+    setRoutes(filteredRoutes);
+  }, [isUserDrinkRole, isUserFoodRole, isUserAdminRole]);
+  return routes;
+}
+
+export default Routes;

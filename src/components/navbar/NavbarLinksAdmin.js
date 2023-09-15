@@ -24,11 +24,11 @@ import React from "react";
 import navImage from "assets/img/layout/Navbar.png";
 import { MdNotificationsNone, MdInfoOutline } from "react-icons/md";
 import { FaEthereum } from "react-icons/fa";
-import routes from "routes.js";
+import Routes from "routes.js";
 import { ThemeEditor } from "./ThemeEditor";
+
 export default function HeaderLinks(props) {
   const { secondary } = props;
-  // Chakra Color Mode
   const navbarIcon = useColorModeValue("gray.400", "white");
   let menuBg = useColorModeValue("white", "navy.800");
   const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -42,15 +42,16 @@ export default function HeaderLinks(props) {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
   const borderButton = useColorModeValue("secondaryGray.500", "whiteAlpha.200");
+  const routes = Routes();
   return (
     <Flex
-      w={{ sm: "70px", md: "auto" }}
+      w={{ sm: "70px", md: "auto", lg: "auto" }}
       alignItems="center"
       flexDirection="row-reverse"
-	  justifyContent="center"
+      justifyContent="center"
       bg={menuBg}
       flexWrap={secondary ? { base: "wrap", md: "nowrap" } : "unset"}
-      p="10px"
+      p={{ base: "10px", md: "0px", lg: "0px" }}
       borderRadius="30px"
       boxShadow={shadow}
     >

@@ -28,6 +28,7 @@ import { TEST_URL } from "./URL";
 
 function FetchDishesData() {
   const [dishesData, setDishesData] = useState([]);
+  const [overallStatus, setOverallStatus] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedDishId, setSelectedDishId] = useState(null);
   const [model, setModel] = useState(null);
@@ -85,12 +86,6 @@ function FetchDishesData() {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log({
-      foodPrice: editedDish.foodPrice,
-      description: editedDish.description,
-      foodName: editedDish.foodName,
-      foodCategories: editedDish.foodCategories,
-    });
     try {
       await fetch(`${TEST_URL}/api/admin/updateDishById/${selectedDishId}`, {
         method: "PATCH",
@@ -102,6 +97,7 @@ function FetchDishesData() {
           description: editedDish.description,
           foodName: editedDish.foodName,
           foodCategories: editedDish.foodCategories,
+          tax: editedDish.tax,
         }),
       });
 
@@ -135,6 +131,31 @@ function FetchDishesData() {
       console.error("Error updating dish status:", error);
     }
   };
+  const handleToggleAllStatus = async () => {
+    try {
+      const newStatus = !overallStatus;
+      await fetch(`${TEST_URL}/api/admin/updateAllFoodStatus`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          foodStatus: newStatus ? "1" : "0",
+        }),
+      });
+
+      // Update the status in the state for all dishes
+      setDishesData((prevData) =>
+        prevData.map((dish) => ({ ...dish, foodStatus: newStatus ? "1" : "0" }))
+      );
+
+      // Update the overall status
+      setOverallStatus(newStatus);
+    } catch (error) {
+      console.error("Error updating all dish statuses:", error);
+    }
+  };
+
   const typeConfig = {
     0: { label: "Veg", color: "green" },
     1: { label: "Non-veg", color: "red" },
@@ -143,6 +164,11 @@ function FetchDishesData() {
 
   return (
     <div>
+       <Button
+        colorScheme={overallStatus ? "red" : "green"}
+        onClick={handleToggleAllStatus}
+        mb="2"
+      >Status</Button>
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="10px">
         {dishesData.map((dish) => (
           <Box
@@ -178,6 +204,10 @@ function FetchDishesData() {
                 <Text>
                   <strong>Description:</strong> {dish.description}
                 </Text>
+                <Text>
+                  <strong>TAX:</strong> {dish.tax}
+                </Text>
+                
                 <HStack spacing="2" mt="2">
                   <Text>
                     <strong>Available Status:</strong>
@@ -278,6 +308,18 @@ function FetchDishesData() {
                             setEditedDish({
                               ...editedDish,
                               description: e.target.value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Tax</FormLabel>
+                        <Textarea
+                          value={editedDish.tax}
+                          onChange={(e) =>
+                            setEditedDish({
+                              ...editedDish,
+                              tax: e.target.value,
                             })
                           }
                         />

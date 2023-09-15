@@ -47,7 +47,7 @@ const routes = [
     component: DataTables,
   },
   {
-    name: "Staff (Waiter)",
+    name: "Waiter (Staff)",
     layout: "/admin",
     path: "/staff",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
@@ -70,13 +70,11 @@ const routes = [
     component: bill,
   },
   {
-    name: "Bill by Table Number",
+    name: "Bill By Date",
     layout: "/admin",
-    path: "/bill-by-table-no",
-    icon: (
-      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
-    ),
-    component: BillByTableNo,
+    path: "/billbydate",
+    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    component: billByDate,
   },
   {
     name: "Bill by Member ID",
@@ -99,16 +97,9 @@ const routes = [
   {
     name: "OrderByDate",
     layout: "/admin",
-    path: "/orderByDate",
+    path: "/orderbydate",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: OrderByDate,
-  },
-  {
-    name: "BillByDate",
-    layout: "/admin",
-    path: "/billByDate",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    component: billByDate,
   },
 
   {

@@ -31,11 +31,6 @@ function CustomerTableData() {
 
   const [staffData, setStaffData] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
-  const [newStaffData, setNewStaffData] = useState({
-    name: "",
-    phoneNo: "",
-    tableNo: "",
-  });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const fetchStaffData = async () => {
     try {
@@ -58,10 +53,6 @@ function CustomerTableData() {
     setSelectedStaff(staff);
   };
 
-  const handleCreateStaff = () => {
-    console.log(0);
-  };
-
   return (
     <VStack p="3" align="stretch" spacing="4">
       <Text fontSize="xl" fontWeight="bold">
@@ -70,16 +61,17 @@ function CustomerTableData() {
       <Table variant="striped" colorScheme="teal">
         <Thead>
           <Tr>
+            <Th>S.No.</Th>
             <Th>Name</Th>
             <Th>Table Number</Th>
-
             <Th>Phone Number</Th>
-            <Th>Status</Th>
+            <Th>More Info</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {staffData.map((staff) => (
+          {staffData.map((staff, index) => (
             <Tr key={staff.user_id}>
+              <Td>{index + 1}</Td>
               <Td>
                 <strong>{staff.name}</strong>
               </Td>
@@ -89,23 +81,15 @@ function CustomerTableData() {
               <Td>
                 <strong>{staff.phoneNo}</strong>
               </Td>
-
-              <Td>
-                {staff.userStatus === 0 ? (
-                  <Badge colorScheme="green">Active</Badge>
-                ) : (
-                  <Badge colorScheme="red">Not Active</Badge>
-                )}
-              </Td>
-
               <Td>
                 <Button
                   size="sm"
+                  borderRadius="md"
                   colorScheme="blue"
                   onClick={() => handleMoreInfoClick(staff)}
                 >
                   More Info
-                </Button>{" "}
+                </Button>
               </Td>
             </Tr>
           ))}

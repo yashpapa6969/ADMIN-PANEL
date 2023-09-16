@@ -131,7 +131,7 @@ function FetchDishesCategory() {
             <Thead>
               <Tr>
                 <Th>Food Category</Th>
-                <Th></Th>
+                <Th>Action</Th>
               </Tr>
             </Thead>
             <Tbody>

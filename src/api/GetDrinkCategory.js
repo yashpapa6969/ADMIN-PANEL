@@ -130,7 +130,7 @@ function FetchDrinksCategory() {
             <Thead>
               <Tr>
                 <Th>Drink Category</Th>
-                <Th></Th>
+                <Th>Action</Th>
               </Tr>
             </Thead>
             <Tbody>

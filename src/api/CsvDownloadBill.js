@@ -15,7 +15,7 @@ const CsvDownloadButton = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "bills.csv"; // Set the desired filename
+      a.download = "bills.csv";
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {

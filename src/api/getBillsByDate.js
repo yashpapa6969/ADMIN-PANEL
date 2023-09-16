@@ -3,6 +3,7 @@ import {
   Table,
   Thead,
   Tbody,
+  Tfoot,
   Tr,
   Th,
   Td,
@@ -20,6 +21,7 @@ import {
   Tag,
   useDisclosure,
   Input,
+  Flex,
 } from "@chakra-ui/react";
 import { MdDownload } from "react-icons/md";
 import { TEST_URL } from "./URL";
@@ -32,8 +34,14 @@ function BillByDate() {
     onClose: onCloseMoreInfo,
   } = useDisclosure();
   const [selectedBill, setSelectedBill] = useState(null);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+  const yyyy = today.getFullYear();
+  const todayDate = yyyy + "-" + mm + "-" + dd;
+  console.log(todayDate);
+  const [startDate, setStartDate] = useState(todayDate);
+  const [endDate, setEndDate] = useState(todayDate);
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -67,41 +75,24 @@ function BillByDate() {
 
   const handleDownload = async () => {
     try {
-      // Ensure startDate and endDate are not empty before proceeding
       if (!startDate || !endDate) {
         console.error("Start date and end date are required.");
         return;
       }
-
-      // Create the download URL with startDate and endDate as query parameters
       const downloadUrl = `https://1cxmul59q5.execute-api.ap-south-1.amazonaws.com/api/admin/exportCsv/${startDate}/${endDate}`;
-
-      // Send a request to your backend API to generate the CSV using the download URL
       const response = await fetch(downloadUrl);
-
       if (!response.ok) {
         throw new Error("CSV generation failed");
       }
-
-      // Convert the response to a Blob
       const blob = await response.blob();
-
-      // Create a temporary URL to the Blob
       const url = window.URL.createObjectURL(blob);
-
-      // Create an anchor element to trigger the download
       const a = document.createElement("a");
       a.href = url;
       a.download = "bills.csv"; // Set the desired filename
-
-      // Programmatically click the anchor to start the download
       a.click();
-
-      // Clean up by revoking the temporary URL
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading CSV:", error);
-      // Handle the error as needed (e.g., show an error message)
     }
   };
 
@@ -113,9 +104,9 @@ function BillByDate() {
   return (
     <Box pt="4">
       <VStack align="stretch" spacing="4">
-        <Box pt="4">
+        <Box pt="4" display="flex">
           <VStack align="stretch" spacing="4">
-            <Text>Start Date</Text>
+            <Text fontWeight="bold">Start Date</Text>
             <Input
               type="date"
               value={startDate}
@@ -131,7 +122,7 @@ function BillByDate() {
                 boxShadow: "outline",
               }}
             />
-            <Text>End Date</Text>
+            <Text fontWeight="bold">End Date</Text>
             <Input
               type="date"
               value={endDate}
@@ -168,6 +159,7 @@ function BillByDate() {
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
+                <Th>Sr. No.</Th>
                 <Th>Name</Th>
                 <Th>Table No.</Th>
                 <Th>Amount (₹)</Th>
@@ -177,11 +169,14 @@ function BillByDate() {
               </Tr>
             </Thead>
             <Tbody>
-              {bills.map((bill) => (
+              {bills.map((bill, index) => (
                 <Tr key={bill._id}>
+                  <Td fontWeight="bold">{index + 1}</Td>
                   <Td fontWeight="bold">{bill.name}</Td>
                   <Td fontWeight="bold">{bill.tableNo}</Td>
-                  <Td fontWeight="bold">{parseInt(bill.grandTotal).toFixed(2)}</Td>
+                  <Td fontWeight="bold">
+                    {parseInt(bill.grandTotal).toFixed(2)}
+                  </Td>
                   <Td>
                     <Tag
                       size="lg"
@@ -227,6 +222,24 @@ function BillByDate() {
                 </Tr>
               ))}
             </Tbody>
+            <Tfoot>
+              <Tr>
+                <Td></Td>
+                <Td></Td>
+                <Td fontWeight="bold">Total:</Td>
+                <Td fontWeight="bold">
+                  {bills
+                    .reduce(
+                      (total, bill) => total + parseFloat(bill.grandTotal),
+                      0
+                    )
+                    .toFixed(2)}
+                </Td>
+                <Td></Td>
+                <Td></Td>
+                <Td></Td>
+              </Tr>
+            </Tfoot>
           </Table>
         </TableContainer>
 
@@ -247,7 +260,97 @@ function BillByDate() {
                   <Text>
                     <strong>Name:</strong> {selectedBill.name}
                   </Text>
-                  {/* ... (rest of the code) */}
+                  <Text>
+                    <strong>Table No.:</strong> {selectedBill.tableNo}
+                  </Text>
+                  <Text>
+                    <strong>Phone No. :</strong> {selectedBill.phoneNo}
+                  </Text>
+                  <Text>
+                    <strong>OTP:</strong> {selectedBill.otp}
+                  </Text>
+                  <Text>
+                    <strong>Food Bill Paid:</strong>{" "}
+                    <Tag
+                      size="sm"
+                      colorScheme={
+                        selectedBill.foodBillpaid === "notPaid"
+                          ? "red"
+                          : "green"
+                      }
+                    >
+                      {selectedBill.foodBillpaid}
+                    </Tag>
+                  </Text>
+                  <Text>
+                    <strong>Drink Bill Paid:</strong>{" "}
+                    <Tag
+                      size="sm"
+                      colorScheme={
+                        selectedBill.drinkBillpaid === "notPaid"
+                          ? "red"
+                          : "green"
+                      }
+                    >
+                      {selectedBill.drinkBillpaid}
+                    </Tag>
+                  </Text>
+                  <Text>
+                    <strong>Dish Items:</strong>
+                  </Text>
+                  <ul>
+                    {selectedBill.DishItems.map((dish) => (
+                      <li key={dish._id}>
+                        {dish.name} ({dish.quantity})- ₹{dish.amount}
+                      </li>
+                    ))}
+                  </ul>
+                  <Text>
+                    <strong>Drink Items:</strong>
+                  </Text>
+                  <ul>
+                    {selectedBill.DrinkItems.map((drink) => (
+                      <li key={drink._id}>
+                        {drink.name} ({drink.quantity})- ₹{drink.amount}
+                      </li>
+                    ))}
+                  </ul>
+                  <Text>
+                    <strong>Grand Total:</strong> ₹{selectedBill.grandTotal}
+                  </Text>
+                  <Text>
+                    <strong>Dish Total:</strong> ₹{selectedBill.dishTotal}
+                  </Text>
+                  <Text>
+                    <strong>Drink Total:</strong> ₹{selectedBill.drinkTotal}
+                  </Text>
+                  <Text>
+                    <strong>Donation Amount:</strong> ₹
+                    {selectedBill.donationAmount}
+                  </Text>
+                  <Text>
+                    <strong>Cleared Bill:</strong>{" "}
+                    {selectedBill.clear === "0"
+                      ? "Not Cleared"
+                      : selectedBill.clear === "1"
+                      ? "Cleared"
+                      : "Unknown"}
+                  </Text>
+                  <Text>
+                    <strong>CGST:</strong> {selectedBill.cgst}
+                  </Text>
+                  <Text>
+                    <strong>SGST:</strong> {selectedBill.sgst}
+                  </Text>
+                  <Text>
+                    <strong>Service Tax:</strong> {selectedBill.service_tax}
+                  </Text>
+                  <Text>
+                    <strong>Date:</strong> {selectedBill.date1}
+                  </Text>
+                  <Text>
+                    <strong>Time:</strong> {selectedBill.time1}
+                  </Text>
                 </Box>
               </ModalBody>
             </ModalContent>

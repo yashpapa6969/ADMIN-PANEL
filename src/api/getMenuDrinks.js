@@ -23,46 +23,49 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function FetchDrinksData() {
   const [dishesData, setDishesData] = useState([]);
   const [overallStatus, setOverallStatus] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedDishId, setSelectedDishId] = useState(null);
-   const [editedDish, setEditedDish] = useState(null);
-    const [model, setModel] = useState(null);
+  const [editedDish, setEditedDish] = useState(null);
+  const [model, setModel] = useState(null);
 
-   const fetchData = async () => {
-     try {
-       const response = await fetch(`${TEST_URL}/api/client/getAllDrinks`);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${TEST_URL}/api/client/getAllDrinks`);
 
-       if (!response.ok) {
-         throw new Error("Network response was not ok");
-       }
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-       const data = await response.json();
-       setDishesData(data.drinks);
-     } catch (error) {
-       console.error("Error fetching data:", error);
-     }
-   };
-   useEffect(() => {
-     fetchData();
-   }, []);
-
+      const data = await response.json();
+      setDishesData(data.drinks);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleDelete = (food_id) => {
     setModel("delete");
     setSelectedDishId(food_id);
     onOpen();
   };
-const handelEdit = (food_id) => {
-  setModel("edit");
-  setSelectedDishId(food_id);
-  const selectedDish = dishesData.find((dish) => dish.drink_id === food_id);
-  setEditedDish(selectedDish);
-  onOpen();
-};
+
+  const handelEdit = (food_id) => {
+    setModel("edit");
+    setSelectedDishId(food_id);
+    const selectedDish = dishesData.find((dish) => dish.drink_id === food_id);
+    setEditedDish(selectedDish);
+    onOpen();
+  };
+
   const handleConfirmDelete = async () => {
     try {
       await fetch(`${TEST_URL}/api/admin/drinks/${selectedDishId}`, {
@@ -81,35 +84,37 @@ const handelEdit = (food_id) => {
       console.error("Error deleting dish:", error);
     }
   };
-   const handleEdit = async (e) => {
-     e.preventDefault();
-     console.log({
-       drinkNamePrice: editedDish.drinkNamePrice,
-       description: editedDish.description,
-       drinkName: editedDish.drinkName,
-       drinkCategories: editedDish.drinkCategories,
-     });
-     try {
-       await fetch(`${TEST_URL}/api/admin/updateDrink/${selectedDishId}`, {
-         method: "PATCH",
-         headers: {
-           "Content-Type": "application/json",
-         },
-         body: JSON.stringify({
-           drinkNamePrice: editedDish.drinkNamePrice,
-           description: editedDish.description,
-           drinkName: editedDish.drinkName,
-           drinkCategories: editedDish.drinkCategories,
-           tax: editedDish.tax,
-         }),
-       });
 
-       onClose();
-       fetchData();
-     } catch (error) {
-       console.error("Error editing dish:", error);
-     }
-   };
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    console.log({
+      drinkNamePrice: editedDish.drinkNamePrice,
+      description: editedDish.description,
+      drinkName: editedDish.drinkName,
+      drinkCategories: editedDish.drinkCategories,
+    });
+    try {
+      await fetch(`${TEST_URL}/api/admin/updateDrink/${selectedDishId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          drinkNamePrice: editedDish.drinkNamePrice,
+          description: editedDish.description,
+          drinkName: editedDish.drinkName,
+          drinkCategories: editedDish.drinkCategories,
+          tax: editedDish.tax,
+        }),
+      });
+
+      onClose();
+      fetchData();
+    } catch (error) {
+      console.error("Error editing dish:", error);
+    }
+  };
+
   const handleToggleStatus = async (drink_id, currentStatus) => {
     try {
       const newStatus = currentStatus === "1" ? "0" : "1";
@@ -135,43 +140,55 @@ const handelEdit = (food_id) => {
       console.error("Error updating drink status:", error);
     }
   };
-   const handleToggleAllStatus = async () => {
-     try {
-       const newStatus = !overallStatus;
-       await fetch(`${TEST_URL}/api/admin/updateAllFoodStatus`, {
-         method: "PATCH",
-         headers: {
-           "Content-Type": "application/json",
-         },
-         body: JSON.stringify({
-           drinkStatus: newStatus ? "1" : "0",
-         }),
-       });
 
-       // Update the status in the state for all dishes
-       setDishesData((prevData) =>
-         prevData.map((dish) => ({
-           ...dish,
-           drinkStatus: newStatus ? "1" : "0",
-         }))
-       );
+  const handleToggleAllStatus = async () => {
+    try {
+      // Determine the new status based on the current overallStatus
+      const newStatus = overallStatus === "0" ? "1" : "0";
 
-       // Update the overall status
-       setOverallStatus(newStatus);
-     } catch (error) {
-       console.error("Error updating all dish statuses:", error);
-     }
-   };
+      const response = await fetch(
+        `${TEST_URL}/api/admin/changeAllDrinkStatus/${newStatus}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      toast.success(
+        `All drinks are now set to ${
+          newStatus === "0" ? "Available" : "Unavailable"
+        }`
+      );
+
+      if (response.ok) {
+        setDishesData((prevData) =>
+          prevData.map((dish) => ({ ...dish, drinkStatus: newStatus }))
+        );
+        setOverallStatus(newStatus);
+      } else {
+        console.error("Error updating all drink statuses:", response.status);
+        toast.error("Error updating all drink statuses");
+      }
+    } catch (error) {
+      console.error("Error updating all drink statuses:", error);
+      toast.error("Error updating all drink statuses");
+    }
+  };
 
   return (
-    <>
-      <Button
-        colorScheme={overallStatus ? "red" : "green"}
-        onClick={handleToggleAllStatus}
-        mb="2"
-      >
-        Status
-      </Button>
+    <div>
+      <ToastContainer />
+      <Box display="flex" justifyContent="start">
+        <Button
+          colorScheme="blue"
+          borderRadius="lg"
+          onClick={handleToggleAllStatus}
+          mb="10"
+        >
+          Change Drink Status
+        </Button>
+      </Box>
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 2 }} spacing="4">
         {dishesData.map((dish) => (
           <Box
@@ -205,7 +222,7 @@ const handelEdit = (food_id) => {
                   <strong>Description:</strong> {dish.description}
                 </Text>
                 <Text>
-                  <strong>TAX:</strong> ₹ {dish.tax}
+                  <strong>TAX:</strong> {dish.tax}%
                 </Text>
                 <Text>
                   <strong>Available Status: </strong>
@@ -350,7 +367,7 @@ const handelEdit = (food_id) => {
           </Modal>
         )}
       </Modal>
-    </>
+    </div>
   );
 }
 

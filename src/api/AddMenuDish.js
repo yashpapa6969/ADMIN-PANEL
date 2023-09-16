@@ -246,11 +246,7 @@ function AddToMenuForm() {
         <FormLabel fontSize="xl">Food TAX %</FormLabel>
         <InputGroup>
           <InputLeftAddon children="%" />
-          <Input
-            name="tax"
-            value={formData.tax}
-            onChange={handleInputChange}
-          />
+          <Input name="tax" value={formData.tax} onChange={handleInputChange} />
         </InputGroup>
       </FormControl>
       <Button

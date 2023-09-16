@@ -43,7 +43,7 @@ function FetchTableData() {
   } = useDisclosure();
   const [tableToCreate, setTableToCreate] = useState({
     tableNo: "",
-    active: "yes",
+    active: "true",
     maxPeople: "",
   });
   const { tableNo, active, maxPeople } = tableToCreate;
@@ -136,7 +136,7 @@ function FetchTableData() {
               <Tr>
                 <Th>Table No.</Th>
                 <Th>PAX</Th>
-                <Th></Th>
+                <Th>Action</Th>
               </Tr>
             </Thead>
             <Tbody>

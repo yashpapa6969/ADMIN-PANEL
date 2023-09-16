@@ -19,10 +19,8 @@ import {
   Text,
   Tag,
   useDisclosure,
-  Input,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
-import CsvDownloadButton from "./CsvDownloadBill";
 
 function BillByDate() {
   const [bills, setBills] = useState([]);
@@ -34,6 +32,12 @@ function BillByDate() {
   const [selectedBill, setSelectedBill] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      fetchData();
+    }
+  }, [startDate, endDate]);
 
   const fetchData = async () => {
     try {
@@ -58,11 +62,46 @@ function BillByDate() {
       console.error("Error fetching data:", error);
     }
   };
-  useEffect(() => {
-    if (startDate && endDate) {
-      fetchData();
+
+  const handleDownload = async () => {
+    try {
+      // Ensure startDate and endDate are not empty before proceeding
+      if (!startDate || !endDate) {
+        console.error("Start date and end date are required.");
+        return;
+      }
+
+      // Create the download URL with startDate and endDate as query parameters
+      const downloadUrl = `https://1cxmul59q5.execute-api.ap-south-1.amazonaws.com/api/admin/exportCsv/${startDate}/${endDate}`;
+
+      // Send a request to your backend API to generate the CSV using the download URL
+      const response = await fetch(downloadUrl);
+
+      if (!response.ok) {
+        throw new Error("CSV generation failed");
+      }
+
+      // Convert the response to a Blob
+      const blob = await response.blob();
+
+      // Create a temporary URL to the Blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create an anchor element to trigger the download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "bills.csv"; // Set the desired filename
+
+      // Programmatically click the anchor to start the download
+      a.click();
+
+      // Clean up by revoking the temporary URL
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+      // Handle the error as needed (e.g., show an error message)
     }
-  }, [startDate, endDate]);
+  };
 
   const handleMoreInfoClick = (bill) => {
     setSelectedBill(bill);
@@ -72,49 +111,28 @@ function BillByDate() {
   return (
     <Box pt="4">
       <VStack align="stretch" spacing="4">
-        <Box pt="4" display="flex">
+        <Box pt="4">
           <VStack align="stretch" spacing="4">
-            <Text>Start Date</Text>
-            <Input
+            <input
               type="date"
               value={startDate}
               onChange={(event) => setStartDate(event.target.value)}
               placeholder="Start Date"
-              borderRadius="md"
-              borderColor="gray.300"
-              borderWidth="1px"
-              px="3"
-              py="2"
-              _focus={{
-                borderColor: "blue.500",
-                boxShadow: "outline",
-              }}
             />
-            <Text>End Date</Text>
-            <Input
+            <input
               type="date"
               value={endDate}
               onChange={(event) => setEndDate(event.target.value)}
               placeholder="End Date"
-              borderRadius="md"
-              borderColor="gray.300"
-              borderWidth="1px"
-              px="3"
-              py="2"
-              _focus={{
-                borderColor: "blue.500",
-                boxShadow: "outline",
-              }}
             />
+            <div>
+              <button onClick={handleDownload}>Download Bill CSV</button>
+            </div>
           </VStack>
         </Box>
         <Text fontSize="xl" fontWeight="bold">
           Bill Data
         </Text>
-        <Box>
-          <CsvDownloadButton />
-        </Box>
-
         <TableContainer>
           <Table variant="striped" colorScheme="teal">
             <Thead>
@@ -132,13 +150,11 @@ function BillByDate() {
                 <Tr key={bill._id}>
                   <Td fontWeight="bold">{bill.name}</Td>
                   <Td fontWeight="bold">{bill.tableNo}</Td>
-                  <Td fontWeight="bold">
-                    {parseFloat(bill.grandTotal).toFixed(2)}
-                  </Td>
+                  <Td fontWeight="bold">{bill.grandTotal}</Td>
                   <Td>
                     <Tag
                       size="lg"
-                      borderRadius="md"
+                      borderRadius="0%"
                       bg={
                         bill.foodBillpaid === "notPaid"
                           ? "red.500"
@@ -146,7 +162,6 @@ function BillByDate() {
                       }
                       color="white"
                       padding="0.5rem 1rem"
-                      textTransform="capitalize"
                     >
                       {bill.foodBillpaid}
                     </Tag>
@@ -154,7 +169,7 @@ function BillByDate() {
                   <Td>
                     <Tag
                       size="lg"
-                      borderRadius="md"
+                      borderRadius="0%"
                       bg={
                         bill.drinkBillpaid === "notPaid"
                           ? "red.500"
@@ -162,7 +177,6 @@ function BillByDate() {
                       }
                       color="white"
                       padding="0.5rem 1rem"
-                      textTransform="capitalize"
                     >
                       {bill.drinkBillpaid}
                     </Tag>
@@ -200,97 +214,7 @@ function BillByDate() {
                   <Text>
                     <strong>Name:</strong> {selectedBill.name}
                   </Text>
-                  <Text>
-                    <strong>Table No.:</strong> {selectedBill.tableNo}
-                  </Text>
-                  <Text>
-                    <strong>Phone No. :</strong> {selectedBill.phoneNo}
-                  </Text>
-                  <Text>
-                    <strong>OTP:</strong> {selectedBill.otp}
-                  </Text>
-                  <Text>
-                    <strong>Food Bill Paid:</strong>{" "}
-                    <Tag
-                      size="sm"
-                      colorScheme={
-                        selectedBill.foodBillpaid === "notPaid"
-                          ? "red"
-                          : "green"
-                      }
-                    >
-                      {selectedBill.foodBillpaid}
-                    </Tag>
-                  </Text>
-                  <Text>
-                    <strong>Drink Bill Paid:</strong>{" "}
-                    <Tag
-                      size="sm"
-                      colorScheme={
-                        selectedBill.drinkBillpaid === "notPaid"
-                          ? "red"
-                          : "green"
-                      }
-                    >
-                      {selectedBill.drinkBillpaid}
-                    </Tag>
-                  </Text>
-                  <Text>
-                    <strong>Dish Items:</strong>
-                  </Text>
-                  <ul>
-                    {selectedBill.DishItems.map((dish) => (
-                      <li key={dish._id}>
-                        {dish.name} ({dish.quantity})- ₹{dish.amount}
-                      </li>
-                    ))}
-                  </ul>
-                  <Text>
-                    <strong>Drink Items:</strong>
-                  </Text>
-                  <ul>
-                    {selectedBill.DrinkItems.map((drink) => (
-                      <li key={drink._id}>
-                        {drink.name} ({drink.quantity})- ₹{drink.amount}
-                      </li>
-                    ))}
-                  </ul>
-                  <Text>
-                    <strong>Grand Total:</strong> ₹{selectedBill.grandTotal}
-                  </Text>
-                  <Text>
-                    <strong>Dish Total:</strong> ₹{selectedBill.dishTotal}
-                  </Text>
-                  <Text>
-                    <strong>Drink Total:</strong> ₹{selectedBill.drinkTotal}
-                  </Text>
-                  <Text>
-                    <strong>Donation Amount:</strong> ₹
-                    {selectedBill.donationAmount}
-                  </Text>
-                  <Text>
-                    <strong>Cleared Bill:</strong>{" "}
-                    {selectedBill.clear === "0"
-                      ? "Not Cleared"
-                      : selectedBill.clear === "1"
-                      ? "Cleared"
-                      : "Unknown"}
-                  </Text>
-                  <Text>
-                    <strong>CGST:</strong> {selectedBill.cgst}
-                  </Text>
-                  <Text>
-                    <strong>SGST:</strong> {selectedBill.sgst}
-                  </Text>
-                  <Text>
-                    <strong>Service Tax:</strong> {selectedBill.service_tax}
-                  </Text>
-                  <Text>
-                    <strong>Date:</strong> {selectedBill.date1}
-                  </Text>
-                  <Text>
-                    <strong>Time:</strong> {selectedBill.time1}
-                  </Text>
+                  {/* ... (rest of the code) */}
                 </Box>
               </ModalBody>
             </ModalContent>

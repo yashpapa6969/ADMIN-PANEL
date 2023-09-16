@@ -95,7 +95,7 @@ function BillByDate() {
             <Thead>
               <Tr>
                 <Th>Name</Th>
-                <Th>Table No.</Th>
+                <Th>Date</Th>
                 <Th>Amount (₹)</Th>
                 <Th>Food Paid</Th>
                 <Th>Drink Paid</Th>
@@ -106,7 +106,7 @@ function BillByDate() {
               {bills.map((bill) => (
                 <Tr key={bill._id}>
                   <Td fontWeight="bold">{bill.name}</Td>
-                  <Td fontWeight="bold">{bill.tableNo}</Td>
+                  <Td fontWeight="bold">{bill.date1}</Td>
                   <Td fontWeight="bold">{bill.grandTotal}</Td>
                   <Td>
                     <Tag

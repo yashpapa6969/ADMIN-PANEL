@@ -164,11 +164,13 @@ function FetchDishesData() {
 
   return (
     <div>
-       <Button
+      <Button
         colorScheme={overallStatus ? "red" : "green"}
         onClick={handleToggleAllStatus}
         mb="2"
-      >Status</Button>
+      >
+        Status
+      </Button>
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="10px">
         {dishesData.map((dish) => (
           <Box
@@ -207,7 +209,7 @@ function FetchDishesData() {
                 <Text>
                   <strong>TAX:</strong> {dish.tax}
                 </Text>
-                
+
                 <HStack spacing="2" mt="2">
                   <Text>
                     <strong>Available Status:</strong>

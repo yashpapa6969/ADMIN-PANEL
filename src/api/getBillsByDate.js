@@ -32,8 +32,8 @@ function BillByDate() {
     onClose: onCloseMoreInfo,
   } = useDisclosure();
   const [selectedBill, setSelectedBill] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const fetchData = async () => {
     try {

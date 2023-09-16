@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 import { Icon } from "@chakra-ui/react";
-import { MdPerson, MdHome, MdRestaurant } from "react-icons/md";
+import { MdPerson, MdHome, MdRestaurant, MdDocumentScanner, MdDateRange, MdPersonSearch } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaFileInvoice } from "react-icons/fa";
 
@@ -62,7 +62,7 @@ const allroutes = [
     component: Profile,
   },
   {
-    name: "Customers",
+    name: "Active Customers",
     layout: "/admin",
     path: "/customers",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
@@ -82,7 +82,7 @@ const allroutes = [
     layout: "/admin",
     path: "/bill-by-member-id",
     icon: (
-      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+      <Icon as={MdDocumentScanner} width="20px" height="20px" color="inherit" />
     ),
     component: BillByMemberID,
   },
@@ -96,7 +96,7 @@ const allroutes = [
     component: Order,
   },
   {
-    name: "OrderByDate",
+    name: "Order By Date",
     layout: "/admin",
     path: "/orderbydate",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
@@ -107,7 +107,7 @@ const allroutes = [
     name: "Bill By Date",
     layout: "/admin",
     path: "/billbydate",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdDateRange} width="20px" height="20px" color="inherit" />,
     component: billByDate,
   },
 
@@ -136,7 +136,7 @@ const allroutes = [
     name: "Member By PhoneNo.",
     layout: "/admin",
     path: "/memberbyphonenumber",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdPersonSearch} width="20px" height="20px" color="inherit" />,
     component: MemberByPhoneNumber,
   },
   {

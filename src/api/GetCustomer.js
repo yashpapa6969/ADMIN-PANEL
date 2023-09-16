@@ -75,7 +75,7 @@ function CustomerTableData() {
               <Td>
                 <strong>{staff.name}</strong>
               </Td>
-              <Td>
+              <Td textAlign="center">
                 <strong>{staff.tableNo || "Not Assigned "}</strong>
               </Td>
               <Td>

@@ -234,10 +234,9 @@ function FetchDrinksData() {
                     }
                   />
                 </Text>
-                <HStack>
+                <HStack mt="2">
                   <Button
                     colorScheme="red"
-                    mt="2"
                     borderRadius="lg"
                     onClick={() => handleDelete(dish.drink_id)}
                   >
@@ -245,7 +244,6 @@ function FetchDrinksData() {
                   </Button>
                   <Button
                     colorScheme="blue"
-                    mt="2"
                     borderRadius="lg"
                     onClick={() => handelEdit(dish.drink_id)}
                   >

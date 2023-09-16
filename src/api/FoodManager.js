@@ -146,18 +146,18 @@ function FoodManagerTable() {
   };
 
   return (
-    <Box pt="0">
+    <Box>
       <VStack align="stretch" spacing="4">
         <Text fontSize="xl" fontWeight="bold">
           Food Managers
         </Text>
-        <TableContainer>
+        <TableContainer maxW="xl">
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
                 <Th>Name</Th>
                 <Th>Phone Number</Th>
-                <Th>Actions</Th>
+                <Th textAlign="center">Actions</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -189,7 +189,7 @@ function FoodManagerTable() {
             </Tbody>
           </Table>
         </TableContainer>
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="start">
           <Button
             colorScheme="green"
             borderRadius="md"
@@ -209,7 +209,6 @@ function FoodManagerTable() {
           >
             <ModalOverlay />
             <ModalContent>
-              {" "}
               <ModalHeader>Food Manager Information</ModalHeader>
               <ModalCloseButton />
               <ModalBody>

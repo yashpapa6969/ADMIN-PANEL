@@ -122,7 +122,7 @@ function FetchDishesCategory() {
   return (
     <Box p="4" shadow="md" borderRadius="md" bg={cardBg} mx="auto">
       <VStack align="stretch" spacing="4">
-        <Text fontSize="xl" fontWeight="bold">
+        <Text fontSize="xl" fontWeight="bold" textAlign="center">
           Food Category List
         </Text>
         <TableContainer>
@@ -131,7 +131,7 @@ function FetchDishesCategory() {
             <Thead>
               <Tr>
                 <Th>Food Category</Th>
-                <Th>Action</Th>
+                <Th textAlign="center">Action</Th>
               </Tr>
             </Thead>
             <Tbody>

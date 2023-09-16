@@ -126,7 +126,7 @@ function FetchTableData() {
   return (
     <Box p="3" shadow="md" borderRadius="md" bg={cardBg} mx="auto">
       <VStack align="stretch" spacing="4">
-        <Text fontSize="xl" fontWeight="bold">
+        <Text fontSize="xl" fontWeight="bold" textAlign="center">
           Table Information
         </Text>
         <TableContainer>
@@ -134,20 +134,20 @@ function FetchTableData() {
             {/* Your table headers go here */}
             <Thead>
               <Tr>
+                <Th>S.No</Th>
                 <Th>Table No.</Th>
                 <Th>PAX</Th>
-                <Th>Action</Th>
+                <Th textAlign="center">Action</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {tableData.map((table) => (
+              {tableData.map((table, index) => (
                 <Tr key={table._id}>
-                  <Td>
+                  <Td>{index + 1}</Td>
+                  <Td textAlign="center">
                     <strong>{table.tableNo}</strong>
                   </Td>
-                  <Td>
-                    <strong>{table.maxPeople}</strong>
-                  </Td>
+                  <Td>{table.maxPeople}</Td>
                   <Td>
                     <Button
                       size="sm"

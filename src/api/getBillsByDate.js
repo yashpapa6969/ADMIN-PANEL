@@ -22,6 +22,10 @@ import {
   useDisclosure,
   Input,
   Flex,
+  RadioGroup,
+  Radio,
+  Stack,
+  FormLabel,
 } from "@chakra-ui/react";
 import { MdDownload } from "react-icons/md";
 import { TEST_URL } from "./URL";
@@ -39,15 +43,25 @@ function BillByDate() {
   const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
   const yyyy = today.getFullYear();
   const todayDate = yyyy + "-" + mm + "-" + dd;
-  console.log(todayDate);
+  const [mode, setMode] = useState("single");
   const [startDate, setStartDate] = useState(todayDate);
-  const [endDate, setEndDate] = useState(todayDate);
+  const [endDate, setEndDate] = useState("");
+
+  function formatDateToWords(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0"); // Get day as two digits
+    const month = date.toLocaleString("default", { month: "short" });
+    return `${day} ${month}`;
+  }
 
   useEffect(() => {
-    if (startDate && endDate) {
+    if (mode === "single" && startDate) {
+      setEndDate(startDate);
+      fetchData();
+    } else if (mode === "range" && startDate && endDate) {
       fetchData();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, mode]);
 
   const fetchData = async () => {
     try {
@@ -106,7 +120,14 @@ function BillByDate() {
       <VStack align="stretch" spacing="4">
         <Box pt="4" display="flex">
           <VStack align="stretch" spacing="4">
-            <Text fontWeight="bold">Start Date</Text>
+            <FormLabel>Select Date Mode:</FormLabel>
+            <RadioGroup value={mode} onChange={setMode}>
+              <Stack direction="row">
+                <Radio value="single">Single Date</Radio>
+                <Radio value="range">Date Range</Radio>
+              </Stack>
+            </RadioGroup>
+
             <Input
               type="date"
               value={startDate}
@@ -122,22 +143,24 @@ function BillByDate() {
                 boxShadow: "outline",
               }}
             />
-            <Text fontWeight="bold">End Date</Text>
-            <Input
-              type="date"
-              value={endDate}
-              onChange={(event) => setEndDate(event.target.value)}
-              placeholder="End Date"
-              borderRadius="md"
-              borderColor="gray.300"
-              borderWidth="1px"
-              px="3"
-              py="2"
-              _focus={{
-                borderColor: "blue.500",
-                boxShadow: "outline",
-              }}
-            />
+
+            {mode === "range" && (
+              <Input
+                type="date"
+                value={endDate}
+                onChange={(event) => setEndDate(event.target.value)}
+                placeholder="End Date"
+                borderRadius="md"
+                borderColor="gray.300"
+                borderWidth="1px"
+                px="3"
+                py="2"
+                _focus={{
+                  borderColor: "blue.500",
+                  boxShadow: "outline",
+                }}
+              />
+            )}
             <div>
               <Button
                 colorScheme="blue"
@@ -161,7 +184,7 @@ function BillByDate() {
               <Tr>
                 <Th>Sr. No.</Th>
                 <Th>Name</Th>
-                <Th>Table No.</Th>
+                <Th>Bill Date</Th>
                 <Th>Amount (₹)</Th>
                 <Th>Food Paid</Th>
                 <Th>Drink Paid</Th>
@@ -173,7 +196,7 @@ function BillByDate() {
                 <Tr key={bill._id}>
                   <Td fontWeight="bold">{index + 1}</Td>
                   <Td fontWeight="bold">{bill.name}</Td>
-                  <Td fontWeight="bold">{bill.tableNo}</Td>
+                  <Td fontWeight="bold">{formatDateToWords(bill.date1)}</Td>
                   <Td fontWeight="bold">
                     {parseInt(bill.grandTotal).toFixed(2)}
                   </Td>

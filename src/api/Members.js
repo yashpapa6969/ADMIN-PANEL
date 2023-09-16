@@ -51,7 +51,7 @@ function Members() {
     fetch(`${baseUrl}/api/client/getAllMembers`)
       .then((response) => response.json())
       .then((data) => {
-        setMembers(data.members); // Corrected field name to "members"
+        setMembers(data.members);
         setLoading(false);
       })
       .catch((error) => {
@@ -181,15 +181,13 @@ function Members() {
       </Modal>
 
       <VStack>
-        <Box display="flex">
-          <Button
-            colorScheme="red"
-            onClick={() => setIsDeleteModalOpen(true)}
-            borderRadius="lg"
-          >
-            Delete Member by Member ID
-          </Button>
-        </Box>
+        <Button
+          colorScheme="red"
+          onClick={() => setIsDeleteModalOpen(true)}
+          borderRadius="lg"
+        >
+          Delete Member by Member ID
+        </Button>
         <Modal
           isOpen={isDeleteModalOpen}
           onClose={() => {
@@ -231,7 +229,7 @@ function Members() {
               <Th>Members Name</Th>
               <Th>Mobile Number</Th>
               <Th>Status</Th>
-              <Th>Actions</Th>
+              <Th textAlign="center">Actions</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -245,7 +243,7 @@ function Members() {
               members.map((member, index) => (
                 <Tr key={member._id}>
                   <Td>{index + 1}</Td>
-                  <Td>{member.membership_id}</Td>
+                  <Td textAlign="center" fontWeight="bold">{member.membership_id}</Td>
                   <Td>{member.name}</Td>
                   <Td>{member.phoneNo}</Td>
                   <Td>{member.status}</Td>

@@ -151,13 +151,13 @@ function DrinkManagerTable() {
         <Text fontSize="xl" fontWeight="bold">
           Drink Managers
         </Text>
-        <TableContainer>
+        <TableContainer maxW="xl">
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
                 <Th>Name</Th>
                 <Th>Phone Number</Th>
-                <Th>Actions</Th>
+                <Th textAlign="center">Actions</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -189,10 +189,7 @@ function DrinkManagerTable() {
             </Tbody>
           </Table>
         </TableContainer>
-        <Box 
-        display="flex"
-        justifyContent="center"
-        >
+        <Box display="flex" justifyContent="start">
           <Button
             colorScheme="green"
             onClick={onOpenAddFoodManager}

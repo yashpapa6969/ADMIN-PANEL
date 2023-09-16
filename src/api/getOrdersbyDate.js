@@ -26,6 +26,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   Input,
+  Badge,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
 
@@ -36,13 +37,18 @@ function OrderByDate() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [orderIdToDelete, setOrderIdToDelete] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(""); // Add state for the selected date
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+  const yyyy = today.getFullYear();
+  const todayDate = yyyy + "-" + mm + "-" + dd;
+  console.log(todayDate);
+  const [selectedDate, setSelectedDate] = useState(todayDate); // Add state for the selected date
 
   useEffect(() => {
     if (selectedDate) {
       const formattedDate = selectedDate.split("-").reverse().join("-");
       console.log(formattedDate);
-      // Fetch orders from the API based on the selected date
       fetch(`${baseUrl}/api/superAdmin/GetOrdersByDate/${selectedDate}`)
         .then((response) => response.json())
         .then((data) => setOrders(data))
@@ -84,52 +90,68 @@ function OrderByDate() {
 
   return (
     <VStack p="3" align="stretch" spacing="4">
-      <Box>
-        <Input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          borderWidth="1px"
-          borderColor="gray.300"
-          borderRadius="md"
-          py="2"
-          px="3"
-          _focus={{
-            borderColor: "blue.500",
-            boxShadow: "outline",
-          }}
-        />
+      <Box display="flex">
+        <VStack align="stretch" spacing="4">
+          <Input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            borderWidth="1px"
+            borderColor="gray.300"
+            borderRadius="md"
+            py="2"
+            px="3"
+            _focus={{
+              borderColor: "blue.500",
+              boxShadow: "outline",
+            }}
+          />
+        </VStack>
       </Box>
       <Table variant="striped" colorScheme="teal">
         <Thead>
           <Tr>
+            <Th>
+              <Text fontWeight="bold">S.No</Text>
+            </Th>
             <Th>
               <Text fontWeight="bold">Table Number</Text>
             </Th>
             <Th>
               <Text fontWeight="bold">Order Status</Text>
             </Th>
-            <Th>
+            <Th textAlign="center">
               <Text fontWeight="bold">Actions</Text>
             </Th>
           </Tr>
         </Thead>
         <Tbody>
           {orders &&
-            orders.map((order) => (
+            orders.map((order, index) => (
               <Tr key={order._id}>
                 <Td>
+                  <Text fontWeight="bold">{index + 1}</Text>
+                </Td>
+                <Td textAlign="center">
                   <Text fontWeight="bold">{order.tableNo}</Text>
                 </Td>
-                <Td color={order.orderStatus === "0" ? "red" : "green"}>
-                  <Text fontWeight="bold">
+                <Td textAlign="center">
+                  <Badge
+                    colorScheme={order.orderStatus === "0" ? "red" : "green"}
+                    fontSize="0.875rem"
+                    fontWeight="bold"
+                    py="0.25rem"
+                    px="0.5rem"
+                    borderRadius="full"
+                  >
                     {order.orderStatus === "0" ? "Inactive" : "Active"}
-                  </Text>
+                  </Badge>
                 </Td>
                 <Td>
                   <Button
                     size="sm"
                     colorScheme="blue"
+                    borderRadius="md"
                     onClick={() => handleViewClick(order)}
                   >
                     <Text fontWeight="bold">View Details</Text>
@@ -139,6 +161,7 @@ function OrderByDate() {
                   <Button
                     size="sm"
                     colorScheme="red"
+                    borderRadius="md"
                     onClick={() => handleDeleteClick(order._id)}
                   >
                     <Text fontWeight="bold">Delete</Text>

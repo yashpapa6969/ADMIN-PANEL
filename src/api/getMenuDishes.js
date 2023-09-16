@@ -235,10 +235,9 @@ function FetchDishesData() {
                     }
                   />
                 </HStack>
-                <HStack>
+                <HStack mt="2">
                   <Button
                     colorScheme="red"
-                    mt="2"
                     borderRadius="lg"
                     onClick={() => handleDelete(dish.food_id)}
                   >
@@ -246,7 +245,6 @@ function FetchDishesData() {
                   </Button>
                   <Button
                     colorScheme="blue"
-                    mt="2"
                     borderRadius="lg"
                     onClick={() => handelEdit(dish.food_id)}
                   >

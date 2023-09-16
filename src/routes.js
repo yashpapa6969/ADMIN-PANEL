@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 import { Icon } from "@chakra-ui/react";
-import { MdPerson, MdHome, MdRestaurant, MdDocumentScanner, MdDateRange, MdPersonSearch } from "react-icons/md";
+import { MdPerson, MdHome, MdRestaurant, MdDocumentScanner, MdDateRange, MdPersonSearch, MdContactPhone, MdOutlineGroupAdd } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaFileInvoice } from "react-icons/fa";
 
@@ -129,7 +129,7 @@ const allroutes = [
     name: "All Members",
     layout: "/admin",
     path: "/members",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdOutlineGroupAdd} width="20px" height="20px" color="inherit" />,
     component: Members,
   },
   {

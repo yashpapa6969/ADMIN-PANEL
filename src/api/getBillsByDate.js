@@ -19,7 +19,9 @@ import {
   Text,
   Tag,
   useDisclosure,
+  Input,
 } from "@chakra-ui/react";
+import { MdDownload } from "react-icons/md";
 import { TEST_URL } from "./URL";
 
 function BillByDate() {
@@ -113,20 +115,49 @@ function BillByDate() {
       <VStack align="stretch" spacing="4">
         <Box pt="4">
           <VStack align="stretch" spacing="4">
-            <input
+            <Text>Start Date</Text>
+            <Input
               type="date"
               value={startDate}
               onChange={(event) => setStartDate(event.target.value)}
               placeholder="Start Date"
+              borderRadius="md"
+              borderColor="gray.300"
+              borderWidth="1px"
+              px="3"
+              py="2"
+              _focus={{
+                borderColor: "blue.500",
+                boxShadow: "outline",
+              }}
             />
-            <input
+            <Text>End Date</Text>
+            <Input
               type="date"
               value={endDate}
               onChange={(event) => setEndDate(event.target.value)}
               placeholder="End Date"
+              borderRadius="md"
+              borderColor="gray.300"
+              borderWidth="1px"
+              px="3"
+              py="2"
+              _focus={{
+                borderColor: "blue.500",
+                boxShadow: "outline",
+              }}
             />
             <div>
-              <button onClick={handleDownload}>Download Bill CSV</button>
+              <Button
+                colorScheme="blue"
+                size="md"
+                borderRadius="md"
+                fontWeight="semibold"
+                rightIcon={<MdDownload />}
+                onClick={handleDownload}
+              >
+                Download Bill CSV
+              </Button>
             </div>
           </VStack>
         </Box>
@@ -150,11 +181,12 @@ function BillByDate() {
                 <Tr key={bill._id}>
                   <Td fontWeight="bold">{bill.name}</Td>
                   <Td fontWeight="bold">{bill.tableNo}</Td>
-                  <Td fontWeight="bold">{bill.grandTotal}</Td>
+                  <Td fontWeight="bold">{parseInt(bill.grandTotal).toFixed(2)}</Td>
                   <Td>
                     <Tag
                       size="lg"
-                      borderRadius="0%"
+                      borderRadius="lg"
+                      textTransform="capitalize"
                       bg={
                         bill.foodBillpaid === "notPaid"
                           ? "red.500"
@@ -169,7 +201,8 @@ function BillByDate() {
                   <Td>
                     <Tag
                       size="lg"
-                      borderRadius="0%"
+                      borderRadius="lg"
+                      textTransform="capitalize"
                       bg={
                         bill.drinkBillpaid === "notPaid"
                           ? "red.500"

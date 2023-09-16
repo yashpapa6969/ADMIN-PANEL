@@ -243,13 +243,15 @@ function AddToMenuForm() {
         />
       </FormControl>
       <FormControl mt={4} bg="white" p={3} borderRadius="md">
-        <FormLabel fontSize="xl">TAX </FormLabel>
-        <Textarea
-          name="tax"
-          value={formData.tax}
-          onChange={handleInputChange}
-          borderColor="gray.300"
-        />
+        <FormLabel fontSize="xl">Food TAX %</FormLabel>
+        <InputGroup>
+          <InputLeftAddon children="%" />
+          <Input
+            name="tax"
+            value={formData.tax}
+            onChange={handleInputChange}
+          />
+        </InputGroup>
       </FormControl>
       <Button
         colorScheme="green"

@@ -93,20 +93,24 @@ function BillByDate() {
         console.error("Start date and end date are required.");
         return;
       }
-      const downloadUrl = `https://1cxmul59q5.execute-api.ap-south-1.amazonaws.com/api/admin/exportCsv/${startDate}/${endDate}`;
-      const response = await fetch(downloadUrl);
+  
+      const response = await fetch(
+        `${TEST_URL}/api/superAdmin/GetBillByDate/${startDate}/${endDate}`
+      );
+  
       if (!response.ok) {
-        throw new Error("CSV generation failed");
+        throw new Error("JSON data generation failed");
       }
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "bills.csv"; // Set the desired filename
-      a.click();
-      window.URL.revokeObjectURL(url);
+  
+      const jsonData = await response.json();
+  
+      const worksheet = XLSX.utils.json_to_sheet(jsonData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, "DataSheet.xlsx");
+  
     } catch (error) {
-      console.error("Error downloading CSV:", error);
+      console.error("Error downloading Excel data:", error);
     }
   };
 

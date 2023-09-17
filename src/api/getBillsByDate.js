@@ -184,7 +184,11 @@ function BillByDate() {
               <Tr>
                 <Th>Sr. No.</Th>
                 <Th>Name</Th>
+
+                <Th>Date</Th>
+
                 <Th>Bill Date</Th>
+
                 <Th>Amount (₹)</Th>
                 <Th>Food Paid</Th>
                 <Th>Drink Paid</Th>
@@ -196,6 +200,10 @@ function BillByDate() {
                 <Tr key={bill._id}>
                   <Td fontWeight="bold">{index + 1}</Td>
                   <Td fontWeight="bold">{bill.name}</Td>
+
+                  <Td fontWeight="bold">{bill.date1}</Td>
+                  <Td fontWeight="bold">{bill.grandTotal}</Td>
+
                   <Td fontWeight="bold">{formatDateToWords(bill.date1)}</Td>
                   <Td fontWeight="bold">
                     {parseInt(bill.grandTotal).toFixed(2)}

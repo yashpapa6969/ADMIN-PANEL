@@ -9,6 +9,7 @@ import {
   Box,
   Badge,
   Spinner,
+  Grid,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
 
@@ -38,34 +39,49 @@ function MemberByPhoneNumber() {
       <Text fontSize="xl" fontWeight="bold">
         Member Lookup
       </Text>
-      <FormControl>
-        <FormLabel>Enter Phone Number</FormLabel>
-        <Input
-          type="tel"
-          value={phoneNo}
-          onChange={(e) => setPhoneNo(e.target.value)}
-        />
-      </FormControl>
-      <Button colorScheme="blue" onClick={handleLookup}>
-        Check Member
-      </Button>
+      <Box maxWidth="lg">
+        <FormControl isRequired>
+          <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+          <Input
+            type="tel"
+            id="phoneNumber"
+            placeholder="Enter your phone number"
+            value={phoneNo}
+            onChange={(e) => setPhoneNo(e.target.value)}
+          />
+        </FormControl>
+        <Button
+          colorScheme="blue"
+          borderRadius="lg"
+          mt="4"
+          onClick={handleLookup}
+          loadingText="Checking..."
+        >
+          Check Member
+        </Button>
+      </Box>
       {loading && <Spinner size="md" color="blue" />}
       {memberInfo ? (
-        <Box borderWidth="1px" borderRadius="md" p="3">
-          <Text fontWeight="bold">{memberInfo.name}</Text>
-          <Text>
+        <Box borderWidth="1px" borderRadius="md" p="3" maxWidth="lg">
+          <Text fontSize="xl" fontWeight="bold" mb="2">
+            {memberInfo.name}
+          </Text>
+          <Text fontSize="md" mb="1">
             <strong>Membership ID:</strong> {memberInfo.membership_id}
           </Text>
-          <Text>
+          <Text fontSize="md" mb="1">
             <strong>Phone Number:</strong> {memberInfo.phoneNo}
           </Text>
-          <Text>
+          <Text fontSize="md" mb="1">
             <strong>Address:</strong> {memberInfo.Address}
           </Text>
-          <Text>
+          <Text fontSize="md">
             <strong>Status:</strong>{" "}
             <Badge
               colorScheme={memberInfo.status === "Active" ? "green" : "red"}
+              variant="subtle"
+              fontSize="sm"
+              px="2"
             >
               {memberInfo.status}
             </Badge>

@@ -3,6 +3,7 @@ import {
   Table,
   Thead,
   Tbody,
+  Tfoot,
   Tr,
   Th,
   Td,
@@ -19,7 +20,14 @@ import {
   Text,
   Tag,
   useDisclosure,
+  Input,
+  Flex,
+  RadioGroup,
+  Radio,
+  Stack,
+  FormLabel,
 } from "@chakra-ui/react";
+import { MdDownload } from "react-icons/md";
 import { TEST_URL } from "./URL";
 
 function BillByDate() {
@@ -30,14 +38,30 @@ function BillByDate() {
     onClose: onCloseMoreInfo,
   } = useDisclosure();
   const [selectedBill, setSelectedBill] = useState(null);
-  const [startDate, setStartDate] = useState("");
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+  const yyyy = today.getFullYear();
+  const todayDate = yyyy + "-" + mm + "-" + dd;
+  const [mode, setMode] = useState("single");
+  const [startDate, setStartDate] = useState(todayDate);
   const [endDate, setEndDate] = useState("");
 
+  function formatDateToWords(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0"); // Get day as two digits
+    const month = date.toLocaleString("default", { month: "short" });
+    return `${day} ${month}`;
+  }
+
   useEffect(() => {
-    if (startDate && endDate) {
+    if (mode === "single" && startDate) {
+      setEndDate(startDate);
+      fetchData();
+    } else if (mode === "range" && startDate && endDate) {
       fetchData();
     }
-  }, [startDate, endDate]);
+  }, [startDate, endDate, mode]);
 
   const fetchData = async () => {
     try {
@@ -63,6 +87,29 @@ function BillByDate() {
     }
   };
 
+  const handleDownload = async () => {
+    try {
+      if (!startDate || !endDate) {
+        console.error("Start date and end date are required.");
+        return;
+      }
+      const downloadUrl = `https://1cxmul59q5.execute-api.ap-south-1.amazonaws.com/api/admin/exportCsv/${startDate}/${endDate}`;
+      const response = await fetch(downloadUrl);
+      if (!response.ok) {
+        throw new Error("CSV generation failed");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "bills.csv"; // Set the desired filename
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+    }
+  };
+
   const handleMoreInfoClick = (bill) => {
     setSelectedBill(bill);
     onOpenMoreInfo();
@@ -71,20 +118,61 @@ function BillByDate() {
   return (
     <Box pt="4">
       <VStack align="stretch" spacing="4">
-        <Box pt="4">
+        <Box pt="4" display="flex">
           <VStack align="stretch" spacing="4">
-            <input
+            <FormLabel>Select Date Mode:</FormLabel>
+            <RadioGroup value={mode} onChange={setMode}>
+              <Stack direction="row">
+                <Radio value="single">Single Date</Radio>
+                <Radio value="range">Date Range</Radio>
+              </Stack>
+            </RadioGroup>
+
+            <Input
               type="date"
               value={startDate}
               onChange={(event) => setStartDate(event.target.value)}
               placeholder="Start Date"
+              borderRadius="md"
+              borderColor="gray.300"
+              borderWidth="1px"
+              px="3"
+              py="2"
+              _focus={{
+                borderColor: "blue.500",
+                boxShadow: "outline",
+              }}
             />
-            <input
-              type="date"
-              value={endDate}
-              onChange={(event) => setEndDate(event.target.value)}
-              placeholder="End Date"
-            />
+
+            {mode === "range" && (
+              <Input
+                type="date"
+                value={endDate}
+                onChange={(event) => setEndDate(event.target.value)}
+                placeholder="End Date"
+                borderRadius="md"
+                borderColor="gray.300"
+                borderWidth="1px"
+                px="3"
+                py="2"
+                _focus={{
+                  borderColor: "blue.500",
+                  boxShadow: "outline",
+                }}
+              />
+            )}
+            <div>
+              <Button
+                colorScheme="blue"
+                size="md"
+                borderRadius="md"
+                fontWeight="semibold"
+                rightIcon={<MdDownload />}
+                onClick={handleDownload}
+              >
+                Download Bill CSV
+              </Button>
+            </div>
           </VStack>
         </Box>
         <Text fontSize="xl" fontWeight="bold">
@@ -94,8 +182,13 @@ function BillByDate() {
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
+                <Th>Sr. No.</Th>
                 <Th>Name</Th>
+
                 <Th>Date</Th>
+
+                <Th>Bill Date</Th>
+
                 <Th>Amount (₹)</Th>
                 <Th>Food Paid</Th>
                 <Th>Drink Paid</Th>
@@ -103,15 +196,23 @@ function BillByDate() {
               </Tr>
             </Thead>
             <Tbody>
-              {bills.map((bill) => (
+              {bills.map((bill, index) => (
                 <Tr key={bill._id}>
+                  <Td fontWeight="bold">{index + 1}</Td>
                   <Td fontWeight="bold">{bill.name}</Td>
+
                   <Td fontWeight="bold">{bill.date1}</Td>
                   <Td fontWeight="bold">{bill.grandTotal}</Td>
+
+                  <Td fontWeight="bold">{formatDateToWords(bill.date1)}</Td>
+                  <Td fontWeight="bold">
+                    {parseInt(bill.grandTotal).toFixed(2)}
+                  </Td>
                   <Td>
                     <Tag
                       size="lg"
-                      borderRadius="0%"
+                      borderRadius="lg"
+                      textTransform="capitalize"
                       bg={
                         bill.foodBillpaid === "notPaid"
                           ? "red.500"
@@ -126,7 +227,8 @@ function BillByDate() {
                   <Td>
                     <Tag
                       size="lg"
-                      borderRadius="0%"
+                      borderRadius="lg"
+                      textTransform="capitalize"
                       bg={
                         bill.drinkBillpaid === "notPaid"
                           ? "red.500"
@@ -151,6 +253,24 @@ function BillByDate() {
                 </Tr>
               ))}
             </Tbody>
+            <Tfoot>
+              <Tr>
+                <Td></Td>
+                <Td></Td>
+                <Td fontWeight="bold">Total:</Td>
+                <Td fontWeight="bold">
+                  {bills
+                    .reduce(
+                      (total, bill) => total + parseFloat(bill.grandTotal),
+                      0
+                    )
+                    .toFixed(2)}
+                </Td>
+                <Td></Td>
+                <Td></Td>
+                <Td></Td>
+              </Tr>
+            </Tfoot>
           </Table>
         </TableContainer>
 

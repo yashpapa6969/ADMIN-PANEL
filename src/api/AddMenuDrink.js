@@ -112,7 +112,7 @@ function AddToMenuFormDrink() {
         drinkCategories: "",
         drinks_category_id: "",
         description: "",
-        tax:"",
+        tax: "",
       });
       setImageFile(null);
     } catch (error) {
@@ -214,13 +214,11 @@ function AddToMenuFormDrink() {
         />
       </FormControl>
       <FormControl mt={4} bg="white" p={3} borderRadius="md">
-        <FormLabel fontSize="xl">Drink TAX ₹ </FormLabel>
-        <Textarea
-          name="tax"
-          value={formData.tax}
-          onChange={handleInputChange}
-          borderColor="gray.300"
-        />
+        <FormLabel fontSize="xl">Drink TAX %</FormLabel>
+        <InputGroup>
+          <InputLeftAddon children="%" />
+          <Input name="tax" value={formData.tax} onChange={handleInputChange} />
+        </InputGroup>
       </FormControl>
       <Button
         colorScheme="green"

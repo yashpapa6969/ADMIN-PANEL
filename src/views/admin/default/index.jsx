@@ -35,21 +35,12 @@ export default function UserReports() {
           {isUserAdmin() && (
             <>
               <Box>
-                <Text fontSize="lg" fontWeight="bold" textAlign="center">
-                  Table Data
-                </Text>
                 <FetchTableData />
               </Box>
               <Box>
-                <Text fontSize="lg" fontWeight="bold" textAlign="center">
-                  Dish Categories
-                </Text>
                 <FetchDishesCategory />
               </Box>
               <Box>
-                <Text fontSize="lg" fontWeight="bold" textAlign="center">
-                  Drink Categories
-                </Text>
                 <FetchDrinksCategory />
               </Box>
             </>
@@ -57,15 +48,9 @@ export default function UserReports() {
           {isUserDrink() && (
             <>
               <Box>
-                <Text fontSize="lg" fontWeight="bold" textAlign="center">
-                  Table Data
-                </Text>
                 <FetchTableData />
               </Box>
               <Box>
-                <Text fontSize="lg" fontWeight="bold" textAlign="center">
-                  Drink Categories
-                </Text>
                 <FetchDrinksCategory />
               </Box>
             </>
@@ -73,15 +58,9 @@ export default function UserReports() {
           {isUserFood() && (
             <>
               <Box>
-                <Text fontSize="lg" fontWeight="bold" textAlign="center">
-                  Table Data
-                </Text>
                 <FetchTableData />
               </Box>
               <Box>
-                <Text fontSize="lg" fontWeight="bold" textAlign="center">
-                  Dish Categories
-                </Text>
                 <FetchDishesCategory />
               </Box>
             </>

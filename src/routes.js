@@ -3,7 +3,24 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 import { Icon } from "@chakra-ui/react";
-import { MdPerson, MdHome, MdRestaurant } from "react-icons/md";
+import {
+  MdPerson,
+  MdHome,
+  MdRestaurant,
+  MdDocumentScanner,
+  MdDateRange,
+  MdPersonSearch,
+  MdContactPhone,
+  MdOutlineGroupAdd,
+  MdFastfood,
+  MdGroups,
+  MdCalendarToday,
+  MdOutlineLiquor,
+  MdRestaurantMenu,
+  MdCurrencyRupee,
+  MdContentPaste,
+  MdMenuBook
+} from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaFileInvoice } from "react-icons/fa";
 
@@ -42,15 +59,13 @@ const allroutes = [
     name: "Menu Items",
     layout: "/admin",
     path: "/menu",
-    icon: (
-      <Icon as={GiHamburgerMenu} width="20px" height="20px" color="inherit" />
-    ),
+    icon: <Icon as={MdFastfood} width="20px" height="20px" color="inherit" />,
     component: NFTMarketplace,
   },
   {
     name: "Create Menu",
     layout: "/admin",
-    icon: <Icon as={MdRestaurant} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdMenuBook} width="20px" height="20px" color="inherit" />,
     path: "/create-menu",
     component: DataTables,
   },
@@ -62,34 +77,27 @@ const allroutes = [
     component: Profile,
   },
   {
-    name: "Customers",
+    name: "Active Customers",
     layout: "/admin",
     path: "/customers",
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: customer,
   },
-  {
-    name: "Billing",
-    layout: "/admin",
-    path: "/billing",
-    icon: (
-      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
-    ),
-    component: bill,
-  },
-  {
-    name: "Bill By Date",
-    layout: "/admin",
-    path: "/billbydate",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
-    component: billByDate,
-  },
+  // {
+  //   name: "Billing",
+  //   layout: "/admin",
+  //   path: "/billing",
+  //   icon: (
+  //     <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+  //   ),
+  //   component: bill,
+  // },
   {
     name: "Bill by Member ID",
     layout: "/admin",
     path: "/bill-by-member-id",
     icon: (
-      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+      <Icon as={MdDocumentScanner} width="20px" height="20px" color="inherit" />
     ),
     component: BillByMemberID,
   },
@@ -98,23 +106,25 @@ const allroutes = [
     layout: "/admin",
     path: "/current-orders",
     icon: (
-      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+      <Icon as={MdContentPaste} width="20px" height="20px" color="inherit" />
     ),
     component: Order,
   },
   {
-    name: "OrderByDate",
+    name: "Orders By Date",
     layout: "/admin",
     path: "/orderbydate",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: (
+      <Icon as={MdCalendarToday} width="20px" height="20px" color="inherit" />
+    ),
     component: OrderByDate,
   },
 
   {
-    name: "BillByDate",
+    name: "Bills By Date",
     layout: "/admin",
-    path: "/billByDate",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    path: "/billbydate",
+    icon: <Icon as={MdDateRange} width="20px" height="20px" color="inherit" />,
     component: billByDate,
   },
 
@@ -122,28 +132,32 @@ const allroutes = [
     name: "Food Manager",
     layout: "/admin",
     path: "/food-managers",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdRestaurantMenu} width="20px" height="20px" color="inherit" />,
     component: FoodManagerTable,
   },
   {
     name: "Drink Manager",
     layout: "/admin",
     path: "/drink-managers",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: (
+      <Icon as={MdOutlineLiquor} width="20px" height="20px" color="inherit" />
+    ),
     component: DrinkManagerTable,
   },
   {
     name: "All Members",
     layout: "/admin",
     path: "/members",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: <Icon as={MdGroups} width="20px" height="20px" color="inherit" />,
     component: Members,
   },
   {
     name: "Member By PhoneNo.",
     layout: "/admin",
     path: "/memberbyphonenumber",
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    icon: (
+      <Icon as={MdPersonSearch} width="20px" height="20px" color="inherit" />
+    ),
     component: MemberByPhoneNumber,
   },
   {
@@ -151,7 +165,7 @@ const allroutes = [
     layout: "/admin",
     path: "/taxes",
     icon: (
-      <Icon as={FaFileInvoice} width="20px" height="20px" color="inherit" />
+      <Icon as={MdCurrencyRupee} width="20px" height="20px" color="inherit" />
     ),
     component: Taxes,
   },

@@ -121,16 +121,15 @@ function FetchDrinksCategory() {
   return (
     <Box p="4" shadow="md" borderRadius="md" bg={cardBg} mx="auto">
       <VStack align="stretch" spacing="4">
-        <Text fontSize="xl" fontWeight="bold">
+        <Text fontSize="xl" fontWeight="bold" textAlign="center">
           Drink Category List
         </Text>
         <TableContainer>
           <Table variant="striped" colorScheme="teal">
-            {/* Your table headers go here */}
             <Thead>
               <Tr>
                 <Th>Drink Category</Th>
-                <Th></Th>
+                <Th textAlign="center">Action</Th>
               </Tr>
             </Thead>
             <Tbody>

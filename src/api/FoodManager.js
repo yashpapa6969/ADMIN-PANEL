@@ -146,18 +146,18 @@ function FoodManagerTable() {
   };
 
   return (
-    <Box pt="0">
+    <Box>
       <VStack align="stretch" spacing="4">
         <Text fontSize="xl" fontWeight="bold">
           Food Managers
         </Text>
-        <TableContainer>
+        <TableContainer maxW="xl">
           <Table variant="striped" colorScheme="teal">
             <Thead>
               <Tr>
                 <Th>Name</Th>
                 <Th>Phone Number</Th>
-                <Th>Actions</Th>
+                <Th textAlign="center">Actions</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -169,6 +169,7 @@ function FoodManagerTable() {
                     <Button
                       size="sm"
                       colorScheme="blue"
+                      borderRadius="md"
                       onClick={() => handleMoreInfoClick(foodManager)}
                     >
                       More Info
@@ -188,10 +189,15 @@ function FoodManagerTable() {
             </Tbody>
           </Table>
         </TableContainer>
-
-        <Button colorScheme="green" onClick={onOpenAddFoodManager}>
-          Add Food Manager
-        </Button>
+        <Box display="flex" justifyContent="start">
+          <Button
+            colorScheme="green"
+            borderRadius="md"
+            onClick={onOpenAddFoodManager}
+          >
+            Add Food Manager
+          </Button>
+        </Box>
 
         {selectedFoodManager && (
           <Modal
@@ -203,7 +209,6 @@ function FoodManagerTable() {
           >
             <ModalOverlay />
             <ModalContent>
-              {" "}
               <ModalHeader>Food Manager Information</ModalHeader>
               <ModalCloseButton />
               <ModalBody>

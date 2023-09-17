@@ -23,8 +23,9 @@ import {
   FormControl,
   Textarea,
 } from "@chakra-ui/react";
-
 import { TEST_URL } from "./URL";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function FetchDishesData() {
   const [dishesData, setDishesData] = useState([]);
@@ -33,6 +34,7 @@ function FetchDishesData() {
   const [selectedDishId, setSelectedDishId] = useState(null);
   const [model, setModel] = useState(null);
   const [editedDish, setEditedDish] = useState(null);
+
   const fetchData = async () => {
     try {
       const response = await fetch(`${TEST_URL}/api/client/getAllDishes`);
@@ -131,28 +133,36 @@ function FetchDishesData() {
       console.error("Error updating dish status:", error);
     }
   };
+
   const handleToggleAllStatus = async () => {
     try {
-      const newStatus = !overallStatus;
-      await fetch(`${TEST_URL}/api/admin/updateAllFoodStatus`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          foodStatus: newStatus ? "1" : "0",
-        }),
-      });
-
-      // Update the status in the state for all dishes
-      setDishesData((prevData) =>
-        prevData.map((dish) => ({ ...dish, foodStatus: newStatus ? "1" : "0" }))
+      const newStatus = overallStatus === "0" ? "1" : "0";
+      const response = await fetch(
+        `${TEST_URL}/api/admin/changeAllFoodStatus/${newStatus}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
-
-      // Update the overall status
-      setOverallStatus(newStatus);
+      toast.success(
+        `All dishes are now set to ${
+          newStatus === "0" ? "Available" : "Unavailable"
+        }`
+      );
+      if (response.ok) {
+        setDishesData((prevData) =>
+          prevData.map((dish) => ({ ...dish, foodStatus: newStatus }))
+        );
+        setOverallStatus(newStatus);
+      } else {
+        console.error("Error updating all dish statuses:", response.status);
+        toast.error("Error updating all dish statuses");
+      }
     } catch (error) {
       console.error("Error updating all dish statuses:", error);
+      toast.error("Error updating all dish statuses");
     }
   };
 
@@ -164,11 +174,17 @@ function FetchDishesData() {
 
   return (
     <div>
-       <Button
-        colorScheme={overallStatus ? "red" : "green"}
-        onClick={handleToggleAllStatus}
-        mb="2"
-      >Status</Button>
+      <ToastContainer />
+      <Box display="flex" justifyContent="start">
+        <Button
+          colorScheme="blue"
+          borderRadius="lg"
+          onClick={handleToggleAllStatus}
+          mb="10"
+        >
+          Change Dish Status
+        </Button>
+      </Box>
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="10px">
         {dishesData.map((dish) => (
           <Box
@@ -205,9 +221,8 @@ function FetchDishesData() {
                   <strong>Description:</strong> {dish.description}
                 </Text>
                 <Text>
-                  <strong>TAX:</strong> {dish.tax}
+                  <strong>TAX:</strong> {dish.tax}%
                 </Text>
-                
                 <HStack spacing="2" mt="2">
                   <Text>
                     <strong>Available Status:</strong>
@@ -220,10 +235,9 @@ function FetchDishesData() {
                     }
                   />
                 </HStack>
-                <HStack>
+                <HStack mt="2">
                   <Button
                     colorScheme="red"
-                    mt="2"
                     borderRadius="lg"
                     onClick={() => handleDelete(dish.food_id)}
                   >
@@ -231,7 +245,6 @@ function FetchDishesData() {
                   </Button>
                   <Button
                     colorScheme="blue"
-                    mt="2"
                     borderRadius="lg"
                     onClick={() => handelEdit(dish.food_id)}
                   >

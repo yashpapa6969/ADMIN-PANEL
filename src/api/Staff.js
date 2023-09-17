@@ -21,6 +21,9 @@ import {
   FormLabel,
   Input,
   useDisclosure,
+  RadioGroup,
+  Stack,
+  Radio,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
 
@@ -34,7 +37,7 @@ function StaffTableData() {
     phoneNo: "",
     email: "",
     password: "",
-    whichWaiter: "",
+    whichWaiter: "food", // Set the default value to "food"
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -110,9 +113,9 @@ function StaffTableData() {
         <Thead>
           <Tr>
             <Th>Name</Th>
-            <Th>Table Assigned</Th>
+            <Th>Asigned For</Th>
             <Th>Phone No.</Th>
-            <Th>Actions</Th>
+            <Th textAlign="center">Action</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -121,33 +124,31 @@ function StaffTableData() {
               <Td>
                 <strong>{staff.name}</strong>
               </Td>
-              <Td>
-                <Text
-                  fontWeight="bold"
-                  color={staff.tableNoAssigned ? "green" : "red"}
-                >
-                  {staff.tableNoAssigned || "Not Assigned"}
-                </Text>
+              <Td textAlign="center">
+                <strong>{staff.whichWaiter}</strong>
               </Td>
               <Td>
                 <strong>{staff.phoneNo}</strong>
               </Td>
               <Td>
-                <Button
-                  size="sm"
-                  colorScheme="blue"
-                  onClick={() => handleMoreInfoClick(staff)}
-                >
-                  More Info
-                </Button>{" "}
-                <Button
-                  size="sm"
-                  colorScheme="red"
-                  borderRadius="lg"
-                  onClick={() => handleDeleteClick(staff)}
-                >
-                  Delete
-                </Button>
+                <Box display="flex" gap="6px">
+                  <Button
+                    size="sm"
+                    colorScheme="blue"
+                    borderRadius="md"
+                    onClick={() => handleMoreInfoClick(staff)}
+                  >
+                    More Info
+                  </Button>
+                  <Button
+                    size="sm"
+                    colorScheme="red"
+                    borderRadius="lg"
+                    onClick={() => handleDeleteClick(staff)}
+                  >
+                    Delete
+                  </Button>
+                </Box>
               </Td>
             </Tr>
           ))}
@@ -187,7 +188,6 @@ function StaffTableData() {
               <Box>
                 <strong>Staff ID :</strong> {selectedStaff.staff_id}
               </Box>
-              {/* Add more fields as needed */}
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="blue" onClick={() => setSelectedStaff(null)}>
@@ -202,15 +202,30 @@ function StaffTableData() {
       <Button colorScheme="green" onClick={onOpen} borderRadius="lg">
         Create Staff
       </Button>
-
-      {/* Create Staff Modal */}
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create Staff</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
+          <ModalBody pb={6}>
+            <FormControl mt={4}>
+              <FormLabel>Waiter for</FormLabel>
+              <RadioGroup
+                value={newStaffData.whichWaiter}
+                onChange={(value) =>
+                  setNewStaffData({
+                    ...newStaffData,
+                    whichWaiter: value,
+                  })
+                }
+              >
+                <Stack direction="row">
+                  <Radio value="food">Food</Radio>
+                  <Radio value="drink">Drink</Radio>
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+            <FormControl mt={4}>
               <FormLabel>Name</FormLabel>
               <Input
                 type="text"
@@ -223,7 +238,7 @@ function StaffTableData() {
                 }
               />
             </FormControl>
-            <FormControl>
+            <FormControl mt={4}>
               <FormLabel>Phone Number</FormLabel>
               <Input
                 type="number"
@@ -236,8 +251,8 @@ function StaffTableData() {
                 }
               />
             </FormControl>
-            <FormControl>
-              <FormLabel>Email</FormLabel>
+            <FormControl mt={4}>
+              <FormLabel>Email/Username</FormLabel>
               <Input
                 type="email"
                 value={newStaffData.email}
@@ -249,7 +264,7 @@ function StaffTableData() {
                 }
               />
             </FormControl>
-            <FormControl>
+            <FormControl mt={4}>
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
@@ -258,19 +273,6 @@ function StaffTableData() {
                   setNewStaffData({
                     ...newStaffData,
                     password: e.target.value,
-                  })
-                }
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Waiter for (food or drink) </FormLabel>
-              <Input
-                type="text"
-                value={newStaffData.whichWaiter}
-                onChange={(e) =>
-                  setNewStaffData({
-                    ...newStaffData,
-                    whichWaiter: e.target.value,
                   })
                 }
               />

@@ -61,7 +61,6 @@ function Order() {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Update the orders list by filtering out the deleted order
           setOrders((prevOrders) =>
             prevOrders.filter((order) => order._id !== orderIdToDelete)
           );
@@ -81,23 +80,31 @@ function Order() {
         <Thead>
           <Tr>
             <Th>
+              <Text fontWeight="bold">S.No</Text>
+            </Th>
+            <Th>
               <Text fontWeight="bold">Table Number</Text>
             </Th>
-
-            <Th>
-              <Text fontWeight="bold">Actions</Text>
+            <Th textAlign="center">
+              <Text fontWeight="bold">Details</Text>
+            </Th>
+            <Th textAlign="center">
+              <Text fontWeight="bold">Delete</Text>
             </Th>
           </Tr>
         </Thead>
         <Tbody>
-          {orders.map((order) => (
+          {orders.map((order, index) => (
             <Tr key={order._id}>
               <Td>
+                <Text fontWeight="bold">{index + 1}</Text>
+              </Td>
+              <Td textAlign="center">
                 <Text fontWeight="bold">{order.tableNo}</Text>
               </Td>
-
               <Td>
                 <Button
+                  borderRadius="md"
                   size="sm"
                   colorScheme="blue"
                   onClick={() => handleViewClick(order)}
@@ -109,6 +116,7 @@ function Order() {
                 <Button
                   size="sm"
                   colorScheme="red"
+                  borderRadius="md"
                   onClick={() => handleDeleteClick(order._id)}
                 >
                   <Text fontWeight="bold">Delete</Text>

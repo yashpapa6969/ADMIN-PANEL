@@ -43,7 +43,7 @@ function FetchTableData() {
   } = useDisclosure();
   const [tableToCreate, setTableToCreate] = useState({
     tableNo: "",
-    active: "yes",
+    active: "true",
     maxPeople: "",
   });
   const { tableNo, active, maxPeople } = tableToCreate;
@@ -126,7 +126,7 @@ function FetchTableData() {
   return (
     <Box p="3" shadow="md" borderRadius="md" bg={cardBg} mx="auto">
       <VStack align="stretch" spacing="4">
-        <Text fontSize="xl" fontWeight="bold">
+        <Text fontSize="xl" fontWeight="bold" textAlign="center">
           Table Information
         </Text>
         <TableContainer>
@@ -134,22 +134,20 @@ function FetchTableData() {
             {/* Your table headers go here */}
             <Thead>
               <Tr>
+                <Th>S.No</Th>
                 <Th>Table No.</Th>
                 <Th>PAX</Th>
-                <Th></Th>
+                <Th textAlign="center">Action</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {tableData.map((table) => (
+              {tableData.map((table, index) => (
                 <Tr key={table._id}>
-                  {/* Your table data rows go here */}
-                  <Td>
+                  <Td>{index + 1}</Td>
+                  <Td textAlign="center">
                     <strong>{table.tableNo}</strong>
                   </Td>
-
-                  <Td>
-                    <strong>{table.maxPeople}</strong>
-                  </Td>
+                  <Td>{table.maxPeople}</Td>
                   <Td>
                     <Button
                       size="sm"
@@ -174,7 +172,7 @@ function FetchTableData() {
           colorScheme="green"
           borderRadius="lg"
           onClick={() => {
-            setTableToCreate({ tableNo: "", active: "yes", maxPeople: "" });
+            setTableToCreate({ tableNo: "", active: "true", maxPeople: "" });
             onOpenCreate();
           }}
         >

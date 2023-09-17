@@ -18,6 +18,8 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Box,
+  Flex,
 } from "@chakra-ui/react";
 import { TEST_URL } from "./URL";
 import MemberUpdateForm from "./MemberUpdateForm";
@@ -49,7 +51,7 @@ function Members() {
     fetch(`${baseUrl}/api/client/getAllMembers`)
       .then((response) => response.json())
       .then((data) => {
-        setMembers(data.members); // Corrected field name to "members"
+        setMembers(data.members);
         setLoading(false);
       })
       .catch((error) => {
@@ -119,9 +121,15 @@ function Members() {
       <Text fontSize="xl" fontWeight="bold">
         Members List
       </Text>
-      <Button colorScheme="green" onClick={handleCreateMember}>
-        Create Member
-      </Button>
+      <Box display="flex" justifyContent="center">
+        <Button
+          colorScheme="green"
+          borderRadius="lg"
+          onClick={handleCreateMember}
+        >
+          Create Member
+        </Button>
+      </Box>
 
       <Modal
         isOpen={isCreateModalOpen}
@@ -212,61 +220,59 @@ function Members() {
         </Modal>
       </VStack>
 
-      <Table variant="striped" colorScheme="teal" overflowX="auto">
-        <Thead>
-          <Tr>
-            <Th>SL No</Th>
-            <Th>Member ID</Th>
-            <Th>Members Name</Th>
-            <Th>Mobile Number</Th>
-            <Th>Status</Th>
-            <Th>Actions</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {loading ? (
+      <Box overflowX="auto">
+        <Table variant="striped" colorScheme="teal" size="md">
+          <Thead>
             <Tr>
-              <Td colSpan="6" textAlign="center">
-                <Spinner size="lg" color="blue.500" />
-              </Td>
+              <Th>SL No</Th>
+              <Th>Member ID</Th>
+              <Th>Members Name</Th>
+              <Th>Mobile Number</Th>
+              <Th>Status</Th>
+              <Th textAlign="center">Actions</Th>
             </Tr>
-          ) : (
-            members.map((member, index) => (
-              <Tr key={member._id}>
-                <Td>
-                  <strong>{index + 1}</strong>
-                </Td>
-                <Td>
-                  <strong>{member.membership_id}</strong>
-                </Td>
-                <Td>
-                  <strong>{member.name}</strong>
-                </Td>
-                <Td>
-                  <strong>{member.phoneNo}</strong>
-                </Td>
-                <Td>
-                  <strong>{member.status}</strong>
-                </Td>
-                <Td>
-                  <Button
-                    colorScheme="blue"
-                    onClick={() => handleMoreInfoClick(member)}
-                  >
-                    More Info
-                  </Button>
-                  <Button
-                    colorScheme="purple"
-                    onClick={() => handleEditClick(member)}
-                  >
-                    Edit
-                  </Button>
+          </Thead>
+          <Tbody>
+            {loading ? (
+              <Tr>
+                <Td colSpan="6" textAlign="center">
+                  <Spinner size="lg" color="teal.500" />
                 </Td>
               </Tr>
-            ))
-          )}
-        </Tbody>
-      </Table>
+            ) : (
+              members.map((member, index) => (
+                <Tr key={member._id}>
+                  <Td>{index + 1}</Td>
+                  <Td textAlign="center" fontWeight="bold">{member.membership_id}</Td>
+                  <Td>{member.name}</Td>
+                  <Td>{member.phoneNo}</Td>
+                  <Td>{member.status}</Td>
+                  <Td>
+                    <Flex direction="row" gap="5px">
+                      <Button
+                        colorScheme="blue"
+                        size="sm"
+                        borderRadius="lg"
+                        onClick={() => handleMoreInfoClick(member)}
+                      >
+                        More Info
+                      </Button>
+                      <Button
+                        colorScheme="purple"
+                        size="sm"
+                        borderRadius="lg"
+                        onClick={() => handleEditClick(member)}
+                      >
+                        Edit
+                      </Button>
+                    </Flex>
+                  </Td>
+                </Tr>
+              ))
+            )}
+          </Tbody>
+        </Table>
+      </Box>
 
       <Modal
         isOpen={selectedMember !== null}
@@ -274,29 +280,28 @@ function Members() {
       >
         <ModalOverlay />
         <ModalContent>
-          
           <ModalHeader>Member Information</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {selectedMember && (
-                <VStack align="start" spacing="2">
-                  <Text>
-                    <strong>Postal Address:</strong> {selectedMember.Address}
-                  </Text>
-                  <Text>
-                    <strong>Member ID:</strong> {selectedMember.membership_id}
-                  </Text>
-                  <Text>
-                    <strong>Members Name:</strong> {selectedMember.name}
-                  </Text>
-                  <Text>
-                    <strong>Mobile Number:</strong> {selectedMember.phoneNo}
-                  </Text>
-                  <Text>
-                    <strong>Status:</strong> {selectedMember.status}
-                  </Text>
-                </VStack>
-              )}
+              <VStack align="start" spacing="2">
+                <Text>
+                  <strong>Postal Address:</strong> {selectedMember.Address}
+                </Text>
+                <Text>
+                  <strong>Member ID:</strong> {selectedMember.membership_id}
+                </Text>
+                <Text>
+                  <strong>Members Name:</strong> {selectedMember.name}
+                </Text>
+                <Text>
+                  <strong>Mobile Number:</strong> {selectedMember.phoneNo}
+                </Text>
+                <Text>
+                  <strong>Status:</strong> {selectedMember.status}
+                </Text>
+              </VStack>
+            )}
 
             {isUpdateFormOpen && (
               <MemberUpdateForm
